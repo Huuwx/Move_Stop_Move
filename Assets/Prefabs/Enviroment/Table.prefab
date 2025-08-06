@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8973092455207745367}
+  - component: {fileID: 7770435562727636942}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -32,6 +33,27 @@ Transform:
   - {fileID: 5954181079755332457}
   m_Father: {fileID: 5979106828175191439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7770435562727636942
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959827390922415892}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.18016462, y: 0.18267456, z: 0.1683629}
+  m_Center: {x: -0.01890316, y: 0.08979595, z: -0.0006679028}
 --- !u!1 &7689661721366098675
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,6 +63,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5979106828175191439}
+  - component: {fileID: 8374392332174195504}
   m_Layer: 0
   m_Name: Table
   m_TagString: Untagged
@@ -58,13 +81,34 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 30, y: 30, z: 30}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8979056591526971812}
   - {fileID: 8973092455207745367}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8374392332174195504
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689661721366098675}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6889191, y: 0.5128684, z: 1.3362099}
+  m_Center: {x: -0.021892548, y: 0.74955297, z: 0.008040524}
 --- !u!1001 &6137061968509828226
 PrefabInstance:
   m_ObjectHideFlags: 0

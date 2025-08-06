@@ -4,6 +4,8 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     Animator animator;
+
+    public event Action onAttack;
     
     public bool IsPlayingSpecialAnimation { get; private set; } = false;
     public bool IsPlayingUnStopAnimation { get; private set; } = false;
@@ -32,7 +34,6 @@ public class AnimationController : MonoBehaviour
     
     public void SetAttackAnimation()
     {
-        IsPlayingUnStopAnimation = true;
         animator.SetBool(AnimatorParams.IsUlti, false);
         animator.SetBool(AnimatorParams.IsDead, false);
         animator.SetBool(AnimatorParams.IsAttack, true);
@@ -75,5 +76,10 @@ public class AnimationController : MonoBehaviour
     public void OnUnStopAnimationEnd()
     {
         IsPlayingUnStopAnimation = false;
+    }
+    
+    public void OnAttack()
+    {
+        onAttack?.Invoke();
     }
 }
