@@ -18,10 +18,3 @@ public enum PlayerState
     Dance,
     Win
 }
-
-public enum EnemyType
-{
-    Normal,
-    Boss,
-    MiniBoss
-}

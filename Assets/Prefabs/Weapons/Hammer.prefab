@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 0}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 3838046893043969633, guid: 943f1f3193990ba449e06e1a7ff60721, type: 3}
   targetLayer:
     serializedVersion: 2
     m_Bits: 64

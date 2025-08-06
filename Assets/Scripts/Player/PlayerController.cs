@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            animationController.SetAttackAnimation();
+            animationController.SetDeadAnimation();
         }else if (Input.GetKey(KeyCode.D))
         {
             animationController.SetDanceWinAnimation();

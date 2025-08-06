@@ -5,8 +5,6 @@ public class WeaponProjectile : MonoBehaviour
 {
     public WeaponData weaponData;       //Data của vũ khí hiện tại
     
-    [SerializeField] private ParticleSystem hitEffect;  // Hiệu ứng khi trúng
-    
     [SerializeField] private LayerMask targetLayer;
     
     [SerializeField] private float maxLifeTime = 0.6f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
@@ -29,15 +27,15 @@ public class WeaponProjectile : MonoBehaviour
         this.timer = 0f;
         gameObject.SetActive(true);
 
-        if (weaponData.modelPrefab != null)
-        {
-            foreach (Transform child in transform)
-            {
-                Destroy(child.gameObject);
-            }
-            Instantiate(weaponData.visual, transform);
-            transform.name = weaponData.modelPrefab.name;
-        }
+        // if (weaponData.modelPrefab != null)
+        // {
+        //     foreach (Transform child in transform)
+        //     {
+        //         Destroy(child.gameObject);
+        //     }
+        //     Instantiate(weaponData.visual, transform);
+        //     transform.name = weaponData.modelPrefab.name;
+        // }
     }
 
     void Update()
@@ -64,9 +62,6 @@ public class WeaponProjectile : MonoBehaviour
         {
             // Gây damage nếu cần (hoặc Destroy/ẩn đối tượng)
             // Destroy(other.gameObject); // hoặc gọi hàm nhận damage
-
-            // Gọi hiệu ứng trúng
-            if (hitEffect != null) hitEffect.Play();
 
             Deactivate(); // Tắt projectile (pooling)
         }

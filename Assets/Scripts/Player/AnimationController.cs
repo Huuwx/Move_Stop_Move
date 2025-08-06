@@ -4,8 +4,10 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     Animator animator;
+    
+    [SerializeField] private ParticleSystem hittedEffect;            // Hiệu ứng attack (nếu có)
 
-    public event Action onAttack;
+    public event Action OnAttack;
     
     public bool IsPlayingSpecialAnimation { get; private set; } = false;
     public bool IsPlayingUnStopAnimation { get; private set; } = false;
@@ -34,6 +36,7 @@ public class AnimationController : MonoBehaviour
     
     public void SetAttackAnimation()
     {
+        IsPlayingSpecialAnimation = true;
         animator.SetBool(AnimatorParams.IsUlti, false);
         animator.SetBool(AnimatorParams.IsDead, false);
         animator.SetBool(AnimatorParams.IsAttack, true);
@@ -58,6 +61,7 @@ public class AnimationController : MonoBehaviour
     
     public void SetDeadAnimation()
     {
+        hittedEffect.Play();
         IsPlayingUnStopAnimation = true;
         animator.SetBool(AnimatorParams.IsDead, true);
     }
@@ -70,6 +74,7 @@ public class AnimationController : MonoBehaviour
     
     public void OnSpecialAnimationEnd()
     {
+        OnAttack = null;
         IsPlayingSpecialAnimation = false;
     }
     
@@ -78,8 +83,8 @@ public class AnimationController : MonoBehaviour
         IsPlayingUnStopAnimation = false;
     }
     
-    public void OnAttack()
+    public void Attack()
     {
-        onAttack?.Invoke();
+        OnAttack?.Invoke();
     }
 }
