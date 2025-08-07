@@ -9,11 +9,14 @@ public class EnemyAI : MonoBehaviour
     
     [SerializeField] WeaponAttack weaponAttack;
     [SerializeField] AnimationController animationController;
+    public SpawnPointState spawnPoint;
 
     private Vector3 wanderDir;
     private float moveTimer = 0f;
     private float wanderTimer;
-    private EnemyState state = EnemyState.Wander;
+    private EnemyState state = EnemyState.Run;
+    
+    public event Action OnDie;
 
     void Start()
     {
@@ -67,16 +70,17 @@ public class EnemyAI : MonoBehaviour
             // Di chuyển theo hướng ngẫu nhiên
             if(moveTimer > 0)
             {
-                state = EnemyState.Wander;
+                state = EnemyState.Run;
                 moveTimer -= Time.deltaTime;
                 transform.Translate(wanderDir * moveSpeed * Time.deltaTime, Space.World);
+                transform.forward = wanderDir;
                 animationController.SetRunAnimation();
             }
             else
             {
+                moveTimer = 0f;
                 animationController.SetIdleAnimation();
             }
-            // Option: Clamp position trong map, hoặc random lại nếu va chạm tường
         }
     }
 
@@ -91,13 +95,33 @@ public class EnemyAI : MonoBehaviour
     public void Die()
     {
         state = EnemyState.Dead;
+        if(spawnPoint != null)
+            spawnPoint.state = SpawnState.Idle; // Đánh dấu spawn point đã chết
+        
+        OnDie?.Invoke();
         // Ẩn bot, phát hiệu ứng, gọi về GameManager,...
         gameObject.SetActive(false);
+    }
+
+    public void Reset()
+    {
+        state = EnemyState.Run;
+        
+        if(animationController != null)
+            animationController.Reset();
+        
+        moveTimer = 0f;
+        wanderTimer = 0f;
+    }
+    
+    public bool HasListeners()
+    {
+        return OnDie != null;
     }
         
     private void OnCollisionStay(Collision other)
     {
-        if (other.gameObject.CompareTag(Params.WallTag))
+        if (other.gameObject.CompareTag(Params.WallTag) || other.gameObject.CompareTag(Params.BotTag))
         {
             Debug.Log("Enemy hit a wall, changing direction");
             ChooseRandomDirection();

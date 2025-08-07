@@ -10,13 +10,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
 
     private Rigidbody rigid;
+    
+    private PlayerState playerState;
 
     private Vector2 dir;
     private Vector3 move;
 
     private void Awake()
     {
-        //rigid = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody>();
         if(animationController == null)
             animationController = GetComponentInChildren<AnimationController>();
     }
@@ -32,17 +34,19 @@ public class PlayerController : MonoBehaviour
         
         if (!animationController.IsPlayingSpecialAnimation && !animationController.IsPlayingUnStopAnimation)
         {
-            transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
+            transform.Translate(move.normalized * moveSpeed * Time.deltaTime, Space.World);
 
             // Nếu muốn xoay mặt player về hướng di chuyển:
             if (move != Vector3.zero)
             {
+                playerState = PlayerState.Run;
                 transform.forward = move.normalized;
                 animationController.SetRunAnimation();
                 weaponAttack.SetCanAttack(false);
             }
             else
             {
+                playerState = PlayerState.Idle;
                 animationController.SetIdleAnimation();
                 weaponAttack.SetCanAttack(true);
             }
@@ -61,11 +65,5 @@ public class PlayerController : MonoBehaviour
         {
             animationController.SetUltiAnimation();
         }
-    }
-
-    void FixedUpdate()
-    {
-        // Sử dụng Rigidbody để di chuyển
-        //rigid.MovePosition(rigid.position + move * moveSpeed * Time.fixedDeltaTime);
     }
 }

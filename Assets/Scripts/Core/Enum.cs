@@ -24,9 +24,14 @@ public enum PlayerState
 
 public enum EnemyState
 {
-    Wander,     // Di chuyển tự do
+    Run,     // Di chuyển tự do
     Idle,      // Dừng lại, không có mục tiêu
-    Chase,      // Đang đuổi mục tiêu trong tầm (nâng cao)
     Attack,     // Dừng lại và tấn công khi có đối thủ trong vùng attack
     Dead        // Đã bị loại
+}
+
+public enum SpawnState
+{
+    Idle,       // Chưa spawn
+    Spawned     // Đã spawn xong
 }

@@ -15,6 +15,8 @@ public class AnimationController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        IsPlayingSpecialAnimation = false;
+        IsPlayingUnStopAnimation = false;
     }
 
     public void SetRunAnimation()
@@ -81,6 +83,12 @@ public class AnimationController : MonoBehaviour
     public void OnUnStopAnimationEnd()
     {
         IsPlayingUnStopAnimation = false;
+    }
+
+    public void Reset()
+    {
+        IsPlayingUnStopAnimation = false;
+        IsPlayingSpecialAnimation = false;
     }
     
     public void Attack()

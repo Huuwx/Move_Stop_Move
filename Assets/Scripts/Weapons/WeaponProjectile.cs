@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class WeaponProjectile : MonoBehaviour
 {
-    public WeaponData weaponData;       //Data của vũ khí hiện tại
+    private WeaponData weaponData;       //Data của vũ khí hiện tại
     
-    [SerializeField] private LayerMask targetLayer;
+    private LayerMask targetLayer;
     
     [SerializeField] private float maxLifeTime = 0.6f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
     private Vector3 direction;      // Hướng bay của vũ khí
@@ -60,10 +60,16 @@ public class WeaponProjectile : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
-            // Gây damage nếu cần (hoặc Destroy/ẩn đối tượng)
-            // Destroy(other.gameObject); // hoặc gọi hàm nhận damage
-
             Deactivate(); // Tắt projectile (pooling)
+            if (other.CompareTag(Params.PlayerTag))
+            {
+                
+            } else if (other.CompareTag(Params.BotTag))
+            {
+                EnemyAI enemyAI = other.GetComponent<EnemyAI>();
+                if (enemyAI != null)
+                    enemyAI.Die();
+            }
         }
     }
 
