@@ -19,57 +19,57 @@ public class AnimationController : MonoBehaviour
 
     public void SetRunAnimation()
     {
-        animator.SetBool(AnimatorParams.IsIdle, false);
-        animator.SetBool(AnimatorParams.IsDead, false);
-        animator.SetBool(AnimatorParams.IsAttack, false);
-        animator.SetBool(AnimatorParams.IsWin, false);
+        animator.SetBool(Params.IsIdle, false);
+        animator.SetBool(Params.IsDead, false);
+        animator.SetBool(Params.IsAttack, false);
+        animator.SetBool(Params.IsWin, false);
     }
     
     public void SetIdleAnimation()
     {
-        animator.SetBool(AnimatorParams.IsIdle, true);
-        animator.SetBool(AnimatorParams.IsDead, false);
-        animator.SetBool(AnimatorParams.IsAttack, false);
-        animator.SetBool(AnimatorParams.IsWin, false);
-        animator.SetBool(AnimatorParams.IsDance, false);
+        animator.SetBool(Params.IsIdle, true);
+        animator.SetBool(Params.IsDead, false);
+        animator.SetBool(Params.IsAttack, false);
+        animator.SetBool(Params.IsWin, false);
+        animator.SetBool(Params.IsDance, false);
     }
     
     public void SetAttackAnimation()
     {
         IsPlayingSpecialAnimation = true;
-        animator.SetBool(AnimatorParams.IsUlti, false);
-        animator.SetBool(AnimatorParams.IsDead, false);
-        animator.SetBool(AnimatorParams.IsAttack, true);
-        animator.SetBool(AnimatorParams.IsWin, false);
+        animator.SetBool(Params.IsUlti, false);
+        animator.SetBool(Params.IsDead, false);
+        animator.SetBool(Params.IsAttack, true);
+        animator.SetBool(Params.IsWin, false);
     }
     
     public void SetUltiAnimation()
     {
         IsPlayingUnStopAnimation = true;
-        animator.SetBool(AnimatorParams.IsUlti, true);
-        animator.SetBool(AnimatorParams.IsDead, false);
-        animator.SetBool(AnimatorParams.IsAttack, true);
-        animator.SetBool(AnimatorParams.IsWin, false);
+        animator.SetBool(Params.IsUlti, true);
+        animator.SetBool(Params.IsDead, false);
+        animator.SetBool(Params.IsAttack, true);
+        animator.SetBool(Params.IsWin, false);
     }
 
     public void SetDanceWinAnimation()
     {
         IsPlayingUnStopAnimation = true;
-        animator.SetBool(AnimatorParams.IsWin, true);
-        animator.SetBool(AnimatorParams.IsDead, false);
+        animator.SetBool(Params.IsWin, true);
+        animator.SetBool(Params.IsDead, false);
     }
     
     public void SetDeadAnimation()
     {
         hittedEffect.Play();
         IsPlayingUnStopAnimation = true;
-        animator.SetBool(AnimatorParams.IsDead, true);
+        animator.SetBool(Params.IsDead, true);
     }
     
     public void SetDanceAnimation()
     {
         IsPlayingSpecialAnimation = true;
-        animator.SetBool(AnimatorParams.IsDance, true);
+        animator.SetBool(Params.IsDance, true);
     }
     
     public void OnSpecialAnimationEnd()

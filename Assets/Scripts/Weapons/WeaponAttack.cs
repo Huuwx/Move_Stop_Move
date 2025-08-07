@@ -35,8 +35,11 @@ public class WeaponAttack : MonoBehaviour
             Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);
             foreach (Collider hit in hits)
             {
+                if (hit.gameObject == playerTransform.gameObject) continue; // bỏ qua chính mình
+                if (!hit.gameObject.activeSelf) continue;   // bỏ qua đối thủ đã chết
+                
                 // Nếu là đối thủ (có thể check thêm tag, hoặc component BotController)
-                if (hit.CompareTag("Bot") || hit.CompareTag("Player"))
+                if (hit.CompareTag(Params.BotTag) || hit.CompareTag(Params.PlayerTag))
                 {
                     playerTransform.LookAt(hit.transform);
                     
@@ -97,5 +100,20 @@ public class WeaponAttack : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
+    
+    public float GetAttackCooldown()
+    {
+        return attackCooldown;
+    }
+    
+    public float GetAttackRadius()
+    {
+        return attackRadius;
+    }
+    
+    public LayerMask GetTargetLayer()
+    {
+        return targetLayer;
     }
 }
