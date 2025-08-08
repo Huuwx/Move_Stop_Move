@@ -5186,6 +5186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae7911d2ce7b004a88df6c95873c6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2934451096986672568}
   hittedEffect: {fileID: 2686740298032013743}
 --- !u!1 &1923162630884097815
 GameObject:

@@ -7,6 +7,7 @@ public class WeaponProjectile : MonoBehaviour
     
     private LayerMask targetLayer;
     
+    [Header("Variables")]
     [SerializeField] private float maxLifeTime = 0.6f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
     private Vector3 direction;      // Hướng bay của vũ khí
     private float timer;        // Đếm cho đến thời gian biến mất
@@ -63,7 +64,11 @@ public class WeaponProjectile : MonoBehaviour
             Deactivate(); // Tắt projectile (pooling)
             if (other.CompareTag(Params.PlayerTag))
             {
-                
+                PlayerController playerController = other.GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    playerController.Die();
+                }
             } else if (other.CompareTag(Params.BotTag))
             {
                 EnemyAI enemyAI = other.GetComponent<EnemyAI>();

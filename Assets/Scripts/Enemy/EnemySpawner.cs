@@ -7,14 +7,21 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] int maxAliveCount = 6;         // Số bot tối đa tồn tại cùng lúc
-    public int maxSpawnCount = 10;         // Tổng số enemy được phép spawn trong trận
-    public int totalSpawned = 0;
+    [Header("Variables")]
+    [SerializeField] private int maxAliveCount = 6;         // Số bot tối đa tồn tại cùng lúc
+    [SerializeField] private int maxSpawnCount = 10;         // Tổng số enemy được phép spawn trong trận
+    [SerializeField] private int totalSpawned = 0;
     
+    [Header("Refs")]
     [SerializeField] Transform poolParent;          // Nơi chứa các enemy đã spawn (để quản lý dễ hơn)
-    [SerializeField] private GameController controller;
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] List<SpawnPointState> spawnPoints;        // Các vị trí spawn có thể (hoặc random trong vùng)
+    
+    public int TotalSpawned => totalSpawned; // Số lượng enemy đã spawn
+    public int MaxAliveCount => maxAliveCount; // Số lượng enemy tối đa có thể tồn tại cùng lúc
+    public int MaxSpawnCount => maxSpawnCount; // Tổng số enemy được phép spawn trong trận
+    
+    public event Action OnEnemySpawned;
 
     void Start()
     {
@@ -35,34 +42,24 @@ public class EnemySpawner : MonoBehaviour
         } while (spawnPoint.state == SpawnState.Spawned);
         spawnPoint.state = SpawnState.Spawned;
         GameObject enemy = PoolManager.Instance.GetObj(enemyPrefab);
+
+        if (totalSpawned > maxSpawnCount)
+        {
+            enemy.SetActive(false); // Nếu đã đạt maxSpawnCount, không kích hoạt enemy mới
+            return;
+        }
+        
         enemy.transform.position = spawnPoint.gameObject.transform.position;
         enemy.transform.rotation = Quaternion.identity; // Hoặc xoay theo hướng nào đó nếu cần
         enemy.transform.SetParent(poolParent);
         
-        controller.RegisterAlive();
-
-        // Đăng ký callback chết của enemy
         var ai = enemy.GetComponent<EnemyAI>();
         ai.spawnPoint = spawnPoint;
-        // if(!ai.HasListeners())
-        //     ai.OnDie += () => OnEnemyDead(enemy); // Đảm bảo không bị null nếu chưa đăng ký
         ai.Reset();
         
         enemy.SetActive(true); // Kích hoạt enemy
         
         totalSpawned++;
-    }
-
-    void OnEnemyDead(GameObject enemy)
-    {
-        //currentAlive--;
-
-        // Spawn mới nếu chưa đủ tổng số lượng
-        if (totalSpawned < maxSpawnCount)
-        {
-            // Có thể spawn sau 0.5s để tự nhiên hơn
-            StartCoroutine(SpawnAfterDelay(1f));
-        }
     }
 
     IEnumerator SpawnAfterDelay(float delay)
@@ -71,15 +68,7 @@ public class EnemySpawner : MonoBehaviour
         
         SpawnEnemy();
         
-        // if (currentAlive < maxAliveCount && totalSpawned < maxSpawnCount)
-        // {
-        //     SpawnEnemy();
-        // }
-    }
-    
-    public void Configure(GameController controller)
-    {
-        this.controller = controller;
+        OnEnemySpawned?.Invoke();
     }
 
     public void TrySpawnOneAfterDelay(float delay)

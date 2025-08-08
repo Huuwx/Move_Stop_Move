@@ -1578,7 +1578,7 @@ MonoBehaviour:
   maxAliveCount: 6
   maxSpawnCount: 10
   totalSpawned: 0
-  controller: {fileID: 437222700}
+  poolParent: {fileID: 174160483}
   enemyPrefab: {fileID: 2934451096986672568, guid: 206035d99af09424c96318d3cff9a7e4, type: 3}
   spawnPoints:
   - {fileID: 562913718}
@@ -1589,7 +1589,6 @@ MonoBehaviour:
   - {fileID: 443482264}
   - {fileID: 1342524652}
   - {fileID: 1651655987}
-  poolParent: {fileID: 174160483}
 --- !u!1 &1103827094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,6 +1719,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574626139}
+  - component: {fileID: 1574626140}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -1742,6 +1742,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 302370080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1574626140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574626138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe89dcfc1dd45d4f957b65860200de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiReadyPanel: {fileID: 0}
+  uiHudPanel: {fileID: 0}
+  uiWinPanel: {fileID: 0}
+  uiLosePanel: {fileID: 0}
+  txtAlive: {fileID: 220099812}
 --- !u!1 &1651655985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1814,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4505572303542186433, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
   m_PrefabInstance: {fileID: 839630326081414968}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 839630326081414969}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bfece99f76cd745aeb0aed92b52552, type: 3}
@@ -2527,6 +2544,10 @@ PrefabInstance:
       value: 0.0009739995
       objectReference: {fileID: 0}
     - target: {fileID: 3223091099750849054, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 839630326081414969}
+    - target: {fileID: 3223091099750849054, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -3163,6 +3184,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+--- !u!1 &839630326081414969 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5500996924759826666, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+  m_PrefabInstance: {fileID: 839630326081414968}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2840826482136824592
 PrefabInstance:
   m_ObjectHideFlags: 0

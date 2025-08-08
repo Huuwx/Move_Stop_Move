@@ -8,22 +8,18 @@ public class GameController : MonoBehaviour
     public static GameController Instance {get{return instance;}}
 
     [Header("Refs")]
-    [SerializeField] EnemySpawner spawner;          // Spawner bạn đã làm
+    [SerializeField] EnemySpawner spawner;         
     [SerializeField] PlayerController player;       // Player (để khóa input khi cần)
-    // [SerializeField] GameObject uiReadyPanel;
-    // [SerializeField] GameObject uiHudPanel;
-    // [SerializeField] GameObject uiWinPanel;
-    // [SerializeField] GameObject uiLosePanel;
 
     [Header("Game Rules")]
     [SerializeField] bool autoStart = true;
+    
+    // --- NEW: chống race ---
+    private int deathBuffer = 0;              // số enemy chết dồn trong frame
+    private int pendingSpawnRequests = 0;     // số request spawn đã "đặt vé" nhưng chưa spawn xong
 
     public GameState State { get; private set; } = GameState.Boot;
     public int Alive { get; private set; }          // Enemy còn sống
-
-    // Sự kiện cho HUD/Audio/Logic khác
-    public static event Action<GameState> OnGameStateChanged;
-    public static event Action<int> OnAliveChanged;
 
     void Awake()
     {
@@ -37,50 +33,79 @@ public class GameController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    void Start()
+    
+    void OnEnable()
     {
-        // Set UI ban đầu
-        // ShowOnly(uiReadyPanel, true);
-        // ShowOnly(uiHudPanel,  false);
-        // ShowOnly(uiWinPanel,  false);
-        // ShowOnly(uiLosePanel, false);
-
-        if (player) SetPlayerControl(false);
-
-        // Đăng ký lắng nghe enemy chết từ Spawner/EnemyAI
-        EnemyAI.OnAnyEnemyDead += HandleEnemyDead;
-
-        // Khởi tạo map / spawner
-        if (spawner)
-        {
-            spawner.Configure(controller: this);
-        }
-
-        SetState(GameState.Ready);
-
-        if (autoStart) StartGame();
+        EventObserver.OnAnyEnemyDead += OnEnemyDeadEvent;
+        if (spawner != null) spawner.OnEnemySpawned += OnEnemySpawned;
     }
 
     void OnDestroy()
     {
-        EnemyAI.OnAnyEnemyDead -= HandleEnemyDead;
+        EventObserver.OnAnyEnemyDead -= OnEnemyDeadEvent;
+        if (spawner != null) spawner.OnEnemySpawned -= OnEnemySpawned;
     }
 
-    //========================
-    // PUBLIC CONTROLS
-    //========================
+    void Start()
+    {
+        if (player) SetPlayerControl(false);
+
+        SetState(GameState.Ready);
+        
+        Alive = spawner.MaxSpawnCount + 1;
+        EventObserver.RaiseAliveChanged(Alive);
+
+        if (autoStart) StartGame();
+    }
+
+    private void Update()
+    {
+        if (State != GameState.Playing) return;
+
+        // XỬ LÝ CHẾT DỒN MỘT LẦN / FRAME
+        if (deathBuffer > 0)
+        {
+            int deaths = deathBuffer;
+            deathBuffer = 0;
+
+            Alive = Mathf.Max(0, Alive - deaths);
+            EventObserver.RaiseAliveChanged(Alive);
+
+            // Lose nếu player đã chết
+            if (!player || !player.gameObject.activeSelf)
+            {
+                EndGameLose();
+                return;
+            }
+
+            // Tính số slot có thể spawn bù (không vượt quota)
+            if (spawner != null)
+            {
+                int available = spawner.MaxSpawnCount - spawner.TotalSpawned - pendingSpawnRequests;
+                int toSpawn = Mathf.Min(deaths, Mathf.Max(0, available));
+
+                // ĐẶT VÉ trước khi gọi TrySpawn để tránh 2 lần cùng frame vượt quota
+                pendingSpawnRequests += toSpawn;
+                for (int i = 0; i < toSpawn; i++)
+                {
+                    spawner.TrySpawnOneAfterDelay(1f); // có thể randomize delay một chút nếu muốn
+                }
+            }
+
+            // Win khi không còn enemy nào
+            if (Alive == 1)
+            {
+                EndGameWin();
+            }
+        }
+    }
+
     public void StartGame()
     {
         if (State == GameState.Playing) return;
         SetState(GameState.Playing);
 
         if (player) SetPlayerControl(true);
-
-        // ShowOnly(uiReadyPanel, false);
-        // ShowOnly(uiHudPanel,  true);
-        // ShowOnly(uiWinPanel,  false);
-        // ShowOnly(uiLosePanel, false);
     }
 
     public void PauseGame()
@@ -89,7 +114,6 @@ public class GameController : MonoBehaviour
         SetState(GameState.Paused);
         Time.timeScale = 0f;
         if (player) SetPlayerControl(false);
-        // Có thể mở panel pause nếu có
     }
 
     public void ResumeGame()
@@ -107,9 +131,6 @@ public class GameController : MonoBehaviour
         if (player) SetPlayerControl(false);
         
         Debug.Log("You Win!");
-        
-        // ShowOnly(uiWinPanel,  true);
-        // ShowOnly(uiHudPanel,  false);
     }
 
     public void EndGameLose()
@@ -117,11 +138,7 @@ public class GameController : MonoBehaviour
         if (State == GameState.Win || State == GameState.Lose) return;
         SetState(GameState.Lose);
         if (player) SetPlayerControl(false);
-        
         Debug.Log("You Lose!");
-        
-        // ShowOnly(uiLosePanel, true);
-        // ShowOnly(uiHudPanel, false);
     }
 
     public void RestartScene()
@@ -129,63 +146,30 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-    //========================
-    // ALIVE & SPAWN TRACKING
-    //========================
-
-    // Spawner/Enemy gọi khi có 1 entity được thêm vào trận (enemy spawn hoặc player vào trận)
-    public void RegisterAlive()
+    
+    void OnEnemyDeadEvent(EnemyAI ai)
     {
-        Alive++;
-        OnAliveChanged?.Invoke(Alive);
+        // Chỉ tăng buffer, không xử lý logic tại đây để tránh race
+        deathBuffer++;
     }
 
-    // Spawner/Enemy gọi khi 1 entity rời trận (enemy chết, player chết)
-    public void UnregisterAlive()
+    void OnEnemySpawned()
     {
-        Alive = Mathf.Max(Alive - 1, 0);
-        OnAliveChanged?.Invoke(Alive);
-
-        // Luật thắng/thua cơ bản:
-        // - Nếu player chết -> Lose
-        // - Nếu Alive == 0 và player còn sống -> Win
-        if (player && !player.gameObject.activeSelf)
-        {
-            EndGameLose();
-            return;
-        }
-
-        if (Alive <= 0 && State == GameState.Playing && player && player.gameObject.activeSelf)
-        {
-            EndGameWin();
-        }
-    }
-
-    //========================
-    // INTERNALS
-    //========================
-    void HandleEnemyDead(EnemyAI ai)
-    {
-        // EnemyAI.Die() phát OnAnyEnemyDead → GameController cập nhật alive
-        UnregisterAlive();
-
-        // Yêu cầu Spawner spawn bù nếu còn quota
-        if (spawner && spawner.totalSpawned < spawner.maxSpawnCount && State == GameState.Playing)
-        {
-            spawner.TrySpawnOneAfterDelay(0.5f);
-        }
+        // Spawner gọi khi đã Instantiate xong
+        pendingSpawnRequests = Mathf.Max(0, pendingSpawnRequests - 1);
+        //Alive++;
+        EventObserver.RaiseAliveChanged(Alive);
     }
 
     void SetState(GameState s)
     {
         State = s;
-        OnGameStateChanged?.Invoke(State);
+        EventObserver.RaiseGameStateChanged(State);
     }
 
     void SetPlayerControl(bool enabled)
     {
-        //player.EnableControl(enabled);  // Hãy đảm bảo PlayerController có hàm này
+        //player.EnableControl(enabled);  
     }
 
     void ShowOnly(GameObject go, bool show)

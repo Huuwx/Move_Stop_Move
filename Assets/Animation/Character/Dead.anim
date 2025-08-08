@@ -83956,7 +83956,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 2.2000003
-    functionName: OnUnStopAnimationEnd
+    functionName: SetActiveAfterDead
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

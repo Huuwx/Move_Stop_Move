@@ -4,8 +4,11 @@ using UnityEngine.UI;
 
 public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    [Header("Refs")]
     public RectTransform joystickBG;     // Joystick nền
     public RectTransform joystickHandle; // Joystick tay cầm
+    
+    [Header("Variables")]
     public float joystickRadius = 60f;   // Bán kính tối đa joystick (pixel)
     [HideInInspector] public Vector2 inputDir; // Hướng đầu ra (-1..1)
 

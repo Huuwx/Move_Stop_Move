@@ -5,6 +5,7 @@ public class AnimationController : MonoBehaviour
 {
     Animator animator;
     
+    [SerializeField] GameObject player;
     [SerializeField] private ParticleSystem hittedEffect;            // Hiệu ứng attack (nếu có)
 
     public event Action OnAttack;
@@ -95,5 +96,23 @@ public class AnimationController : MonoBehaviour
     public void Attack()
     {
         OnAttack?.Invoke();
+    }
+
+    public void SetActiveAfterDead()
+    {
+        IsPlayingUnStopAnimation = false;
+        if(player.CompareTag(Params.PlayerTag))
+        {
+            
+        }
+        else if(player.CompareTag(Params.BotTag))
+        {
+            EnemyAI enemyAI = player.GetComponent<EnemyAI>();
+            if (enemyAI != null)
+            {
+                enemyAI.TriggerDeadEvent();
+            }
+        }
+        player.SetActive(false);
     }
 }

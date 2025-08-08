@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Refs")]
     [SerializeField] private AnimationController animationController;
     [SerializeField] private JoystickController joystick; // Kéo JoystickBG vào đây
     [SerializeField] private WeaponAttack weaponAttack; // Kéo WeaponAttack vào đây nếu cần
     
+    [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
 
     private Rigidbody rigid;
@@ -65,5 +67,12 @@ public class PlayerController : MonoBehaviour
         {
             animationController.SetUltiAnimation();
         }
+    }
+
+    public void Die()
+    {
+        playerState = PlayerState.Die;
+        weaponAttack.SetCanAttack(false);
+        animationController.SetDeadAnimation();
     }
 }

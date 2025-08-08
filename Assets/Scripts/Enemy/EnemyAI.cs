@@ -4,9 +4,11 @@ using Random = UnityEngine.Random;
 
 public class EnemyAI : MonoBehaviour
 {
+    [Header("Variables")]
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float wanderChangeDirTime = 2.5f;
     
+    [Header("Refs")]
     [SerializeField] WeaponAttack weaponAttack;
     [SerializeField] AnimationController animationController;
     public SpawnPointState spawnPoint;
@@ -15,10 +17,6 @@ public class EnemyAI : MonoBehaviour
     private float moveTimer = 0f;
     private float wanderTimer;
     private EnemyState state = EnemyState.Run;
-    
-    //public event Action OnDie;
-    
-    public static event Action<EnemyAI> OnAnyEnemyDead;
 
     void Start()
     {
@@ -96,14 +94,14 @@ public class EnemyAI : MonoBehaviour
 
     public void Die()
     {
-        state = EnemyState.Dead;
-        if(spawnPoint != null)
-            spawnPoint.state = SpawnState.Idle; // Đánh dấu spawn point đã chết
+        animationController.SetDeadAnimation();
         
-        //OnDie?.Invoke();
-        OnAnyEnemyDead?.Invoke(this);
-        // Ẩn bot, phát hiệu ứng, gọi về GameManager,...
-        gameObject.SetActive(false);
+        state = EnemyState.Dead;
+        weaponAttack.SetCanAttack(false);
+        if(spawnPoint != null)
+            spawnPoint.state = SpawnState.Idle;
+        
+        //gameObject.SetActive(false);
     }
 
     public void Reset()
@@ -116,17 +114,16 @@ public class EnemyAI : MonoBehaviour
         moveTimer = 0f;
         wanderTimer = 0f;
     }
-    
-    // public bool HasListeners()
-    // {
-    //     return OnDie != null;
-    // }
+
+    public void TriggerDeadEvent()
+    {
+        EventObserver.RaiseOnAnyEnemyDead(this);
+    }
         
     private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag(Params.WallTag) || other.gameObject.CompareTag(Params.BotTag))
         {
-            Debug.Log("Enemy hit a wall, changing direction");
             ChooseRandomDirection();
         }
     }
