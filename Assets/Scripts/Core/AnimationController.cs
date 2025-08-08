@@ -87,6 +87,7 @@ public class AnimationController : MonoBehaviour
 
     public void Reset()
     {
+        OnAttack = null;
         IsPlayingUnStopAnimation = false;
         IsPlayingSpecialAnimation = false;
     }

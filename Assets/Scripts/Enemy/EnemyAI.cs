@@ -16,7 +16,9 @@ public class EnemyAI : MonoBehaviour
     private float wanderTimer;
     private EnemyState state = EnemyState.Run;
     
-    public event Action OnDie;
+    //public event Action OnDie;
+    
+    public static event Action<EnemyAI> OnAnyEnemyDead;
 
     void Start()
     {
@@ -98,7 +100,8 @@ public class EnemyAI : MonoBehaviour
         if(spawnPoint != null)
             spawnPoint.state = SpawnState.Idle; // Đánh dấu spawn point đã chết
         
-        OnDie?.Invoke();
+        //OnDie?.Invoke();
+        OnAnyEnemyDead?.Invoke(this);
         // Ẩn bot, phát hiệu ứng, gọi về GameManager,...
         gameObject.SetActive(false);
     }
@@ -114,10 +117,10 @@ public class EnemyAI : MonoBehaviour
         wanderTimer = 0f;
     }
     
-    public bool HasListeners()
-    {
-        return OnDie != null;
-    }
+    // public bool HasListeners()
+    // {
+    //     return OnDie != null;
+    // }
         
     private void OnCollisionStay(Collision other)
     {

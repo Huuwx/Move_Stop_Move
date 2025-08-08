@@ -35,3 +35,8 @@ public enum SpawnState
     Idle,       // Chưa spawn
     Spawned     // Đã spawn xong
 }
+
+public enum GameState
+{
+    Boot, Ready, Playing, Paused, Win, Lose
+}
