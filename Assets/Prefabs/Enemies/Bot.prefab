@@ -10588,8 +10588,9 @@ MonoBehaviour:
   moveSpeed: 5
   wanderChangeDirTime: 12
   weaponAttack: {fileID: 6680224574462403981}
-  animationController: {fileID: 0}
-  spawnPoint: {fileID: 0}
+  animationController: {fileID: 2728975717681033947}
+  spawnPointState: {fileID: 0}
+  enemyCollider: {fileID: 6977739190148084205}
 --- !u!1 &3072977309393249012
 GameObject:
   m_ObjectHideFlags: 0

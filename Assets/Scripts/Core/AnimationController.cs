@@ -98,12 +98,12 @@ public class AnimationController : MonoBehaviour
         OnAttack?.Invoke();
     }
 
-    public void SetActiveAfterDead()
+    public void SetActionAfterDead()
     {
         IsPlayingUnStopAnimation = false;
         if(player.CompareTag(Params.PlayerTag))
         {
-            
+            GameController.Instance.EndGameLose();
         }
         else if(player.CompareTag(Params.BotTag))
         {
@@ -112,7 +112,7 @@ public class AnimationController : MonoBehaviour
             {
                 enemyAI.TriggerDeadEvent();
             }
+            player.SetActive(false);
         }
-        player.SetActive(false);
     }
 }

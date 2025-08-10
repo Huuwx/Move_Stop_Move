@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -48,18 +48,27 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        if (player) SetPlayerControl(false);
+        //if (player) SetPlayerControl(false);
 
         SetState(GameState.Ready);
         
         Alive = spawner.MaxSpawnCount + 1;
         EventObserver.RaiseAliveChanged(Alive);
 
-        if (autoStart) StartGame();
+        StartGame();
     }
 
     private void Update()
     {
+        if(State == GameState.Win || State == GameState.Lose)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RestartScene();
+            }
+            return;
+        }
+        
         if (State != GameState.Playing) return;
 
         // XỬ LÝ CHẾT DỒN MỘT LẦN / FRAME
@@ -70,13 +79,6 @@ public class GameController : MonoBehaviour
 
             Alive = Mathf.Max(0, Alive - deaths);
             EventObserver.RaiseAliveChanged(Alive);
-
-            // Lose nếu player đã chết
-            if (!player || !player.gameObject.activeSelf)
-            {
-                EndGameLose();
-                return;
-            }
 
             // Tính số slot có thể spawn bù (không vượt quota)
             if (spawner != null)
@@ -105,7 +107,7 @@ public class GameController : MonoBehaviour
         if (State == GameState.Playing) return;
         SetState(GameState.Playing);
 
-        if (player) SetPlayerControl(true);
+        //if (player) SetPlayerControl(true);
     }
 
     public void PauseGame()
@@ -128,17 +130,18 @@ public class GameController : MonoBehaviour
     {
         if (State == GameState.Win || State == GameState.Lose) return;
         SetState(GameState.Win);
-        if (player) SetPlayerControl(false);
-        
-        Debug.Log("You Win!");
+        if (player)
+        {
+            //SetPlayerControl(false);
+            player.WinDance();
+        }
     }
 
     public void EndGameLose()
     {
         if (State == GameState.Win || State == GameState.Lose) return;
         SetState(GameState.Lose);
-        if (player) SetPlayerControl(false);
-        Debug.Log("You Lose!");
+        //if (player) SetPlayerControl(false);
     }
 
     public void RestartScene()
@@ -157,8 +160,6 @@ public class GameController : MonoBehaviour
     {
         // Spawner gọi khi đã Instantiate xong
         pendingSpawnRequests = Mathf.Max(0, pendingSpawnRequests - 1);
-        //Alive++;
-        EventObserver.RaiseAliveChanged(Alive);
     }
 
     void SetState(GameState s)

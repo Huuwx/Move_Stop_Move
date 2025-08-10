@@ -7,26 +7,33 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AnimationController animationController;
     [SerializeField] private JoystickController joystick; // Kéo JoystickBG vào đây
     [SerializeField] private WeaponAttack weaponAttack; // Kéo WeaponAttack vào đây nếu cần
+    [SerializeField] private Collider playerCollider;
     
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
 
     private Rigidbody rigid;
-    
-    private PlayerState playerState;
 
     private Vector2 dir;
     private Vector3 move;
 
-    private void Awake()
+    private void Start()
     {
         rigid = GetComponent<Rigidbody>();
         if(animationController == null)
             animationController = GetComponentInChildren<AnimationController>();
+        if(playerCollider == null)
+            playerCollider = GetComponent<Collider>();
+        
+        playerCollider.enabled = true; // Bật collider khi khởi tạo
+        rigid.isKinematic = false;
     }
 
     void Update()
     {
+        if (GameController.Instance.State != GameState.Playing)
+            return; // Không xử lý di chuyển nếu không phải trạng thái Playing
+        
         dir = joystick.inputDir; // Lấy hướng từ joystick
         move = new Vector3(dir.x, 0, dir.y); // Di chuyển XZ
         
@@ -41,38 +48,29 @@ public class PlayerController : MonoBehaviour
             // Nếu muốn xoay mặt player về hướng di chuyển:
             if (move != Vector3.zero)
             {
-                playerState = PlayerState.Run;
                 transform.forward = move.normalized;
                 animationController.SetRunAnimation();
                 weaponAttack.SetCanAttack(false);
             }
             else
             {
-                playerState = PlayerState.Idle;
                 animationController.SetIdleAnimation();
                 weaponAttack.SetCanAttack(true);
             }
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            animationController.SetDeadAnimation();
-        }else if (Input.GetKey(KeyCode.D))
-        {
-            animationController.SetDanceWinAnimation();
-        }else if (Input.GetKey(KeyCode.S))
-        {
-            animationController.SetDanceAnimation();
-        }else if (Input.GetKey(KeyCode.W))
-        {
-            animationController.SetUltiAnimation();
         }
     }
 
     public void Die()
     {
-        playerState = PlayerState.Die;
+        rigid.isKinematic = true;
+        playerCollider.enabled = false;
         weaponAttack.SetCanAttack(false);
         animationController.SetDeadAnimation();
+    }
+    
+    public void WinDance()
+    {
+        weaponAttack.SetCanAttack(false);
+        animationController.SetDanceWinAnimation();
     }
 }

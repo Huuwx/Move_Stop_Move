@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class EnemyAI : MonoBehaviour
@@ -11,17 +12,28 @@ public class EnemyAI : MonoBehaviour
     [Header("Refs")]
     [SerializeField] WeaponAttack weaponAttack;
     [SerializeField] AnimationController animationController;
-    public SpawnPointState spawnPoint;
+    public SpawnPointState spawnPointState;
+    [SerializeField] private Collider enemyCollider;
+    private Rigidbody rb;
 
     private Vector3 wanderDir;
     private float moveTimer = 0f;
     private float wanderTimer;
     private EnemyState state = EnemyState.Run;
 
-    void Start()
+    void Awake()
     {
-        ChooseRandomDirection();
+        rb = GetComponent<Rigidbody>();
+        if(enemyCollider == null)
+            enemyCollider = GetComponent<Collider>();
+        
+        rb.isKinematic = false; // Đảm bảo Rigidbody không bị kinematic
+    }
+
+    private void Start()
+    {
         animationController = GetComponentInChildren<AnimationController>();
+        ChooseRandomDirection();
     }
 
     void Update()
@@ -94,19 +106,26 @@ public class EnemyAI : MonoBehaviour
 
     public void Die()
     {
+        state = EnemyState.Dead;
         animationController.SetDeadAnimation();
         
-        state = EnemyState.Dead;
         weaponAttack.SetCanAttack(false);
-        if(spawnPoint != null)
-            spawnPoint.state = SpawnState.Idle;
+        rb.isKinematic = true;
+        enemyCollider.enabled = false;
+        
+        if(spawnPointState != null)
+            spawnPointState.state = SpawnState.Idle;
         
         //gameObject.SetActive(false);
     }
 
     public void Reset()
     {
-        state = EnemyState.Run;
+        state = EnemyState.Idle;
+        animationController.SetIdleAnimation();
+        weaponAttack.SetCanAttack(false);
+        rb.isKinematic = false;
+        enemyCollider.enabled = true; // Bật collider khi reset
         
         if(animationController != null)
             animationController.Reset();

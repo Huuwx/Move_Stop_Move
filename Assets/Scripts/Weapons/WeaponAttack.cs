@@ -26,6 +26,10 @@ public class WeaponAttack : MonoBehaviour
     {
         attackCooldown = 0f;
         canAttack = false;
+    }
+
+    private void Start()
+    {
         weaponInstantiateTransform = GameObject.Find("PoolManager").transform.GetChild(0).transform;
         if(playerTransform == null)
         {
@@ -50,8 +54,6 @@ public class WeaponAttack : MonoBehaviour
                     
                     // Gây damage hoặc loại đối thủ (destroy/ẩn)
                     //Destroy(hit.gameObject);
-                    
-                    Debug.Log(hit.name + " bị attack!");
 
                     if (animationController != null)
                     {

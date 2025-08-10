@@ -35,12 +35,12 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy()
     {
         // Chọn vị trí spawn ngẫu nhiên
-        SpawnPointState spawnPoint;
+        SpawnPointState spawnPointState;
         do
         {
-            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
-        } while (spawnPoint.state == SpawnState.Spawned);
-        spawnPoint.state = SpawnState.Spawned;
+            spawnPointState = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
+        } while (spawnPointState.state == SpawnState.Spawned);
+        spawnPointState.state = SpawnState.Spawned;
         GameObject enemy = PoolManager.Instance.GetObj(enemyPrefab);
 
         if (totalSpawned > maxSpawnCount)
@@ -49,12 +49,12 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
         
-        enemy.transform.position = spawnPoint.gameObject.transform.position;
+        enemy.transform.position = spawnPointState.gameObject.transform.position;
         enemy.transform.rotation = Quaternion.identity; // Hoặc xoay theo hướng nào đó nếu cần
         enemy.transform.SetParent(poolParent);
         
         var ai = enemy.GetComponent<EnemyAI>();
-        ai.spawnPoint = spawnPoint;
+        ai.spawnPointState = spawnPointState;
         ai.Reset();
         
         enemy.SetActive(true); // Kích hoạt enemy

@@ -12,16 +12,6 @@ public static class Params
     public const string WallTag = "Wall";
 }
 
-public enum PlayerState
-{
-    Idle,
-    Run,
-    Attack,
-    Die,
-    Dance,
-    Win
-}
-
 public enum EnemyState
 {
     Run,     // Di chuyển tự do
