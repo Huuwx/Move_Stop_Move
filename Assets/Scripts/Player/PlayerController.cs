@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private JoystickController joystick; // Kéo JoystickBG vào đây
     [SerializeField] private WeaponAttack weaponAttack; // Kéo WeaponAttack vào đây nếu cần
     [SerializeField] private Collider playerCollider;
+    [SerializeField] private GameObject attackRangeCircle;
     
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
@@ -72,5 +73,11 @@ public class PlayerController : MonoBehaviour
     {
         weaponAttack.SetCanAttack(false);
         animationController.SetDanceWinAnimation();
+    }
+    
+    public void SetPlayerAttackRange(bool isActive)
+    {
+        if (attackRangeCircle != null)
+            attackRangeCircle.SetActive(isActive);
     }
 }

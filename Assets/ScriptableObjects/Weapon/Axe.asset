@@ -16,4 +16,4 @@ MonoBehaviour:
   modelPrefab: {fileID: 3601641492906425987, guid: 29a20b6ae1133cb46945d7883d443a95, type: 3}
   visual: {fileID: 8280672371199234657, guid: 27e0369068d38ad4b9c26d8c2212736f, type: 3}
   damage: 15
-  speed: 5
+  speed: 8

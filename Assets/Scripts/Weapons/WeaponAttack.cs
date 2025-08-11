@@ -1,16 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponAttack : MonoBehaviour
 {
+    [Header("Refs")]
+    [SerializeField] private List<WeaponData> weaponDatas; // Danh sách vũ khí có thể sử dụng
     [SerializeField] private WeaponData currentWeapon;      //Vũ khí hiện tại
     [SerializeField] private GameObject weaponHandVisual;
     [SerializeField] private Transform handHoldWeaponTransform;
-    
-    [SerializeField] private float maxAttackCooldown = 5f;          // Thời gian cooldown
-    private float attackCooldown = 0f;           // Thời gian cooldown hiện tại
-    [SerializeField] private float attackRadius = 7f;                // Bán kính vùng attack
-    
     
     [SerializeField] private LayerMask targetLayer;                  // Layer của đối thủ (Bots hoặc Player)
     [SerializeField] private AnimationController animationController;       // Animator, gọi animation attack
@@ -19,7 +17,12 @@ public class WeaponAttack : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform throwOrigin;
     
-
+    [Header("Variables")]
+    [SerializeField] private float maxAttackCooldown = 0.9f;          // Thời gian cooldown
+    private float attackCooldown = 0f;           // Thời gian cooldown hiện tại
+    [SerializeField] private float attackRadius = 7f;                // Bán kính vùng attack
+    
+    private int currentWeaponIndex = 0; // Chỉ số của vũ khí hiện tại trong danh sách weaponDatas
     private bool canAttack = false;                // Đang ở trạng thái "stop", sẵn sàng attack
 
     private void Awake()
@@ -39,6 +42,36 @@ public class WeaponAttack : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R) && gameObject.CompareTag(Params.PlayerTag))
+        {
+            if (currentWeaponIndex == 0)
+            {
+                currentWeapon = weaponDatas[1];
+                Vector3 weaponHandPosition = weaponHandVisual.gameObject.transform.position;
+                Quaternion weaponHandRotation = weaponHandVisual.gameObject.transform.rotation;
+                Destroy(weaponHandVisual.gameObject);
+                weaponHandVisual = Instantiate(currentWeapon.visual, 
+                    weaponHandPosition, 
+                    weaponHandRotation, 
+                    handHoldWeaponTransform);
+                weaponHandVisual.SetActive(true);
+                currentWeaponIndex = 1;
+            }
+            else
+            {
+                currentWeapon = weaponDatas[0];
+                Vector3 weaponHandPosition = weaponHandVisual.gameObject.transform.position;
+                Quaternion weaponHandRotation = weaponHandVisual.gameObject.transform.rotation;
+                Destroy(weaponHandVisual.gameObject);
+                weaponHandVisual = Instantiate(currentWeapon.visual, 
+                    weaponHandPosition, 
+                    weaponHandRotation, 
+                    handHoldWeaponTransform);
+                weaponHandVisual.SetActive(true);
+                currentWeaponIndex = 0;
+            }
+        }
+        
         if (canAttack && attackCooldown <= 0f)
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);

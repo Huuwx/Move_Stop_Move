@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     private int deathBuffer = 0;              // số enemy chết dồn trong frame
     private int pendingSpawnRequests = 0;     // số request spawn đã "đặt vé" nhưng chưa spawn xong
 
-    public GameState State { get; private set; } = GameState.Boot;
+    public GameState State { get; private set; }
     public int Alive { get; private set; }          // Enemy còn sống
 
     void Awake()
@@ -50,12 +50,12 @@ public class GameController : MonoBehaviour
     {
         //if (player) SetPlayerControl(false);
 
-        SetState(GameState.Ready);
+        //SetState(GameState.Ready);
         
         Alive = spawner.MaxSpawnCount + 1;
         EventObserver.RaiseAliveChanged(Alive);
 
-        StartGame();
+        //StartGame();
     }
 
     private void Update()
@@ -106,6 +106,8 @@ public class GameController : MonoBehaviour
     {
         if (State == GameState.Playing) return;
         SetState(GameState.Playing);
+        
+        player.SetPlayerAttackRange(true);
 
         //if (player) SetPlayerControl(true);
     }

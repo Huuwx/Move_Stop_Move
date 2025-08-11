@@ -28,5 +28,5 @@ public enum SpawnState
 
 public enum GameState
 {
-    Boot, Ready, Playing, Paused, Win, Lose
+    Home, Ready, Playing, Paused, Win, Lose
 }

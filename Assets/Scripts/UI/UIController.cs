@@ -5,13 +5,16 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [Header("Reference UI Panels")] 
-    [Header("Complete Game")]
     [SerializeField] private GameObject uiPanelGameComplete;
     [SerializeField] private GameObject winIcon;
     [SerializeField] private GameObject loseIcon;
     [SerializeField] private TextMeshProUGUI txtRank;
     [SerializeField] private TextMeshProUGUI txtNotify;
     [SerializeField] private GameObject joystick;
+    [SerializeField] private GameObject inGameUI;
+    
+    [SerializeField] private Animator menuAnimator;
+    [SerializeField] private GameObject inGameUIAnimator;
     
     [Header("Text Alive Count")]
     [SerializeField] TextMeshProUGUI txtAlive;
@@ -29,6 +32,7 @@ public class UIController : MonoBehaviour
         // Đăng ký lắng nghe sự kiện từ EventObserver
         EventObserver.OnAliveChanged += UpdateAliveCount;
         EventObserver.OnGameStateChanged += CompleteGame;
+        EventObserver.OnGameStateChanged += OnClickMenu;
     }
     
     private void OnDestroy()
@@ -36,6 +40,7 @@ public class UIController : MonoBehaviour
         // Hủy đăng ký lắng nghe sự kiện khi đối tượng bị hủy
         EventObserver.OnAliveChanged -= UpdateAliveCount;
         EventObserver.OnGameStateChanged -= CompleteGame;
+        EventObserver.OnGameStateChanged -= OnClickMenu;
     }
     
     private void UpdateAliveCount(int alive)
@@ -48,13 +53,13 @@ public class UIController : MonoBehaviour
     
     private void CompleteGame(GameState state)
     {
-        if (GameController.Instance.State == GameState.Win)
+        if (state == GameState.Win)
         {
             winIcon.SetActive(true);
             loseIcon.SetActive(false);
             txtRank.text = GameController.Instance.Alive.ToString();
             txtNotify.text = "You Win!";
-        } else if (GameController.Instance.State == GameState.Lose)
+        } else if (state == GameState.Lose)
         {
             winIcon.SetActive(false);
             loseIcon.SetActive(true);
@@ -71,6 +76,15 @@ public class UIController : MonoBehaviour
         if (uiPanelGameComplete != null)
         {
             uiPanelGameComplete.SetActive(true);
+        }
+    }
+    
+    private void OnClickMenu(GameState state)
+    {
+        if (menuAnimator != null && state == GameState.Playing)
+        {
+            menuAnimator.SetTrigger("Start");
+            inGameUIAnimator.SetActive(true);
         }
     }
 }
