@@ -38,6 +38,21 @@ public class WeaponAttack : MonoBehaviour
         {
             playerTransform = transform.GetComponentInParent<Transform>();
         }
+
+        if (!gameObject.CompareTag(Params.PlayerTag)) return;
+
+        if (GameController.Instance.GetData().GetCurrentWeaponData() == null)
+        {
+            GameController.Instance.GetData().SetCurrentWeaponData(currentWeapon);
+            GameController.Instance.GetData().SetCurrentWeaponShopData(currentWeapon);
+            GameController.Instance.SaveData();
+        }
+        else
+        {
+            currentWeapon = GameController.Instance.GetData().GetCurrentWeaponData();
+        }
+        
+        ChangeWeapon(currentWeapon);
     }
 
     void Update()
@@ -136,10 +151,17 @@ public class WeaponAttack : MonoBehaviour
         // projectile.Launch(dir, targetLayer, currentWeapon);
     }
 
-    private void OnDrawGizmosSelected()
+    public void ChangeWeapon(WeaponData newWeapon)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
+        currentWeapon = newWeapon;
+        Vector3 weaponHandPosition = weaponHandVisual.gameObject.transform.position;
+        Quaternion weaponHandRotation = weaponHandVisual.gameObject.transform.rotation;
+        Destroy(weaponHandVisual.gameObject);
+        weaponHandVisual = Instantiate(currentWeapon.visual, 
+            weaponHandPosition, 
+            weaponHandRotation, 
+            handHoldWeaponTransform);
+        weaponHandVisual.SetActive(true);
     }
     
     public float GetAttackCooldown()
@@ -155,5 +177,11 @@ public class WeaponAttack : MonoBehaviour
     public LayerMask GetTargetLayer()
     {
         return targetLayer;
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }

@@ -80,4 +80,9 @@ public class PlayerController : MonoBehaviour
         if (attackRangeCircle != null)
             attackRangeCircle.SetActive(isActive);
     }
+
+    public WeaponAttack GetWeaponAttack()
+    {
+        return this.weaponAttack;
+    }
 }

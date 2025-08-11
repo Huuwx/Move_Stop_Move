@@ -15,5 +15,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   modelPrefab: {fileID: 3601641492906425987, guid: 7059e0cd80abbab4b9db8d92ea439dac, type: 3}
   visual: {fileID: 623180822093679154, guid: 9fee06db42d96b14db0fd7a3cb26fffa, type: 3}
-  damage: 10
   speed: 6
+  isPurchased: 1
+  isEquipped: 0
+  price: 0
+  name: Hammer
+  description: 

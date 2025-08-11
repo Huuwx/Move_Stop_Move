@@ -9,10 +9,13 @@ public class GameController : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] EnemySpawner spawner;         
-    [SerializeField] PlayerController player;       // Player (để khóa input khi cần)
+    public PlayerController player;       // Player (để khóa input khi cần)
 
-    [Header("Game Rules")]
+    [Header("Variables")]
     [SerializeField] bool autoStart = true;
+    public int coinCollected = 0; // Số coin đã thu thập
+
+    [SerializeField] private Data data;
     
     // --- NEW: chống race ---
     private int deathBuffer = 0;              // số enemy chết dồn trong frame
@@ -32,6 +35,8 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        LoadData();
     }
     
     void OnEnable()
@@ -101,6 +106,31 @@ public class GameController : MonoBehaviour
             }
         }
     }
+    
+    public void SaveData()
+    {
+        string saveString = JsonUtility.ToJson(data);
+
+        SaveSystem.Save("save", saveString);
+    }
+
+    public void LoadData()
+    {
+        string loadedData = SaveSystem.Load("save");
+        if (loadedData != null)
+        {
+            data = JsonUtility.FromJson<Data>(loadedData);
+        }
+        else
+        {
+            data = new Data();
+        }
+    }
+    
+    public Data GetData()
+    {
+        return data;
+    }
 
     public void StartGame()
     {
@@ -143,6 +173,7 @@ public class GameController : MonoBehaviour
     {
         if (State == GameState.Win || State == GameState.Lose) return;
         SetState(GameState.Lose);
+        
         //if (player) SetPlayerControl(false);
     }
 
@@ -156,6 +187,7 @@ public class GameController : MonoBehaviour
     {
         // Chỉ tăng buffer, không xử lý logic tại đây để tránh race
         deathBuffer++;
+        coinCollected++;
     }
 
     void OnEnemySpawned()
@@ -173,10 +205,5 @@ public class GameController : MonoBehaviour
     void SetPlayerControl(bool enabled)
     {
         //player.EnableControl(enabled);  
-    }
-
-    void ShowOnly(GameObject go, bool show)
-    {
-        if (go) go.SetActive(show);
     }
 }

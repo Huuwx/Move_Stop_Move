@@ -1,0 +1,98 @@
+using System;
+using UnityEngine;
+
+public class ShopManager : MonoBehaviour
+{
+    public int currentWeaponIndex = 0;
+    public WeaponData currentWeaponShopData;
+    public GameObject[] weaponModels;
+    public WeaponData[] weaponDatas;
+
+    void Start()
+    {
+        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
+        
+        currentWeaponIndex = GameController.Instance.GetData().GetCurrentWeaponIndex();
+
+        foreach (GameObject weapon in weaponModels)
+        {
+            weapon.SetActive(false);
+        }
+        
+        weaponModels[currentWeaponIndex].SetActive(true);
+    }
+
+    public void ChangeNext()
+    {
+        weaponModels[currentWeaponIndex].SetActive(false);
+        currentWeaponIndex++;
+        if (currentWeaponIndex >= weaponModels.Length)
+        {
+            currentWeaponIndex = 0;
+        }
+        
+        weaponModels[currentWeaponIndex].SetActive(true);
+        GameController.Instance.GetData().SetCurrentWeaponIndex(currentWeaponIndex);
+        GameController.Instance.GetData().SetCurrentWeaponShopData(weaponDatas[currentWeaponIndex]);
+        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
+        GameController.Instance.SaveData();
+    }
+    
+    public void ChangePrevious()
+    {
+        weaponModels[currentWeaponIndex].SetActive(false);
+        currentWeaponIndex--;
+        if (currentWeaponIndex < 0)
+        {
+            currentWeaponIndex = weaponModels.Length - 1;
+        }
+        
+        weaponModels[currentWeaponIndex].SetActive(true);
+        GameController.Instance.GetData().SetCurrentWeaponIndex(currentWeaponIndex);
+        GameController.Instance.GetData().SetCurrentWeaponShopData(weaponDatas[currentWeaponIndex]);
+        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
+        GameController.Instance.SaveData();
+    }
+    
+    public void BuyWeapon()
+    {
+        if (GameController.Instance.GetData().GetCurrentCoin() >= currentWeaponShopData.price)
+        {
+            GameController.Instance.GetData().SetCurrentCoin(
+                GameController.Instance.GetData().GetCurrentCoin() - currentWeaponShopData.price);
+            currentWeaponShopData.isPurchased = true;
+            GameController.Instance.SaveData();
+            GameController.Instance.player.GetWeaponAttack().ChangeWeapon(currentWeaponShopData);
+        }
+        else
+        {
+            Debug.Log("Not enough coins to buy this weapon.");
+        }
+    }
+    
+    public void EquipWeapon()
+    {
+        if (currentWeaponShopData.isPurchased)
+        {
+            if (currentWeaponShopData.isEquipped)
+            {
+                Debug.Log("This weapon is already equipped.");
+                return;
+            }
+            GameController.Instance.GetData().GetCurrentWeaponData().isEquipped = false;
+            GameController.Instance.GetData().SetCurrentWeaponData(currentWeaponShopData);
+            currentWeaponShopData.isEquipped = true;
+            GameController.Instance.player.GetWeaponAttack().ChangeWeapon(currentWeaponShopData);
+            GameController.Instance.SaveData();
+        }
+        else
+        {
+            Debug.Log("You need to buy this weapon first.");
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        //weaponModels = transform.GetComponentsInChildren<GameObject>();
+    }
+}
