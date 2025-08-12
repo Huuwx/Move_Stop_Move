@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,9 +10,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private WeaponAttack weaponAttack; // Kéo WeaponAttack vào đây nếu cần
     [SerializeField] private Collider playerCollider;
     [SerializeField] private GameObject attackRangeCircle;
+    [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
     
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
+    public int points = 0; // Điểm của người chơi
 
     private Rigidbody rigid;
 
@@ -28,6 +31,16 @@ public class PlayerController : MonoBehaviour
         
         playerCollider.enabled = true; // Bật collider khi khởi tạo
         rigid.isKinematic = false;
+    }
+
+    private void OnEnable()
+    {
+        EventObserver.OnUpgrade += Upgrade;
+    }
+
+    private void OnDisable()
+    {
+        EventObserver.OnUpgrade -= Upgrade;
     }
 
     void Update()
@@ -79,6 +92,19 @@ public class PlayerController : MonoBehaviour
     {
         if (attackRangeCircle != null)
             attackRangeCircle.SetActive(isActive);
+    }
+    
+    public void Upgrade()
+    {
+        points += 1; // Tăng điểm mỗi khi người chơi giết được một đối thủ
+        
+        if (pointsText != null)
+        {
+            pointsText.text = points.ToString();
+        }
+        
+        transform.localScale += Vector3.one * Values.upgradeScale; 
+        weaponAttack.upgradeAttackRadius(Values.upgradeRadius);
     }
 
     public WeaponAttack GetWeaponAttack()

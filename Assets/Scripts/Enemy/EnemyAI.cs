@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -8,6 +9,7 @@ public class EnemyAI : MonoBehaviour
     [Header("Variables")]
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float wanderChangeDirTime = 2.5f;
+    public int points = 0;
     
     [Header("Refs")]
     [SerializeField] WeaponAttack weaponAttack;
@@ -15,6 +17,7 @@ public class EnemyAI : MonoBehaviour
     public SpawnPointState spawnPointState;
     [SerializeField] private Collider enemyCollider;
     [SerializeField] private GameObject targetOutline;
+    [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
     
     private Rigidbody rb;
 
@@ -142,6 +145,19 @@ public class EnemyAI : MonoBehaviour
         {
             targetOutline.SetActive(isActive);
         }
+    }
+    
+    public void SetPoints()
+    {
+        points += 1; // Tăng điểm mỗi khi người chơi giết được một đối thủ
+        
+        if (pointsText != null)
+        {
+            pointsText.text = points.ToString();
+        }
+        
+        transform.localScale += Vector3.one * Values.upgradeScale; 
+        weaponAttack.upgradeAttackRadius(Values.upgradeRadius);
     }
         
     private void OnCollisionStay(Collision other)

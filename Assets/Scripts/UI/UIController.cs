@@ -133,7 +133,7 @@ public class UIController : MonoBehaviour
             weaponsHolder.SetActive(true);
             menuPanel.SetActive(false);
             uiShopPanel.SetActive(true);
-            UpdateWeaponInfo();
+            OpenShopWeaponInfo();
         }
         
         UpdateCoin();
@@ -155,9 +155,48 @@ public class UIController : MonoBehaviour
         UpdateCoin();
     }
     
-    public void UpdateWeaponInfo()
+    public void UpdateWeaponInfo(WeaponData currentWeaponData)
     {
-        WeaponData currentWeaponData = GameController.Instance.GetData().GetCurrentWeaponShopData();
+        if (currentWeaponData.isPurchased)
+        {
+            buyButton.gameObject.SetActive(false);
+            equipButton.gameObject.SetActive(true);
+            if (currentWeaponData.isEquipped)
+            {
+                equipButton.interactable = false;
+                txtEquipButtonText.text = "Equipped";
+            }
+            else
+            {
+                equipButton.interactable = true;
+                txtEquipButtonText.text = "Equip";
+            }
+        }
+        else
+        {
+            buyButton.gameObject.SetActive(true);
+            equipButton.gameObject.SetActive(false);
+        }
+        
+        if (txtWeaponName != null)
+        {
+            txtWeaponName.text = currentWeaponData.name;
+        }
+        
+        if (txtPrice != null)
+        {
+            txtPrice.text = currentWeaponData.price.ToString();
+        }
+        
+        if (txtDescription != null)
+        {
+            txtDescription.text = currentWeaponData.description;
+        }
+    }
+    
+    public void OpenShopWeaponInfo()
+    {
+        WeaponData currentWeaponData = GameController.Instance.GetData().GetCurrentWeaponData();
 
         if (currentWeaponData.isPurchased)
         {

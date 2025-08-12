@@ -45,7 +45,7 @@ public class WeaponAttack : MonoBehaviour
         if (GameController.Instance.GetData().GetCurrentWeaponData() == null)
         {
             GameController.Instance.GetData().SetCurrentWeaponData(currentWeapon);
-            GameController.Instance.GetData().SetCurrentWeaponShopData(currentWeapon);
+            GameController.Instance.GetData().SetCurrentWeaponShopIndex(0);
             GameController.Instance.SaveData();
         }
         else
@@ -148,7 +148,7 @@ public class WeaponAttack : MonoBehaviour
         projectile.transform.position = throwOrigin.position;
         projectile.transform.SetParent(weaponInstantiateTransform);
         WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
-        weaponProjectile.Launch(dir, targetLayer, currentWeapon);
+        weaponProjectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject);
     }
 
     public void ChangeWeapon(WeaponData newWeapon)
@@ -172,6 +172,10 @@ public class WeaponAttack : MonoBehaviour
     public float GetAttackRadius()
     {
         return attackRadius;
+    }
+    public void upgradeAttackRadius(float radius)
+    {
+        attackRadius += radius;
     }
     
     public LayerMask GetTargetLayer()

@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class WeaponProjectile : MonoBehaviour
 {
+    private GameObject actor;        // Actor bắn ra vũ khí này (Player hoặc Enemy)
+    
     private WeaponData weaponData;       //Data của vũ khí hiện tại
     
     private LayerMask targetLayer;
     
     [Header("Variables")]
-    [SerializeField] private float maxLifeTime = 0.6f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
+    [SerializeField] private float maxLifeTime = 1.5f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
     private Vector3 direction;      // Hướng bay của vũ khí
     private float timer;        // Đếm cho đến thời gian biến mất
     [SerializeField] private float rotateSpeed;
@@ -20,8 +22,10 @@ public class WeaponProjectile : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData)
+    public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData, GameObject actor)
     {
+        this.actor = actor; // Lưu actor bắn ra vũ khí này
+        
         this.direction = direction.normalized;
         this.targetLayer = targetLayer;
         this.weaponData = weaponData;
@@ -60,10 +64,30 @@ public class WeaponProjectile : MonoBehaviour
                 PlayerController playerController = other.GetComponent<PlayerController>();
                 if (playerController != null)
                 {
+                    EnemyAI enemyAI = actor.GetComponent<EnemyAI>();
+                    if (enemyAI != null)
+                    {
+                        enemyAI.points += 1;
+                    }
+
                     playerController.Die();
                 }
             } else if (other.CompareTag(Params.BotTag))
             {
+                PlayerController player = actor.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    EventObserver.RaiseOnUpgrade();
+                }
+                else
+                {
+                    EnemyAI enemy = actor.GetComponent<EnemyAI>();
+                    if (enemy != null)
+                    {
+                        enemy.SetPoints();
+                    }
+                }
+
                 EnemyAI enemyAI = other.GetComponent<EnemyAI>();
                 if (enemyAI != null)
                     enemyAI.Die();

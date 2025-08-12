@@ -47,12 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6561a1dbdd795564e9aa340277c3a8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 0}
-  hitEffect: {fileID: 3838046893043969633, guid: 943f1f3193990ba449e06e1a7ff60721, type: 3}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  maxLifeTime: 1
+  maxLifeTime: 1.5
   rotateSpeed: 500
 --- !u!65 &5652067615196827688
 BoxCollider:

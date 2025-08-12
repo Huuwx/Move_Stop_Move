@@ -11,7 +11,6 @@ public class Data
 
     [Header("Weapon Shop Data")] [SerializeField]
     private int currentWeaponShopIndex = 0;
-    [SerializeField] private WeaponData currentWeaponShopData;
 
     [Header("Game Data")] [SerializeField] private int currentCoin = 1000;
     [SerializeField] private int selectedWeaponInShop = 0;
@@ -54,15 +53,5 @@ public class Data
     public void SetCurrentWeaponData(WeaponData currentWeaponData)
     {
         this.currentWeaponData = currentWeaponData;
-    }
-
-    public WeaponData GetCurrentWeaponShopData()
-    {
-        return currentWeaponShopData;
-    }
-
-    public void SetCurrentWeaponShopData(WeaponData currentWeaponShopData)
-    {
-        this.currentWeaponShopData = currentWeaponShopData;
     }
 }

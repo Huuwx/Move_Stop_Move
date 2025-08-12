@@ -1,4 +1,7 @@
 // Enum.cs
+
+using System.Numerics;
+
 public static class Params
 {
     public const string IsIdle = "IsIdle";
@@ -10,6 +13,12 @@ public static class Params
     public const string BotTag = "Bot";
     public const string PlayerTag = "Player";
     public const string WallTag = "Wall";
+}
+
+public static class Values
+{
+    public static float upgradeScale = 0.1f;
+    public static float upgradeRadius = 0.7f;
 }
 
 public enum EnemyState

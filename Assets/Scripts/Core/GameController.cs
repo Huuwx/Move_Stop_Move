@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
         if (spawner != null) spawner.OnEnemySpawned += OnEnemySpawned;
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         EventObserver.OnAnyEnemyDead -= OnEnemyDeadEvent;
         if (spawner != null) spawner.OnEnemySpawned -= OnEnemySpawned;

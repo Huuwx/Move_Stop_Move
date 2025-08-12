@@ -8,10 +8,11 @@ public class ShopManager : MonoBehaviour
     [SerializeField] WeaponData currentWeaponShopData;
     [SerializeField] GameObject[] weaponModels;
     [SerializeField] WeaponData[] weaponDatas;
+    [SerializeField] UIController uiController;
 
-    void Start()
+    void OnEnable()
     {
-        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
+        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponData();
         
         currentWeaponIndex = GameController.Instance.GetData().GetCurrentWeaponShopIndex();
 
@@ -32,10 +33,10 @@ public class ShopManager : MonoBehaviour
             currentWeaponIndex = 0;
         }
         
+        uiController.UpdateWeaponInfo(weaponDatas[currentWeaponIndex]);
         weaponModels[currentWeaponIndex].SetActive(true);
-        GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponIndex);
-        GameController.Instance.GetData().SetCurrentWeaponShopData(weaponDatas[currentWeaponIndex]);
-        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
+        currentWeaponShopData = weaponDatas[currentWeaponIndex];
+        
         GameController.Instance.SaveData();
     }
     
@@ -48,10 +49,10 @@ public class ShopManager : MonoBehaviour
             currentWeaponIndex = weaponModels.Length - 1;
         }
         
+        uiController.UpdateWeaponInfo(weaponDatas[currentWeaponIndex]);
         weaponModels[currentWeaponIndex].SetActive(true);
-        GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponIndex);
-        GameController.Instance.GetData().SetCurrentWeaponShopData(weaponDatas[currentWeaponIndex]);
-        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
+        currentWeaponShopData = weaponDatas[currentWeaponIndex];
+        
         GameController.Instance.SaveData();
     }
     
@@ -62,6 +63,7 @@ public class ShopManager : MonoBehaviour
             GameController.Instance.GetData().SetCurrentCoin(
                 GameController.Instance.GetData().GetCurrentCoin() - currentWeaponShopData.price);
             currentWeaponShopData.isPurchased = true;
+            uiController.UpdateWeaponInfo(currentWeaponShopData);
             GameController.Instance.SaveData();
         }
         else
@@ -81,7 +83,9 @@ public class ShopManager : MonoBehaviour
             }
             GameController.Instance.GetData().GetCurrentWeaponData().isEquipped = false;
             GameController.Instance.GetData().SetCurrentWeaponData(currentWeaponShopData);
+            GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponShopData.id);
             currentWeaponShopData.isEquipped = true;
+            uiController.UpdateWeaponInfo(currentWeaponShopData);
             GameController.Instance.player.GetWeaponAttack().ChangeWeapon(currentWeaponShopData);
             GameController.Instance.SaveData();
         }

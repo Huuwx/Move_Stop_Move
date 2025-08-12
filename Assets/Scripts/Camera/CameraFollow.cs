@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -10,6 +11,17 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float lookDownAngleGameplay = 45f; // Góc nhìn xuống (nếu muốn fix góc nhìn)
     [SerializeField] private float lookDownAngleWaitMenu = 30f; // Góc nhìn xuống (nếu muốn fix góc nhìn)
 
+
+    private void OnEnable()
+    {
+        EventObserver.OnUpgrade += UpgradeOffset;
+    }
+
+    private void OnDisable()
+    {
+        EventObserver.OnUpgrade -= UpgradeOffset;
+    }
+
     void LateUpdate()
     {
         if (target == null) return;
@@ -20,7 +32,7 @@ public class CameraFollow : MonoBehaviour
             // Vị trí camera mong muốn
             desiredPosition = new Vector3(target.position.x, 0, target.position.z) + offsetGameplay;
             // Smooth di chuyển
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
             // Xoay góc nhìn xuống player (nếu cần)
             transform.rotation = Quaternion.Euler(lookDownAngleGameplay, 0f, 0);
         }
@@ -29,11 +41,19 @@ public class CameraFollow : MonoBehaviour
             // Vị trí camera mong muốn khi ở menu
             desiredPosition = new Vector3(target.position.x, 0, target.position.z) + offsetWaitMenu;
             // Smooth di chuyển
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+            transform.position = desiredPosition;
             // Xoay góc nhìn xuống player (nếu cần)
             transform.rotation = Quaternion.Euler(lookDownAngleWaitMenu, 0f, 0);
         }
-
-        
+    }
+    
+    public void UpgradeOffset()
+    {
+        // Cập nhật offset khi nâng cấp
+        if (GameController.Instance.State == GameState.Playing)
+        {
+            Vector3 desiredPosition = offsetGameplay += new Vector3(0, 2f, -1f);
+            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5 * Time.deltaTime);
+        }
     }
 }
