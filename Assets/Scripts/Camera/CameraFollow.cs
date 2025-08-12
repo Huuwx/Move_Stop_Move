@@ -3,8 +3,9 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform target;         // Player cần follow
+    
     [SerializeField] private Vector3 offsetGameplay = new Vector3(0, 60, -17); // Độ cao + lùi ra sau
-    [SerializeField] private Vector3 offsetWaitMenu = new Vector3(0, 60, -10); // Độ cao + lùi ra sau khi ở menu
+    [SerializeField] private Vector3 offsetWaitMenu = new Vector3(0, 60, -7); // Độ cao + lùi ra sau khi ở menu
     [SerializeField] private float smoothSpeed = 5f;   // Độ mượt khi follow
     [SerializeField] private float lookDownAngleGameplay = 45f; // Góc nhìn xuống (nếu muốn fix góc nhìn)
     [SerializeField] private float lookDownAngleWaitMenu = 30f; // Góc nhìn xuống (nếu muốn fix góc nhìn)

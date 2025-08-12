@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] bool autoStart = true;
     public int coinCollected = 0; // Số coin đã thu thập
 
+    [Header("Data")]
     [SerializeField] private Data data;
     
     // --- NEW: chống race ---
@@ -54,13 +55,9 @@ public class GameController : MonoBehaviour
     void Start()
     {
         //if (player) SetPlayerControl(false);
-
-        //SetState(GameState.Ready);
         
         Alive = spawner.MaxSpawnCount + 1;
         EventObserver.RaiseAliveChanged(Alive);
-
-        //StartGame();
     }
 
     private void Update()
@@ -107,13 +104,13 @@ public class GameController : MonoBehaviour
         }
     }
     
+    // --- NEW: Lưu/Load dữ liệu ---
     public void SaveData()
     {
         string saveString = JsonUtility.ToJson(data);
 
         SaveSystem.Save("save", saveString);
     }
-
     public void LoadData()
     {
         string loadedData = SaveSystem.Load("save");
@@ -126,12 +123,12 @@ public class GameController : MonoBehaviour
             data = new Data();
         }
     }
-    
     public Data GetData()
     {
         return data;
     }
 
+    // --- NEW: Quản lý trạng thái game ---
     public void StartGame()
     {
         if (State == GameState.Playing) return;
@@ -141,7 +138,6 @@ public class GameController : MonoBehaviour
 
         //if (player) SetPlayerControl(true);
     }
-
     public void PauseGame()
     {
         if (State != GameState.Playing) return;
@@ -149,7 +145,6 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0f;
         if (player) SetPlayerControl(false);
     }
-
     public void ResumeGame()
     {
         if (State != GameState.Paused) return;
@@ -157,7 +152,6 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1f;
         if (player) SetPlayerControl(true);
     }
-
     public void EndGameWin()
     {
         if (State == GameState.Win || State == GameState.Lose) return;
@@ -168,7 +162,6 @@ public class GameController : MonoBehaviour
             player.WinDance();
         }
     }
-
     public void EndGameLose()
     {
         if (State == GameState.Win || State == GameState.Lose) return;
@@ -176,13 +169,13 @@ public class GameController : MonoBehaviour
         
         //if (player) SetPlayerControl(false);
     }
-
     public void RestartScene()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
+    // --- NEW: Xử lý sự kiện ---
     void OnEnemyDeadEvent(EnemyAI ai)
     {
         // Chỉ tăng buffer, không xử lý logic tại đây để tránh race

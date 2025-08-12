@@ -14,6 +14,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] AnimationController animationController;
     public SpawnPointState spawnPointState;
     [SerializeField] private Collider enemyCollider;
+    [SerializeField] private GameObject targetOutline;
+    
     private Rigidbody rb;
 
     private Vector3 wanderDir;
@@ -42,23 +44,18 @@ public class EnemyAI : MonoBehaviour
 
         // 1. Tìm mục tiêu gần nhất trong bán kính attack
         Collider[] hits = Physics.OverlapSphere(transform.position, weaponAttack.GetAttackRadius(), weaponAttack.GetTargetLayer());
-        Transform closestTargetTransfrom = null;
-        float minDist = float.MaxValue;
+        Transform target = null;
 
         foreach (Collider hit in hits)
         {
             if (hit.gameObject == gameObject) continue; // bỏ qua chính mình
             if (!hit.gameObject.activeSelf) continue;   // bỏ qua đối thủ đã chết
-
-            float dist = Vector3.Distance(transform.position, hit.transform.position);
-            if (dist < minDist)
-            {
-                minDist = dist;
-                closestTargetTransfrom = hit.transform;
-            }
+            
+            target = hit.transform;
+            break;
         }
 
-        if (closestTargetTransfrom != null && weaponAttack.GetAttackCooldown() <= 0f)
+        if (target != null && weaponAttack.GetAttackCooldown() <= 0f)
         {
             // 2. Chuyển sang Attack (stop, nhìn mục tiêu)
             state = EnemyState.Attack;
@@ -137,6 +134,14 @@ public class EnemyAI : MonoBehaviour
     public void TriggerDeadEvent()
     {
         EventObserver.RaiseOnAnyEnemyDead(this);
+    }
+    
+    public void SetTargetOutlineActive(bool isActive)
+    {
+        if (targetOutline != null)
+        {
+            targetOutline.SetActive(isActive);
+        }
     }
         
     private void OnCollisionStay(Collision other)

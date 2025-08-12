@@ -5,6 +5,7 @@ public class AnimationController : MonoBehaviour
 {
     Animator animator;
     
+    [Header("Refs")]
     [SerializeField] GameObject player;
     [SerializeField] private ParticleSystem hittedEffect;            // Hiệu ứng attack (nếu có)
 

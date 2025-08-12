@@ -30,6 +30,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI txtPrice;
     [SerializeField] private TextMeshProUGUI txtWeaponName;
     [SerializeField] private TextMeshProUGUI txtDescription;
+    [SerializeField] TextMeshProUGUI txtShopCoin;
 
     private void Start()
     {
@@ -38,7 +39,7 @@ public class UIController : MonoBehaviour
             uiPanelGameComplete.SetActive(false);
         }
         
-        UpdateCoinCount(GameController.Instance.GetData().GetCurrentCoin());
+        UpdateCoin();
     }
 
     private void OnEnable()
@@ -110,6 +111,10 @@ public class UIController : MonoBehaviour
         {
             txtCoin.text = coin.ToString();
         }
+        if (txtShopCoin != null)
+        {
+            txtShopCoin.text = coin.ToString();
+        }
     }
     private void OnClickMenu(GameState state)
     {
@@ -130,6 +135,8 @@ public class UIController : MonoBehaviour
             uiShopPanel.SetActive(true);
             UpdateWeaponInfo();
         }
+        
+        UpdateCoin();
     }
     
     
@@ -144,6 +151,8 @@ public class UIController : MonoBehaviour
             menuPanel.SetActive(true);
             uiShopPanel.SetActive(false);
         }
+        
+        UpdateCoin();
     }
     
     public void UpdateWeaponInfo()
@@ -185,5 +194,10 @@ public class UIController : MonoBehaviour
         {
             txtDescription.text = currentWeaponData.description;
         }
+    }
+
+    public void UpdateCoin()
+    {
+        UpdateCoinCount(GameController.Instance.GetData().GetCurrentCoin());
     }
 }

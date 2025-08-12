@@ -3,16 +3,17 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    public int currentWeaponIndex = 0;
-    public WeaponData currentWeaponShopData;
-    public GameObject[] weaponModels;
-    public WeaponData[] weaponDatas;
+    
+    private int currentWeaponIndex = 0;
+    [SerializeField] WeaponData currentWeaponShopData;
+    [SerializeField] GameObject[] weaponModels;
+    [SerializeField] WeaponData[] weaponDatas;
 
     void Start()
     {
         currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
         
-        currentWeaponIndex = GameController.Instance.GetData().GetCurrentWeaponIndex();
+        currentWeaponIndex = GameController.Instance.GetData().GetCurrentWeaponShopIndex();
 
         foreach (GameObject weapon in weaponModels)
         {
@@ -32,7 +33,7 @@ public class ShopManager : MonoBehaviour
         }
         
         weaponModels[currentWeaponIndex].SetActive(true);
-        GameController.Instance.GetData().SetCurrentWeaponIndex(currentWeaponIndex);
+        GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponIndex);
         GameController.Instance.GetData().SetCurrentWeaponShopData(weaponDatas[currentWeaponIndex]);
         currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
         GameController.Instance.SaveData();
@@ -48,7 +49,7 @@ public class ShopManager : MonoBehaviour
         }
         
         weaponModels[currentWeaponIndex].SetActive(true);
-        GameController.Instance.GetData().SetCurrentWeaponIndex(currentWeaponIndex);
+        GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponIndex);
         GameController.Instance.GetData().SetCurrentWeaponShopData(weaponDatas[currentWeaponIndex]);
         currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponShopData();
         GameController.Instance.SaveData();
@@ -62,7 +63,6 @@ public class ShopManager : MonoBehaviour
                 GameController.Instance.GetData().GetCurrentCoin() - currentWeaponShopData.price);
             currentWeaponShopData.isPurchased = true;
             GameController.Instance.SaveData();
-            GameController.Instance.player.GetWeaponAttack().ChangeWeapon(currentWeaponShopData);
         }
         else
         {

@@ -27,22 +27,10 @@ public class WeaponProjectile : MonoBehaviour
         this.weaponData = weaponData;
         this.timer = 0f;
         gameObject.SetActive(true);
-
-        // if (weaponData.modelPrefab != null)
-        // {
-        //     foreach (Transform child in transform)
-        //     {
-        //         Destroy(child.gameObject);
-        //     }
-        //     Instantiate(weaponData.visual, transform);
-        //     transform.name = weaponData.modelPrefab.name;
-        // }
     }
 
     void Update()
     {
-        // Di chuyển theo hướng đã set
-        //transform.position += _direction * speed * Time.deltaTime;
         timer += Time.deltaTime;
         if (timer >= maxLifeTime)
         {
@@ -55,6 +43,11 @@ public class WeaponProjectile : MonoBehaviour
     private void FixedUpdate()
     {
         _rigidbody.linearVelocity = direction * weaponData.speed;
+    }
+    
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -76,10 +69,5 @@ public class WeaponProjectile : MonoBehaviour
                     enemyAI.Die();
             }
         }
-    }
-
-    void Deactivate()
-    {
-        gameObject.SetActive(false);
     }
 }

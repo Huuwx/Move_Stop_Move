@@ -5,7 +5,6 @@ using UnityEngine;
 public class WeaponAttack : MonoBehaviour
 {
     [Header("Refs")]
-    [SerializeField] private List<WeaponData> weaponDatas; // Danh sách vũ khí có thể sử dụng
     [SerializeField] private WeaponData currentWeapon;      //Vũ khí hiện tại
     [SerializeField] private GameObject weaponHandVisual;
     [SerializeField] private Transform handHoldWeaponTransform;
@@ -22,8 +21,8 @@ public class WeaponAttack : MonoBehaviour
     private float attackCooldown = 0f;           // Thời gian cooldown hiện tại
     [SerializeField] private float attackRadius = 7f;                // Bán kính vùng attack
     
-    private int currentWeaponIndex = 0; // Chỉ số của vũ khí hiện tại trong danh sách weaponDatas
     private bool canAttack = false;                // Đang ở trạng thái "stop", sẵn sàng attack
+    private EnemyAI targetEnemyAI; // Đối thủ hiện tại (nếu có)
 
     private void Awake()
     {
@@ -33,7 +32,9 @@ public class WeaponAttack : MonoBehaviour
 
     private void Start()
     {
-        weaponInstantiateTransform = GameObject.Find("PoolManager").transform.GetChild(0).transform;
+        if(weaponInstantiateTransform == null)
+            weaponInstantiateTransform = GameObject.Find("PoolManager").transform.GetChild(0).transform;
+        
         if(playerTransform == null)
         {
             playerTransform = transform.GetComponentInParent<Transform>();
@@ -57,39 +58,20 @@ public class WeaponAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && gameObject.CompareTag(Params.PlayerTag))
+        Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);
+        Collider target = null; // Biến để lưu đối thủ mục tiêu
+        float minDist = float.MaxValue;
+        
+        if (hits.Length == 0)
         {
-            if (currentWeaponIndex == 0)
+            if (targetEnemyAI != null)
             {
-                currentWeapon = weaponDatas[1];
-                Vector3 weaponHandPosition = weaponHandVisual.gameObject.transform.position;
-                Quaternion weaponHandRotation = weaponHandVisual.gameObject.transform.rotation;
-                Destroy(weaponHandVisual.gameObject);
-                weaponHandVisual = Instantiate(currentWeapon.visual, 
-                    weaponHandPosition, 
-                    weaponHandRotation, 
-                    handHoldWeaponTransform);
-                weaponHandVisual.SetActive(true);
-                currentWeaponIndex = 1;
-            }
-            else
-            {
-                currentWeapon = weaponDatas[0];
-                Vector3 weaponHandPosition = weaponHandVisual.gameObject.transform.position;
-                Quaternion weaponHandRotation = weaponHandVisual.gameObject.transform.rotation;
-                Destroy(weaponHandVisual.gameObject);
-                weaponHandVisual = Instantiate(currentWeapon.visual, 
-                    weaponHandPosition, 
-                    weaponHandRotation, 
-                    handHoldWeaponTransform);
-                weaponHandVisual.SetActive(true);
-                currentWeaponIndex = 0;
+                targetEnemyAI.SetTargetOutlineActive(false);
+                targetEnemyAI = null;
             }
         }
-        
-        if (canAttack && attackCooldown <= 0f)
+        else
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);
             foreach (Collider hit in hits)
             {
                 if (hit.gameObject == playerTransform.gameObject) continue; // bỏ qua chính mình
@@ -98,23 +80,44 @@ public class WeaponAttack : MonoBehaviour
                 // Nếu là đối thủ (có thể check thêm tag, hoặc component BotController)
                 if (hit.CompareTag(Params.BotTag) || hit.CompareTag(Params.PlayerTag))
                 {
-                    playerTransform.LookAt(hit.transform);
-                    
-                    // Gây damage hoặc loại đối thủ (destroy/ẩn)
-                    //Destroy(hit.gameObject);
-
-                    if (animationController != null)
+                    float dist = Vector3.Distance(transform.position, hit.transform.position);
+                    if (dist < minDist)
                     {
-                        animationController.OnAttack += () => FireProjectile(hit);
-                        
-                        animationController.SetAttackAnimation();
+                        minDist = dist;
+                        target = hit;
                     }
-
-                    // Nếu chỉ muốn kill 1 đối thủ/lần attack, break
-                    attackCooldown = maxAttackCooldown;
-                    break;
                 }
             }
+            
+            if (target == null) return; // Không có đối thủ, không attack
+            if (target.CompareTag(Params.BotTag) && gameObject.CompareTag(Params.PlayerTag))
+            {
+                if (targetEnemyAI != null)
+                {
+                    targetEnemyAI.SetTargetOutlineActive(false);
+                    targetEnemyAI = null;
+                }
+                        
+                targetEnemyAI = target.GetComponent<EnemyAI>();
+                targetEnemyAI.SetTargetOutlineActive(true);
+            }
+        }
+        
+        if (canAttack && attackCooldown <= 0f)
+        {
+            if (target == null) return; // Không có đối thủ, không attack
+            
+            playerTransform.LookAt(target.transform);
+            
+            if (animationController != null)
+            {
+                animationController.OnAttack += () => FireProjectile(target);
+                        
+                animationController.SetAttackAnimation();
+            }
+            
+            // Nếu chỉ muốn kill 1 đối thủ/lần attack, break
+            attackCooldown = maxAttackCooldown;
         }
         else
         {
@@ -146,9 +149,6 @@ public class WeaponAttack : MonoBehaviour
         projectile.transform.SetParent(weaponInstantiateTransform);
         WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
         weaponProjectile.Launch(dir, targetLayer, currentWeapon);
-
-        // var projectile = Instantiate(currentWeapon.modelPrefab.GetComponent<WeaponProjectile>(), throwOrigin.position, currentWeapon.modelPrefab.transform.rotation, weaponInstanceTransform);
-        // projectile.Launch(dir, targetLayer, currentWeapon);
     }
 
     public void ChangeWeapon(WeaponData newWeapon)
