@@ -16,4 +16,5 @@ public class WeaponData : ScriptableObject
     public int price; // Giá của vũ khí
     public string name;
     public string description;
+    public bool isRotate = false;
 }

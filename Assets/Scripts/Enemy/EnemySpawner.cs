@@ -15,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("Refs")]
     [SerializeField] Transform poolParent;          // Nơi chứa các enemy đã spawn (để quản lý dễ hơn)
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] private List<GameObject> spawnParent;
     [SerializeField] List<SpawnPointState> spawnPoints;        // Các vị trí spawn có thể (hoặc random trong vùng)
     
     public int TotalSpawned => totalSpawned; // Số lượng enemy đã spawn
@@ -22,6 +23,12 @@ public class EnemySpawner : MonoBehaviour
     public int MaxSpawnCount => maxSpawnCount; // Tổng số enemy được phép spawn trong trận
     
     public event Action OnEnemySpawned;
+
+    private void OnEnable()
+    {
+        spawnPoints = 
+            spawnParent[GameController.Instance.GetData().GetCurrentLevel()].gameObject.transform.GetComponentsInChildren<SpawnPointState>().ToList();
+    }
 
     void Start()
     {
@@ -77,8 +84,8 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    private void OnDrawGizmosSelected()
-    {
-        spawnPoints = transform.GetComponentsInChildren<SpawnPointState>().ToList();
-    }
+    // private void OnDrawGizmosSelected()
+    // {
+    //     spawnPoints = transform.GetComponentsInChildren<SpawnPointState>().ToList();
+    // }
 }

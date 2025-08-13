@@ -70,7 +70,7 @@ public class CameraFollow : MonoBehaviour
             DoOcclusionCheck();
             _nextCheckTime = Time.time + checkInterval;
         }
-
+        
         // cập nhật alpha mượt mỗi frame
         UpdateAlphas();
     }

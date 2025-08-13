@@ -515,6 +515,7 @@ GameObject:
   - component: {fileID: 3195610202376438487}
   - component: {fileID: 9138826563127657332}
   - component: {fileID: 4505572303542186433}
+  - component: {fileID: 2263197296321626787}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -611,6 +612,22 @@ MonoBehaviour:
   pointsText: {fileID: 4121863542362101022}
   moveSpeed: 5
   points: 0
+--- !u!114 &2263197296321626787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5500996924759826666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dbc2cde9fdf40948ae21ba31bf19f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  database: {fileID: 11400000, guid: f271f784416259d4f84f64d58c9b929f, type: 2}
+  hatAnchor: {fileID: 5575011242601065346}
+  pantsAnchor: {fileID: 0}
+  shirtAnchor: {fileID: 0}
 --- !u!1 &5636582465185802521
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,6 +2062,11 @@ Transform:
 --- !u!4 &5240999046126382696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
+  m_PrefabInstance: {fileID: 991196623346304370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5575011242601065346 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4566901551761445136, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
   m_PrefabInstance: {fileID: 991196623346304370}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6813471702599133451 stripped

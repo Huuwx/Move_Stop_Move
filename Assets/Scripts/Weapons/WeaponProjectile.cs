@@ -41,7 +41,8 @@ public class WeaponProjectile : MonoBehaviour
             Deactivate();
         }
         
-        transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+        if(weaponData.isRotate)
+            transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
     }
 
     private void FixedUpdate()
@@ -69,7 +70,7 @@ public class WeaponProjectile : MonoBehaviour
                     {
                         enemyAI.points += 1;
                     }
-
+    
                     playerController.Die();
                 }
             } else if (other.CompareTag(Params.BotTag))
@@ -87,7 +88,7 @@ public class WeaponProjectile : MonoBehaviour
                         enemy.SetPoints();
                     }
                 }
-
+    
                 EnemyAI enemyAI = other.GetComponent<EnemyAI>();
                 if (enemyAI != null)
                     enemyAI.Die();

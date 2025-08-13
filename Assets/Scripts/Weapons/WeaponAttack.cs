@@ -146,6 +146,7 @@ public class WeaponAttack : MonoBehaviour
         // Tạo projectile
         GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
         projectile.transform.position = throwOrigin.position;
+        projectile.transform.LookAt(collider.transform);
         projectile.transform.SetParent(weaponInstantiateTransform);
         WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
         weaponProjectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject);
@@ -164,6 +165,11 @@ public class WeaponAttack : MonoBehaviour
         weaponHandVisual.SetActive(true);
     }
     
+    public void upgradeAttackRadius(float radius)
+    {
+        attackRadius += radius;
+    }
+    
     public float GetAttackCooldown()
     {
         return attackCooldown;
@@ -173,11 +179,6 @@ public class WeaponAttack : MonoBehaviour
     {
         return attackRadius;
     }
-    public void upgradeAttackRadius(float radius)
-    {
-        attackRadius += radius;
-    }
-    
     public LayerMask GetTargetLayer()
     {
         return targetLayer;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,8 @@ public class GameController : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] EnemySpawner spawner;         
-    public PlayerController player;       // Player (để khóa input khi cần)
+    public PlayerController player;
+    [SerializeField] private List<GameObject> maps;
 
     [Header("Variables")]
     [SerializeField] bool autoStart = true;
@@ -38,6 +40,13 @@ public class GameController : MonoBehaviour
         }
         
         LoadData();
+
+        foreach (GameObject map in maps)
+        {
+            map.SetActive(false);
+        }
+        
+        maps[data.GetCurrentLevel()].SetActive(true);
     }
     
     void OnEnable()
@@ -156,11 +165,21 @@ public class GameController : MonoBehaviour
     {
         if (State == GameState.Win || State == GameState.Lose) return;
         SetState(GameState.Win);
+
+        data.SetCurrentLevel(data.GetCurrentLevel() + 1);
+
+        if (data.GetCurrentLevel() >= 2)
+        {
+            data.SetCurrentLevel(0);
+        }
+        
         if (player)
         {
             //SetPlayerControl(false);
             player.WinDance();
         }
+        
+        SaveData();
     }
     public void EndGameLose()
     {

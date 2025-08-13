@@ -83,7 +83,7 @@ public class ShopManager : MonoBehaviour
             }
             GameController.Instance.GetData().GetCurrentWeaponData().isEquipped = false;
             GameController.Instance.GetData().SetCurrentWeaponData(currentWeaponShopData);
-            GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponShopData.id);
+            GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponIndex);
             currentWeaponShopData.isEquipped = true;
             uiController.UpdateWeaponInfo(currentWeaponShopData);
             GameController.Instance.player.GetWeaponAttack().ChangeWeapon(currentWeaponShopData);

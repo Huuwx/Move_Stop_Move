@@ -37,5 +37,9 @@ public enum SpawnState
 
 public enum GameState
 {
-    Home, Playing, Paused, Win, Lose
+    Home, Shop, Playing, Paused, Win, Lose
 }
+
+// OutfitCategory.cs
+public enum OutfitCategory { Hat, Bottom, Weapon, Top }
+
