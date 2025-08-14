@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Collider enemyCollider;
     [SerializeField] private GameObject targetOutline;
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
+    [SerializeField] private GameObject ingameUI; // Giao diện trong game
     
     private Rigidbody rb;
 
@@ -35,6 +36,15 @@ public class EnemyAI : MonoBehaviour
         rb.isKinematic = false; // Đảm bảo Rigidbody không bị kinematic
     }
 
+    private void OnEnable()
+    {
+        EventObserver.OnGameStateChanged += setIngameUIActive;
+    }
+    private void OnDisable()
+    {
+        EventObserver.OnGameStateChanged -= setIngameUIActive;
+    }
+
     private void Start()
     {
         animationController = GetComponentInChildren<AnimationController>();
@@ -43,7 +53,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (state == EnemyState.Dead || GameController.Instance.State == GameState.Home) return;
+        if (state == EnemyState.Dead || GameController.Instance.State == GameState.Home || GameController.Instance.State == GameState.Shop) return;
 
         // 1. Tìm mục tiêu gần nhất trong bán kính attack
         Collider[] hits = Physics.OverlapSphere(transform.position, weaponAttack.GetAttackRadius(), weaponAttack.GetTargetLayer());
@@ -158,6 +168,18 @@ public class EnemyAI : MonoBehaviour
         
         transform.localScale += Vector3.one * Values.upgradeScale; 
         weaponAttack.upgradeAttackRadius(Values.upgradeRadius);
+    }
+    
+    public void setIngameUIActive(GameState state)
+    {
+        if(state == GameState.Playing)
+        {
+            ingameUI.SetActive(true);
+        }
+        else
+        {
+            ingameUI.SetActive(false);
+        }
     }
         
     private void OnCollisionStay(Collision other)

@@ -10734,6 +10734,7 @@ MonoBehaviour:
   enemyCollider: {fileID: 6977739190148084205}
   targetOutline: {fileID: 9139190126856732496}
   pointsText: {fileID: 338100353524953686}
+  ingameUI: {fileID: 6649229363181923129}
 --- !u!1 &3072977309393249012
 GameObject:
   m_ObjectHideFlags: 0
@@ -16601,7 +16602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7534061615835823099
 RectTransform:
   m_ObjectHideFlags: 0

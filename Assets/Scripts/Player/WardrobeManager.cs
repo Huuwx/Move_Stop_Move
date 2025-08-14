@@ -24,9 +24,13 @@ public class WardrobeManager : MonoBehaviour
         _anchors = new()
         {
             { OutfitCategory.Hat,    hatAnchor },
-            { OutfitCategory.Pants, pantsAnchor },
             { OutfitCategory.Shield,    shieldAnchor },
         };
+    }
+
+    private void Start()
+    {
+        LoadFromSave();
     }
 
     public void Equip(ClothingItem item)
@@ -43,6 +47,8 @@ public class WardrobeManager : MonoBehaviour
                 bodySkinnedMeshRenderer.material = defaultMaterial;
                 skinnedMeshRenderer.material = item.material;
             }
+            GameController.Instance.GetData().AddKeyValue(cat.ToString(), item.id);
+            //GameController.Instance.SaveData();
             return;
         } else if (cat == OutfitCategory.FullBody)
         {
@@ -52,8 +58,9 @@ public class WardrobeManager : MonoBehaviour
             {
                 skinnedMeshRenderer.material = item.material;
                 pantsAnchor.gameObject.SetActive(false);
-                
             }
+            GameController.Instance.GetData().AddKeyValue(cat.ToString(), item.id);
+            //GameController.Instance.SaveData();
             return;
         }
 
@@ -72,15 +79,15 @@ public class WardrobeManager : MonoBehaviour
         else _equipped[cat] = null;
 
         // lưu lại
-        PlayerPrefs.SetString($"wardrobe.equipped.{cat}", item.id);
-        PlayerPrefs.Save();
+        GameController.Instance.GetData().AddKeyValue(cat.ToString(), item.id);
+        //GameController.Instance.SaveData();
     }
 
     public void LoadFromSave()
     {
         foreach (OutfitCategory cat in Enum.GetValues(typeof(OutfitCategory)))
         {
-            var id = PlayerPrefs.GetString($"wardrobe.equipped.{cat}", string.Empty);
+            var id = GameController.Instance.GetData().GetValueByKey(cat.ToString());
             if (!string.IsNullOrEmpty(id))
             {
                 var item = database.GetById(id);

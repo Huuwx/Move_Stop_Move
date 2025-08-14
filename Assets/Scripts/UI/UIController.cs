@@ -14,12 +14,15 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI txtCoinClaimed;
     [SerializeField] private GameObject joystick;
     [SerializeField] private GameObject inGameUI;
+    [SerializeField] private WardrobeManager wardrobeManager;
     
     [Header("Reference Menu UI")]
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private Animator menuAnimator;
     [SerializeField] TextMeshProUGUI txtAlive;
     [SerializeField] TextMeshProUGUI txtCoin;
+    [SerializeField] private TextMeshProUGUI txtZone;
+    [SerializeField] private TextMeshProUGUI txtBest;
 
     [Header("Reference Shop UI")]
     [SerializeField] private GameObject weaponsHolder;
@@ -34,6 +37,7 @@ public class UIController : MonoBehaviour
     
     [Header("Reference Skin Shop")]
     [SerializeField] private GameObject skinShopPanel;
+    [SerializeField] TextMeshProUGUI txtSkinShopCoin;
 
     private void Start()
     {
@@ -43,6 +47,16 @@ public class UIController : MonoBehaviour
         }
         
         UpdateCoin();
+        
+        if(txtZone != null)
+        {
+            txtZone.text = "ZONE: " + (GameController.Instance.GetData().GetCurrentLevel() + 1).ToString();
+        }
+        
+        if(txtBest != null)
+        {
+            txtBest.text = "BEST: #" + GameController.Instance.GetData().GetBestRank().ToString();
+        }
     }
 
     private void OnEnable()
@@ -72,23 +86,43 @@ public class UIController : MonoBehaviour
     
     private void CompleteGame(GameState state)
     {
+        if(state == GameState.Home || state == GameState.Shop)
+        {
+            if (uiPanelGameComplete != null)
+            {
+                uiPanelGameComplete.SetActive(false);
+            }
+            joystick.SetActive(false);
+            winIcon.SetActive(false);
+            loseIcon.SetActive(false);
+            return;
+        }
+        
+        if (state == GameState.Playing)
+        {
+            joystick.SetActive(true);
+            return;
+        }
+        
         if (state == GameState.Win)
         {
             winIcon.SetActive(true);
             loseIcon.SetActive(false);
             txtRank.text = GameController.Instance.Alive.ToString();
             txtNotify.text = "You Win!";
+            GameController.Instance.GetData().SetBestRank(0);
+            GameController.Instance.SaveData();
+            if(GameController.Instance.GetData().GetCurrentLevel() + 1 > GameController.Instance.GetData().GetBestRank() || GameController.Instance.GetData().GetBestRank() == 1)
+            {
+                GameController.Instance.GetData().SetBestRank(GameController.Instance.GetData().GetCurrentLevel() + 2);
+                GameController.Instance.SaveData();
+            }
         } else if (state == GameState.Lose)
         {
             winIcon.SetActive(false);
             loseIcon.SetActive(true);
             txtRank.text = GameController.Instance.Alive.ToString();
             txtNotify.text = "You Lose!";
-        }
-        else
-        {
-            joystick.SetActive(true);
-            return;
         }
         
         if (txtCoinClaimed != null)
@@ -108,7 +142,7 @@ public class UIController : MonoBehaviour
     
     
     // Menu UI
-    private void UpdateCoinCount(int coin)
+    public void UpdateCoinCount(int coin)
     {
         if (txtCoin != null)
         {
@@ -117,6 +151,10 @@ public class UIController : MonoBehaviour
         if (txtShopCoin != null)
         {
             txtShopCoin.text = coin.ToString();
+        }
+        if (txtSkinShopCoin != null)
+        {
+            txtSkinShopCoin.text = coin.ToString();
         }
     }
     private void OnClickMenu(GameState state)
@@ -177,6 +215,7 @@ public class UIController : MonoBehaviour
         }
 
         UpdateCoin();
+        wardrobeManager.LoadFromSave();
     }
     
     public void UpdateWeaponInfo(WeaponData currentWeaponData)

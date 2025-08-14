@@ -6,15 +6,15 @@ public class WeaponAttack : MonoBehaviour
 {
     [Header("Refs")]
     [SerializeField] private WeaponData currentWeapon;      //Vũ khí hiện tại
-    [SerializeField] private GameObject weaponHandVisual;
-    [SerializeField] private Transform handHoldWeaponTransform;
+    [SerializeField] private GameObject weaponHandVisual;   // Hiển thị vũ khí trên tay
+    [SerializeField] private Transform handHoldWeaponTransform; // Vị trí tay cầm vũ khí
     
     [SerializeField] private LayerMask targetLayer;                  // Layer của đối thủ (Bots hoặc Player)
     [SerializeField] private AnimationController animationController;       // Animator, gọi animation attack
 
-    [SerializeField] private Transform weaponInstantiateTransform;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private Transform throwOrigin;
+    [SerializeField] private Transform weaponInstantiateTransform; // Vị trí instantiate vũ khí (để quản lý pool)
+    [SerializeField] private Transform playerTransform; // Vị trí của Player (để nhìn về phía đối thủ)
+    [SerializeField] private Transform throwOrigin; // Vị trí ném vũ khí
     
     [Header("Variables")]
     [SerializeField] private float maxAttackCooldown = 0.9f;          // Thời gian cooldown
@@ -45,7 +45,6 @@ public class WeaponAttack : MonoBehaviour
         if (GameController.Instance.GetData().GetCurrentWeaponData() == null)
         {
             GameController.Instance.GetData().SetCurrentWeaponData(currentWeapon);
-            GameController.Instance.GetData().SetCurrentWeaponShopIndex(0);
             GameController.Instance.SaveData();
         }
         else
@@ -146,7 +145,10 @@ public class WeaponAttack : MonoBehaviour
         // Tạo projectile
         GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
         projectile.transform.position = throwOrigin.position;
-        projectile.transform.LookAt(collider.transform);
+        
+        if(!currentWeapon.isRotate)
+            projectile.transform.LookAt(collider.transform);
+        
         projectile.transform.SetParent(weaponInstantiateTransform);
         WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
         weaponProjectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject);

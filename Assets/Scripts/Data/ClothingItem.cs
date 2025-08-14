@@ -10,6 +10,7 @@ public class ClothingItem : ScriptableObject
     public Sprite icon;                     // icon hiện trong ô xanh
     public GameObject prefab;               // prefab đội/mặc/cầm
     public Material material;
-    public bool unlockedByDefault = true;
+    public bool unlocked = false;
+    public bool equipped = false; // đã trang bị hay chưa
     public int price;
 }

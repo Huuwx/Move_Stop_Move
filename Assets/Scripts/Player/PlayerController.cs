@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Collider playerCollider;
     [SerializeField] private GameObject attackRangeCircle;
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
+    [SerializeField] GameObject ingameUI; // Giao diện trong game
     
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
@@ -36,11 +37,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         EventObserver.OnUpgrade += Upgrade;
+        EventObserver.OnGameStateChanged += setIngameUIActive;
     }
 
     private void OnDisable()
     {
         EventObserver.OnUpgrade -= Upgrade;
+        EventObserver.OnGameStateChanged -= setIngameUIActive;
     }
 
     void Update()
@@ -105,6 +108,18 @@ public class PlayerController : MonoBehaviour
         
         transform.localScale += Vector3.one * Values.upgradeScale; 
         weaponAttack.upgradeAttackRadius(Values.upgradeRadius);
+    }
+
+    public void setIngameUIActive(GameState state)
+    {
+        if(state == GameState.Playing)
+        {
+            ingameUI.SetActive(true);
+        }
+        else
+        {
+            ingameUI.SetActive(false);
+        }
     }
 
     public WeaponAttack GetWeaponAttack()

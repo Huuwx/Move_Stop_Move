@@ -6,26 +6,16 @@ using UnityEngine;
 [System.Serializable]
 public class Data
 {
-    [Header("Player Data")] [SerializeField]
-    private WeaponData currentWeaponData;
-
-    [Header("Weapon Shop Data")] [SerializeField]
-    private int currentWeaponShopIndex = 0;
+    [Header("Player Data")] 
+    [SerializeField] private WeaponData currentWeaponData;
+    [SerializeField] List<string> keys = new();
+    [SerializeField] List<string> values = new();
 
     [Header("Game Data")] 
     [SerializeField] private int currentCoin = 1000;
     [SerializeField] private int selectedWeaponInShop = 0;
     [SerializeField] private int currentLevel = 0;
-
-    public int GetCurrentWeaponShopIndex()
-    {
-        return currentWeaponShopIndex;
-    }
-
-    public void SetCurrentWeaponShopIndex(int currentWeaponShopIndex)
-    {
-        this.currentWeaponShopIndex = currentWeaponShopIndex;
-    }
+    [SerializeField] private int best = 1;
 
     public int GetCurrentCoin()
     {
@@ -65,5 +55,45 @@ public class Data
     public int GetCurrentLevel()
     {
         return currentLevel;
+    }
+    
+    public void AddKeyValue(string key, string value)
+    {
+        if (!keys.Contains(key))
+        {
+            keys.Add(key);
+            values.Add(value);
+        }
+        else
+        {
+            int index = keys.IndexOf(key);
+            values[index] = value;
+        }
+    }
+    public string GetValueByKey(string key)
+    {
+        if (keys.Contains(key))
+        {
+            int index = keys.IndexOf(key);
+            return values[index];
+        }
+        return null;
+    }
+    public void RemoveKey(string key)
+    {
+        if (keys.Contains(key))
+        {
+            int index = keys.IndexOf(key);
+            keys.RemoveAt(index);
+            values.RemoveAt(index);
+        }
+    }
+    public int GetBestRank()
+    {
+        return best;
+    }
+    public void SetBestRank(int bestRank)
+    {
+        this.best = bestRank;
     }
 }

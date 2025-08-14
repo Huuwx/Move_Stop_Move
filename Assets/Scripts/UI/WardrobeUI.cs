@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WardrobeUI : MonoBehaviour
 {
@@ -7,7 +9,11 @@ public class WardrobeUI : MonoBehaviour
     public WardrobeDatabase database;
     public WardrobeManager manager;
 
-    [Header("UI")]
+    [Header("UI")] 
+    [SerializeField] private TextMeshProUGUI priceTxt;
+    [SerializeField] private TextMeshProUGUI equipTxt;
+    [SerializeField] private Button buySkinButton;
+    [SerializeField] private Button equipSKinButton;
     public List<Transform> gridParents;   // Content có GridLayoutGroup
     public ItemSlotUI slotPrefab;
     [SerializeField] List<CategoryBtn> categoryButtons; // Các nút category
@@ -66,10 +72,68 @@ public class WardrobeUI : MonoBehaviour
 
     public void OnClickItem(ItemSlotUI slot)
     {
+        if (slot.item.unlocked)
+        {
+            buySkinButton.gameObject.gameObject.SetActive(false);
+            equipSKinButton.gameObject.gameObject.SetActive(true);
+            
+            if (slot.item.equipped)
+            {
+                equipTxt.text = "Equipped";
+                equipSKinButton.interactable = false; // Vô hiệu hóa nút nếu đã mặc
+            }
+            else
+            {
+                equipTxt.text = "Equip";
+                equipSKinButton.interactable = true; // Kích hoạt nút nếu chưa mặc
+            }
+        }
+        else
+        {
+            buySkinButton.gameObject.gameObject.SetActive(true);
+            equipSKinButton.gameObject.gameObject.SetActive(false);
+            
+            priceTxt.text = slot.item.price.ToString();
+        }
+        
         // Equip lên player
         manager.Equip(slot.item);
 
         // Highlight ô đã chọn
         foreach (var s in _slots) s.SetSelected(s == slot);
+    }
+    
+    public void OnClickBuySkin(ItemSlotUI slot)
+    {
+        if (GameController.Instance.GetData().GetCurrentCoin() >= slot.item.price)
+        {
+            GameController.Instance.GetData().
+                SetCurrentCoin(GameController.Instance.GetData().GetCurrentCoin() - slot.item.price);
+            slot.item.unlocked = true;
+            //GameController.Instance.GetData().AddKeyValue(slot.item.category.ToString(), slot.item.id);
+            GameController.Instance.SaveData();
+            
+            // Cập nhật UI
+            OnClickItem(slot);
+        }
+        else
+        {
+            Debug.Log("Not enough coins to buy this skin!");
+        }
+    }
+    
+    public void OnClickEquipSkin(ItemSlotUI slot)
+    {
+        // Gọi hàm Equip trong WardrobeManager
+        manager.Equip(slot.item);
+        
+        // Cập nhật trạng thái nút
+        equipSKinButton.interactable = false;
+        equipTxt.text = "Equipped";
+        
+        // Cập nhật UI
+        OnClickItem(slot);
+        
+        GameController.Instance.SaveData();
     }
 }

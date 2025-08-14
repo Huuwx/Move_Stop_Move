@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447fe5a69fa364b4680d6b59599146b0, type: 3}
   m_Name: BatmanPants
   m_EditorClassIdentifier: 
-  id: chambi_pants
-  displayName: Cham Bi Pants
+  id: batman_pants
+  displayName: Batman Pants
   category: 1
   icon: {fileID: 0}
   prefab: {fileID: 0}

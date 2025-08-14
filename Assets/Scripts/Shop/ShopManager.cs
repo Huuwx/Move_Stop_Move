@@ -14,7 +14,7 @@ public class ShopManager : MonoBehaviour
     {
         currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponData();
         
-        currentWeaponIndex = GameController.Instance.GetData().GetCurrentWeaponShopIndex();
+        currentWeaponIndex = GameController.Instance.GetData().GetCurrentWeaponData().id;
 
         foreach (GameObject weapon in weaponModels)
         {
@@ -64,6 +64,7 @@ public class ShopManager : MonoBehaviour
                 GameController.Instance.GetData().GetCurrentCoin() - currentWeaponShopData.price);
             currentWeaponShopData.isPurchased = true;
             uiController.UpdateWeaponInfo(currentWeaponShopData);
+            uiController.UpdateCoin();
             GameController.Instance.SaveData();
         }
         else
@@ -83,7 +84,6 @@ public class ShopManager : MonoBehaviour
             }
             GameController.Instance.GetData().GetCurrentWeaponData().isEquipped = false;
             GameController.Instance.GetData().SetCurrentWeaponData(currentWeaponShopData);
-            GameController.Instance.GetData().SetCurrentWeaponShopIndex(currentWeaponIndex);
             currentWeaponShopData.isEquipped = true;
             uiController.UpdateWeaponInfo(currentWeaponShopData);
             GameController.Instance.player.GetWeaponAttack().ChangeWeapon(currentWeaponShopData);

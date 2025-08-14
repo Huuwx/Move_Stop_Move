@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance {get{return instance;}}
 
     [Header("Refs")]
-    [SerializeField] EnemySpawner spawner;         
+    [SerializeField] EnemySpawner spawner;       
     public PlayerController player;
     [SerializeField] private List<GameObject> maps;
 
