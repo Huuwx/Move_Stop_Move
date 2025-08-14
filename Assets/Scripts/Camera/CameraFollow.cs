@@ -9,9 +9,11 @@ public class CameraFollow : MonoBehaviour
     [Header("Follow")]
     [SerializeField] private Vector3 offsetGameplay = new Vector3(0, 60, -17);
     [SerializeField] private Vector3 offsetWaitMenu = new Vector3(0, 60, -7);
+    [SerializeField] private Vector3 offsetSkinShop = new Vector3(0, 44, -10);
     [SerializeField] private float smoothSpeed = 25f;
     [SerializeField] private float lookDownAngleGameplay = 45f;
     [SerializeField] private float lookDownAngleWaitMenu = 30f;
+    [SerializeField] private float lookDownAngleSkinShop = 33f;
 
     // ====== Occlusion Fade (ẩn tòa nhà khi che player) ======
     [Header("Occlusion Fade")]
@@ -62,6 +64,12 @@ public class CameraFollow : MonoBehaviour
             desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetWaitMenu;
             transform.position = desiredPosition;
             transform.rotation = Quaternion.Euler(lookDownAngleWaitMenu, 0f, 0f);
+        }
+        else if (GameController.Instance.State == GameState.Shop)
+        {
+            desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetSkinShop;
+            transform.position = desiredPosition;
+            transform.rotation = Quaternion.Euler(lookDownAngleSkinShop, 0f, 0f);
         }
 
         // ====== Occlusion cập nhật ======

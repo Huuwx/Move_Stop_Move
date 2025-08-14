@@ -41,5 +41,5 @@ public enum GameState
 }
 
 // OutfitCategory.cs
-public enum OutfitCategory { Hat, Bottom, Weapon, Top }
+public enum OutfitCategory { Hat, Pants, Shield, FullBody}
 

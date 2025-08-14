@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 447fe5a69fa364b4680d6b59599146b0, type: 3}
-  m_Name: Arrow
+  m_Name: Cowboy
   m_EditorClassIdentifier: 
-  id: arrow_hair
-  displayName: Arrow
+  id: cowboy_hat
+  displayName: CowBoy
   category: 0
   icon: {fileID: 0}
-  prefab: {fileID: -927199367670048503, guid: 67c567da09b9c714b9b2a5b7f471fd7c, type: 3}
-  unlockedByDefault: 1
-  price: 0
+  prefab: {fileID: 4932577291807489996, guid: d8fbb1fd26d2a484b9002b4cc9a1af31, type: 3}
+  unlockedByDefault: 0
+  price: 10

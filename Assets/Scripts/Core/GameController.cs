@@ -208,7 +208,7 @@ public class GameController : MonoBehaviour
         pendingSpawnRequests = Mathf.Max(0, pendingSpawnRequests - 1);
     }
 
-    void SetState(GameState s)
+    public void SetState(GameState s)
     {
         State = s;
         EventObserver.RaiseGameStateChanged(State);

@@ -9,6 +9,7 @@ public class ClothingItem : ScriptableObject
     public OutfitCategory category;
     public Sprite icon;                     // icon hiện trong ô xanh
     public GameObject prefab;               // prefab đội/mặc/cầm
+    public Material material;
     public bool unlockedByDefault = true;
     public int price;
 }

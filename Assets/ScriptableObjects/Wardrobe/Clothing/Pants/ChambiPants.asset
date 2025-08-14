@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447fe5a69fa364b4680d6b59599146b0, type: 3}
+  m_Name: ChambiPants
+  m_EditorClassIdentifier: 
+  id: batman_pants
+  displayName: Batman Pants
+  category: 1
+  icon: {fileID: 0}
+  prefab: {fileID: 5174702935042600908, guid: f98627a5cd65252488b9422e83df266b, type: 3}
+  material: {fileID: 2100000, guid: 9ff53aa1445641942b183be1f4d15fd1, type: 2}
+  unlockedByDefault: 0
+  price: 10

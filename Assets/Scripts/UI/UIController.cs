@@ -31,6 +31,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI txtWeaponName;
     [SerializeField] private TextMeshProUGUI txtDescription;
     [SerializeField] TextMeshProUGUI txtShopCoin;
+    
+    [Header("Reference Skin Shop")]
+    [SerializeField] private GameObject skinShopPanel;
 
     private void Start()
     {
@@ -124,34 +127,55 @@ public class UIController : MonoBehaviour
             inGameUI.SetActive(true);
         }
     }
-    public void OpenShop()
+    public void OpenShop(int index)
     {
-        GameController.Instance.player.gameObject.SetActive(false);
-        
-        if (uiShopPanel != null)
+        menuPanel.SetActive(false);
+
+        if (index == 0)
         {
-            weaponsHolder.SetActive(true);
-            menuPanel.SetActive(false);
-            uiShopPanel.SetActive(true);
-            OpenShopWeaponInfo();
+            GameController.Instance.player.gameObject.SetActive(false);
+            if (uiShopPanel != null)
+            {
+                weaponsHolder.SetActive(true);
+                uiShopPanel.SetActive(true);
+                OpenShopWeaponInfo();
+            }
+        } else if (index == 1)
+        {
+            GameController.Instance.SetState(GameState.Shop);
+            if (skinShopPanel != null)
+            {
+                skinShopPanel.SetActive(true);
+            }
         }
-        
+
         UpdateCoin();
     }
     
     
     // Shop UI
-    public void CloseShop()
+    public void CloseShop(int index)
     {
-        GameController.Instance.player.gameObject.SetActive(true);
-        
-        if (uiShopPanel != null)
+        menuPanel.SetActive(true);
+
+        if (index == 0)
         {
-            weaponsHolder.SetActive(false);
-            menuPanel.SetActive(true);
-            uiShopPanel.SetActive(false);
+            GameController.Instance.player.gameObject.SetActive(true);
+            if (uiShopPanel != null)
+            {
+                weaponsHolder.SetActive(false);
+                uiShopPanel.SetActive(false);
+            }
         }
-        
+        else if (index == 1)
+        {
+            GameController.Instance.SetState(GameState.Home);
+            if (skinShopPanel != null)
+            {
+                skinShopPanel.SetActive(false);
+            }
+        }
+
         UpdateCoin();
     }
     

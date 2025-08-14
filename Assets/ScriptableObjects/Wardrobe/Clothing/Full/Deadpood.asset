@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 447fe5a69fa364b4680d6b59599146b0, type: 3}
-  m_Name: Ear
+  m_Name: Deadpood
   m_EditorClassIdentifier: 
-  id: ear_hat
-  displayName: Rabbit Ear
-  category: 0
+  id: deadpood
+  displayName: Deadpood
+  category: 3
   icon: {fileID: 0}
-  prefab: {fileID: -927199367670048503, guid: c1c5ce61f93679c4fb788a3adf1c9064, type: 3}
+  prefab: {fileID: 0}
+  material: {fileID: 2100000, guid: 6fae837ade0975d48b241b2500c9af3b, type: 2}
   unlockedByDefault: 0
   price: 10

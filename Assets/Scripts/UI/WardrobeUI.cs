@@ -8,8 +8,9 @@ public class WardrobeUI : MonoBehaviour
     public WardrobeManager manager;
 
     [Header("UI")]
-    public Transform gridParent;   // Content có GridLayoutGroup
+    public List<Transform> gridParents;   // Content có GridLayoutGroup
     public ItemSlotUI slotPrefab;
+    [SerializeField] List<CategoryBtn> categoryButtons; // Các nút category
     public OutfitCategory defaultCategory = OutfitCategory.Hat;
 
     OutfitCategory _current;
@@ -18,29 +19,45 @@ public class WardrobeUI : MonoBehaviour
     void Start()
     {
         ShowCategory(defaultCategory);
-    }
-
-    // Gán hàm này cho 4 nút category (tham số 0..3)
-    public void OnClickCategory(int index)
-    {
-        ShowCategory((OutfitCategory)index);
+        categoryButtons[0].GetComponent<UnityEngine.UI.Button>().interactable = false;
     }
 
     public void ShowCategory(OutfitCategory cat)
     {
         _current = cat;
 
+        foreach (var item in categoryButtons)
+        {
+            if(item.category == cat)
+            {
+                item.GetComponent<UnityEngine.UI.Button>().interactable = false; // Vô hiệu hóa nút đang chọn
+            }
+            else
+            {
+                item.GetComponent<UnityEngine.UI.Button>().interactable = true; // Kích hoạt các nút khác
+            }
+        }
+        
         // Xóa slot cũ
         foreach (var s in _slots) Destroy(s.gameObject);
         _slots.Clear();
 
         // Tạo slot mới theo category
         var list = database.GetByCategory(cat);
+
+        int index = 0;
+        int count = 0;
         foreach (var item in list)
         {
-            var slot = Instantiate(slotPrefab, gridParent);
+            if(count % 3 == 0 && count > 0) 
+            {
+                index++;
+                count = 0;
+            }
+            var slot = Instantiate(slotPrefab, gridParents[index]);
             slot.Setup(item, this);
             _slots.Add(slot);
+            count++;
         }
 
         // Bỏ highlight tất cả
