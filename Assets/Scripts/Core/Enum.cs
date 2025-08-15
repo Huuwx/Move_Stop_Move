@@ -37,7 +37,12 @@ public enum SpawnState
 
 public enum GameState
 {
-    Home, Shop, Playing, Paused, Win, Lose
+    Home, Shop, Ready, Playing, Paused, Win, Lose
+}
+
+public enum GameMode
+{
+    Normal, Zombie
 }
 
 // OutfitCategory.cs

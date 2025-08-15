@@ -14,8 +14,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<GameObject> maps;
 
     [Header("Variables")]
-    [SerializeField] bool autoStart = true;
     public int coinCollected = 0; // Số coin đã thu thập
+
+    public float time = 0;
 
     [Header("Data")]
     [SerializeField] private Data data;
@@ -25,28 +26,34 @@ public class GameController : MonoBehaviour
     private int pendingSpawnRequests = 0;     // số request spawn đã "đặt vé" nhưng chưa spawn xong
 
     public GameState State { get; private set; }
-    public int Alive { get; private set; }          // Enemy còn sống
+    public GameMode mode;
+    public int Alive { get; private set; }
 
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
         
+        State = GameState.Home; // Khởi tạo trạng thái ban đầu
+        
         LoadData();
 
-        foreach (GameObject map in maps)
+        if (mode == GameMode.Normal)
         {
-            map.SetActive(false);
+            foreach (GameObject map in maps)
+            {
+                map.SetActive(false);
+            }
+
+            maps[data.GetCurrentLevel()].SetActive(true);
         }
-        
-        maps[data.GetCurrentLevel()].SetActive(true);
     }
     
     void OnEnable()
@@ -65,7 +72,16 @@ public class GameController : MonoBehaviour
     {
         //if (player) SetPlayerControl(false);
         
-        Alive = spawner.MaxSpawnCount + 1;
+        SetState(GameState.Ready);
+        
+        spawner = FindObjectOfType<EnemySpawner>();
+        player = FindObjectOfType<PlayerController>();
+        
+        if(mode == GameMode.Normal)
+            Alive = spawner.MaxSpawnCount + 1;
+        else
+            Alive = spawner.MaxSpawnCount;
+        
         EventObserver.RaiseAliveChanged(Alive);
     }
 
@@ -78,6 +94,15 @@ public class GameController : MonoBehaviour
                 RestartScene();
             }
             return;
+        }
+        
+        if (mode == GameMode.Zombie && State == GameState.Ready)
+        {
+            time += Time.time;
+            if (time >= 3)
+            {
+                StartGame();
+            }
         }
         
         if (State != GameState.Playing) return;
@@ -106,9 +131,19 @@ public class GameController : MonoBehaviour
             }
 
             // Win khi không còn enemy nào
-            if (Alive == 1)
+            if (mode == GameMode.Normal)
             {
-                EndGameWin();
+                if (Alive == 1)
+                {
+                    EndGameWin();
+                }
+            }
+            else if (mode == GameMode.Zombie)
+            {
+                if (Alive == 0)
+                {
+                    EndGameWin();
+                }
             }
         }
     }
@@ -152,27 +187,28 @@ public class GameController : MonoBehaviour
         if (State != GameState.Playing) return;
         SetState(GameState.Paused);
         Time.timeScale = 0f;
-        if (player) SetPlayerControl(false);
     }
     public void ResumeGame()
     {
         if (State != GameState.Paused) return;
         SetState(GameState.Playing);
         Time.timeScale = 1f;
-        if (player) SetPlayerControl(true);
     }
     public void EndGameWin()
     {
         if (State == GameState.Win || State == GameState.Lose) return;
         SetState(GameState.Win);
 
-        data.SetCurrentLevel(data.GetCurrentLevel() + 1);
-
-        if (data.GetCurrentLevel() >= 2)
+        if (mode == GameMode.Normal)
         {
-            data.SetCurrentLevel(0);
+            data.SetCurrentLevel(data.GetCurrentLevel() + 1);
+
+            if (data.GetCurrentLevel() >= 2)
+            {
+                data.SetCurrentLevel(0);
+            }
         }
-        
+
         if (player)
         {
             //SetPlayerControl(false);
@@ -212,10 +248,5 @@ public class GameController : MonoBehaviour
     {
         State = s;
         EventObserver.RaiseGameStateChanged(State);
-    }
-
-    void SetPlayerControl(bool enabled)
-    {
-        //player.EnableControl(enabled);  
     }
 }

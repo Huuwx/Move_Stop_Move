@@ -53,7 +53,10 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (state == EnemyState.Dead || GameController.Instance.State == GameState.Home || GameController.Instance.State == GameState.Shop) return;
+        if (state == EnemyState.Dead || 
+            GameController.Instance.State == GameState.Home || 
+            GameController.Instance.State == GameState.Shop || 
+            GameController.Instance.State == GameState.Ready) return;
 
         // 1. Tìm mục tiêu gần nhất trong bán kính attack
         Collider[] hits = Physics.OverlapSphere(transform.position, weaponAttack.GetAttackRadius(), weaponAttack.GetTargetLayer());
