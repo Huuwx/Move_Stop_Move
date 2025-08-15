@@ -6,6 +6,7 @@ using UnityEngine;
 public class WardrobeManager : MonoBehaviour
 {
     [SerializeField] Material defaultMaterial; // Mặc định nếu không có item nào
+    [SerializeField] Material defaultPantsMaterial; // Mặc định nếu không có item nào
     
     [Header("DB")]
     [SerializeField] WardrobeDatabase database;
@@ -26,6 +27,10 @@ public class WardrobeManager : MonoBehaviour
             { OutfitCategory.Hat,    hatAnchor },
             { OutfitCategory.Shield,    shieldAnchor },
         };
+        
+        // Thêm sẵn mọi key với giá trị null để lần đầu truy cập không bị lỗi
+        foreach (OutfitCategory c in Enum.GetValues(typeof(OutfitCategory)))
+            _equipped[c] = null;
     }
 
     private void Start()
@@ -42,13 +47,12 @@ public class WardrobeManager : MonoBehaviour
             pantsAnchor.gameObject.SetActive(true);
             SkinnedMeshRenderer bodySkinnedMeshRenderer = fullBodyAnchor.GetComponent<SkinnedMeshRenderer>();
             SkinnedMeshRenderer skinnedMeshRenderer = pantsAnchor.GetComponent<SkinnedMeshRenderer>();
-            if (skinnedMeshRenderer)
+            if (skinnedMeshRenderer && bodySkinnedMeshRenderer)
             {
                 bodySkinnedMeshRenderer.material = defaultMaterial;
                 skinnedMeshRenderer.material = item.material;
             }
-            GameController.Instance.GetData().AddKeyValue(cat.ToString(), item.id);
-            //GameController.Instance.SaveData();
+
             return;
         } else if (cat == OutfitCategory.FullBody)
         {
@@ -59,32 +63,27 @@ public class WardrobeManager : MonoBehaviour
                 skinnedMeshRenderer.material = item.material;
                 pantsAnchor.gameObject.SetActive(false);
             }
-            GameController.Instance.GetData().AddKeyValue(cat.ToString(), item.id);
-            //GameController.Instance.SaveData();
             return;
         }
 
         // gỡ món đang mặc cùng category
-        if (_equipped.TryGetValue(cat, out var old) && old) Destroy(old);
+        if (_equipped.TryGetValue(cat, out var old) && old)
+        {
+            Destroy(old);
+        }
 
         // gắn món mới
         if (item.prefab && _anchors.TryGetValue(cat, out var anchor) && anchor)
         {
             var inst = Instantiate(item.prefab, anchor);
-            // inst.transform.localPosition = Vector3.zero;
-            // inst.transform.localRotation = Quaternion.identity;
-            //inst.transform.localScale    = Vector3.one;
             _equipped[cat] = inst;
         }
         else _equipped[cat] = null;
-
-        // lưu lại
-        GameController.Instance.GetData().AddKeyValue(cat.ToString(), item.id);
-        //GameController.Instance.SaveData();
     }
 
     public void LoadFromSave()
     {
+        GameController.Instance.LoadData();
         foreach (OutfitCategory cat in Enum.GetValues(typeof(OutfitCategory)))
         {
             var id = GameController.Instance.GetData().GetValueByKey(cat.ToString());
@@ -92,6 +91,40 @@ public class WardrobeManager : MonoBehaviour
             {
                 var item = database.GetById(id);
                 if (item) Equip(item);
+            }
+            else
+            {
+                if(cat == OutfitCategory.Pants)
+                {
+                    pantsAnchor.gameObject.SetActive(true);
+                    SkinnedMeshRenderer bodySkinnedMeshRenderer = fullBodyAnchor.GetComponent<SkinnedMeshRenderer>();
+                    SkinnedMeshRenderer skinnedMeshRenderer = pantsAnchor.GetComponent<SkinnedMeshRenderer>();
+                    if (skinnedMeshRenderer && bodySkinnedMeshRenderer)
+                    {
+                        bodySkinnedMeshRenderer.material = defaultMaterial;
+                        skinnedMeshRenderer.material = defaultPantsMaterial;
+                    }
+                }
+                else if(cat == OutfitCategory.FullBody)
+                {
+                    SkinnedMeshRenderer skinnedMeshRenderer = fullBodyAnchor.GetComponent<SkinnedMeshRenderer>();
+                    if (skinnedMeshRenderer)
+                    {
+                        skinnedMeshRenderer.material = defaultMaterial;
+                        pantsAnchor.gameObject.SetActive(true);
+                    }
+                }
+                else if (cat == OutfitCategory.Hat || cat == OutfitCategory.Shield)
+                {
+                    if (_anchors.TryGetValue(cat, out var anchor) && anchor)
+                    {
+                        if (_equipped.TryGetValue(cat, out var inst) && inst)
+                            Destroy(inst);
+
+                        _equipped[cat] = null;
+                    }
+                }
+
             }
         }
     }

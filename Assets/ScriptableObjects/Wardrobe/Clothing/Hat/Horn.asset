@@ -17,5 +17,7 @@ MonoBehaviour:
   category: 0
   icon: {fileID: 0}
   prefab: {fileID: 3060513212969178238, guid: e420c0148f0378847a5710c0e417e2ca, type: 3}
-  unlockedByDefault: 0
+  material: {fileID: 0}
+  unlocked: 1
+  equipped: 0
   price: 10

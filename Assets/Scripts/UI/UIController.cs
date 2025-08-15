@@ -212,10 +212,10 @@ public class UIController : MonoBehaviour
             {
                 skinShopPanel.SetActive(false);
             }
+            wardrobeManager.LoadFromSave();
         }
 
         UpdateCoin();
-        wardrobeManager.LoadFromSave();
     }
     
     public void UpdateWeaponInfo(WeaponData currentWeaponData)

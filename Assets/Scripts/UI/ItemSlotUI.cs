@@ -22,6 +22,6 @@ public class ItemSlotUI : MonoBehaviour
 
     public void SetSelected(bool on)
     {
-        if (selectedFrame) selectedFrame.SetActive(on);
+        if (selectedFrame) {selectedFrame.SetActive(on);}
     }
 }
