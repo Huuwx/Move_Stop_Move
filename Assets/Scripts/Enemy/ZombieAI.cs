@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class ZombieAI : EnemyBase
     [Header("Refs")]
     [SerializeField] Transform player;
     [SerializeField] Animator animator;
+    [SerializeField] private GameObject hittedEffect;
 
     [Header("Tuning")]
     [SerializeField] float stoppingDistance = 0.4f;
@@ -16,9 +18,6 @@ public class ZombieAI : EnemyBase
     NavMeshAgent agent;
     float retargetTimer;
     bool isTouchingPlayer = true;
-    
-
-    public System.Action OnTouchPlayer; // gán từ GameManager nếu muốn
 
     protected void Awake()
     {
@@ -26,21 +25,6 @@ public class ZombieAI : EnemyBase
         agent = GetComponent<NavMeshAgent>();
         if (!animator) animator = GetComponentInChildren<Animator>();
 
-        isTouchingPlayer = false;
-    }
-
-    public override void Die()
-    {
-        if(spawnPointState != null)
-            spawnPointState.state = SpawnState.Idle;
-        
-        TriggerDeadEvent();
-        
-        gameObject.SetActive(false);
-    }
-
-    public override void Reset()
-    {
         isTouchingPlayer = false;
     }
 
@@ -52,12 +36,18 @@ public class ZombieAI : EnemyBase
             if (p) player = p.transform;
         }
         EnsureOnNavMesh();
-        agent.isStopped = false;
         agent.stoppingDistance = stoppingDistance;
     }
 
     void Update()
     {
+        if (GameController.Instance.State != GameState.Playing)
+        {
+            agent.isStopped = true;
+            animator.SetBool("Start", false);
+            return;
+        }
+        
         if (!player || !agent) return;
 
         if (!agent.isOnNavMesh)
@@ -65,6 +55,8 @@ public class ZombieAI : EnemyBase
             EnsureOnNavMesh();
             return;
         }
+        
+        agent.isStopped = false;
 
         // Cập nhật đích thưa hơn
         retargetTimer -= Time.deltaTime;
@@ -90,9 +82,6 @@ public class ZombieAI : EnemyBase
 
     void TouchPlayer()
     {
-        if (OnTouchPlayer != null) OnTouchPlayer.Invoke();
-        else Debug.Log("GameOver!");
-        
         if (animator)
         {
             animator.SetBool("Start", false);
@@ -103,9 +92,36 @@ public class ZombieAI : EnemyBase
         isTouchingPlayer = true;
     }
     
+    public override void Die()
+    {
+        GameObject effect = PoolManager.Instance.GetObj(hittedEffect);
+        effect.transform.SetParent(PoolManager.Instance.transform);
+        effect.transform.rotation = Quaternion.identity;
+        effect.transform.position = new Vector3(transform.position.x, 42f, transform.position.z);
+        effect.GetComponent<ParticleSystem>().Play();
+        
+        if(spawnPointState != null)
+            spawnPointState.state = SpawnState.Idle;
+        
+        agent.isStopped = true;
+        isTouchingPlayer = true;
+
+        TriggerDeadEvent();
+        gameObject.SetActive(false);
+    }
+
+    public override void Reset()
+    {
+        isTouchingPlayer = false;
+    }
+    
     void OnCollisionEnter(Collision other)
     {
-        if (other.collider.CompareTag(Params.PlayerTag))
+        PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+        if (playerController)
+        {
             TouchPlayer();
+            playerController.Die();
+        }
     }
 }

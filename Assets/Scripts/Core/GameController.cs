@@ -10,13 +10,14 @@ public class GameController : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] EnemySpawner spawner;       
-    public PlayerController player;
+    [SerializeField] PlayerController player;
+    [SerializeField] private UIController uiController;
     [SerializeField] private List<GameObject> maps;
 
     [Header("Variables")]
     public int coinCollected = 0; // Số coin đã thu thập
 
-    public float time = 0;
+    public float time = 3;
 
     [Header("Data")]
     [SerializeField] private Data data;
@@ -34,7 +35,6 @@ public class GameController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -98,8 +98,9 @@ public class GameController : MonoBehaviour
         
         if (mode == GameMode.Zombie && State == GameState.Ready)
         {
-            time += Time.time;
-            if (time >= 3)
+            time -= Time.deltaTime;
+            uiController.UpdateTimeCounter(Mathf.CeilToInt(time));
+            if (time <= 0)
             {
                 StartGame();
             }
@@ -167,10 +168,6 @@ public class GameController : MonoBehaviour
             data = new Data();
         }
     }
-    public Data GetData()
-    {
-        return data;
-    }
 
     // --- NEW: Quản lý trạng thái game ---
     public void StartGame()
@@ -184,14 +181,14 @@ public class GameController : MonoBehaviour
     }
     public void PauseGame()
     {
-        if (State != GameState.Playing) return;
         SetState(GameState.Paused);
+        uiController.DisplayPauseGamePanel(true);
         Time.timeScale = 0f;
     }
     public void ResumeGame()
-    {
-        if (State != GameState.Paused) return;
+    { 
         SetState(GameState.Playing);
+        uiController.DisplayPauseGamePanel(false);
         Time.timeScale = 1f;
     }
     public void EndGameWin()
@@ -248,5 +245,19 @@ public class GameController : MonoBehaviour
     {
         State = s;
         EventObserver.RaiseGameStateChanged(State);
+    }
+    
+    // Geter Setter
+    public Data GetData()
+    {
+        return data;
+    }
+    public PlayerController GetPlayer()
+    {
+        return player;
+    }
+    public UIController GetUIController()
+    {
+        return uiController;
     }
 }

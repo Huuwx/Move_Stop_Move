@@ -26,8 +26,18 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        spawnPoints = 
-            spawnParent[GameController.Instance.GetData().GetCurrentLevel()].gameObject.transform.GetComponentsInChildren<SpawnPointState>().ToList();
+        if (GameController.Instance.mode == GameMode.Normal)
+        {
+            spawnPoints =
+                spawnParent[GameController.Instance.GetData().GetCurrentLevel()].gameObject.transform
+                    .GetComponentsInChildren<SpawnPointState>().ToList();
+        }
+        else
+        {
+            spawnPoints =
+                spawnParent[0].gameObject.transform
+                    .GetComponentsInChildren<SpawnPointState>().ToList();
+        }
     }
 
     void Start()

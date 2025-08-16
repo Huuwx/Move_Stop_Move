@@ -16,7 +16,7 @@ MonoBehaviour:
   modelPrefab: {fileID: 3601641492906425987, guid: 4e2429dee79322f4b884c421018375bc, type: 3}
   visual: {fileID: 2711840636633745024, guid: e454ac51551ba4440827b473fca8553b, type: 3}
   speed: 9
-  isPurchased: 0
+  isPurchased: 1
   isEquipped: 0
   price: 500
   name: Knife

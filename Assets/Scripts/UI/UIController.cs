@@ -15,6 +15,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject joystick;
     [SerializeField] private GameObject inGameUI;
     [SerializeField] private WardrobeManager wardrobeManager;
+    [SerializeField] private GameObject pauseGamePanel;
+    
+    [Header("Reference ZombieMode UI")]
+    [SerializeField] private GameObject timeCounterPanel;
+    [SerializeField] private TextMeshProUGUI timeCounterTxt;
     
     [Header("Reference Menu UI")]
     [SerializeField] private GameObject menuPanel;
@@ -64,7 +69,7 @@ public class UIController : MonoBehaviour
     {
         // Đăng ký lắng nghe sự kiện từ EventObserver
         EventObserver.OnAliveChanged += UpdateAliveCount;
-        EventObserver.OnGameStateChanged += CompleteGame;
+        EventObserver.OnGameStateChanged += ChangeStateEvent;
         EventObserver.OnGameStateChanged += OnClickMenu;
     }
     
@@ -72,7 +77,7 @@ public class UIController : MonoBehaviour
     {
         // Hủy đăng ký lắng nghe sự kiện khi đối tượng bị hủy
         EventObserver.OnAliveChanged -= UpdateAliveCount;
-        EventObserver.OnGameStateChanged -= CompleteGame;
+        EventObserver.OnGameStateChanged -= ChangeStateEvent;
         EventObserver.OnGameStateChanged -= OnClickMenu;
     }
     
@@ -85,8 +90,10 @@ public class UIController : MonoBehaviour
         }
     }
     
-    private void CompleteGame(GameState state)
+    private void ChangeStateEvent(GameState state)
     {
+        if (state == GameState.Paused) return;
+        
         if(state == GameState.Home || state == GameState.Shop)
         {
             if (uiPanelGameComplete != null)
@@ -119,7 +126,7 @@ public class UIController : MonoBehaviour
             loseIcon.SetActive(true);
             txtRank.text = GameController.Instance.Alive.ToString();
             txtNotify.text = "You Lose!";
-            if(GameController.Instance.Alive < GameController.Instance.GetData().GetBestRank() || GameController.Instance.GetData().GetBestRank() == 0)
+            if((GameController.Instance.Alive < GameController.Instance.GetData().GetBestRank() || GameController.Instance.GetData().GetBestRank() == 0) && GameController.Instance.mode == GameMode.Normal)
             {
                 GameController.Instance.GetData().SetBestRank(GameController.Instance.Alive);
                 GameController.Instance.SaveData();
@@ -172,7 +179,7 @@ public class UIController : MonoBehaviour
 
         if (index == 0)
         {
-            GameController.Instance.player.gameObject.SetActive(false);
+            GameController.Instance.GetPlayer().gameObject.SetActive(false);
             if (uiShopPanel != null)
             {
                 weaponsHolder.SetActive(true);
@@ -199,7 +206,7 @@ public class UIController : MonoBehaviour
 
         if (index == 0)
         {
-            GameController.Instance.player.gameObject.SetActive(true);
+            GameController.Instance.GetPlayer().gameObject.SetActive(true);
             if (uiShopPanel != null)
             {
                 weaponsHolder.SetActive(false);
@@ -263,5 +270,22 @@ public class UIController : MonoBehaviour
     public void UpdateCoin()
     {
         UpdateCoinCount(GameController.Instance.GetData().GetCurrentCoin());
+    }
+
+    public void UpdateTimeCounter(int time)
+    {
+        timeCounterPanel.SetActive(true);
+        timeCounterTxt.text = time.ToString();
+        if (time <= 0)
+        {
+            timeCounterPanel.SetActive(false);
+        }
+    }
+
+    public void DisplayPauseGamePanel(bool active)
+    {
+        pauseGamePanel.SetActive(active);
+        inGameUI.SetActive(!active);
+        joystick.SetActive(!active);
     }
 }
