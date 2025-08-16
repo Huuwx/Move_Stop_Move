@@ -22,7 +22,7 @@ public class WeaponAttack : MonoBehaviour
     [SerializeField] private float attackRadius = 7f;                // Bán kính vùng attack
     
     private bool canAttack = false;                // Đang ở trạng thái "stop", sẵn sàng attack
-    private EnemyAI targetEnemyAI; // Đối thủ hiện tại (nếu có)
+    private EnemyBase targetEnemy; // Đối thủ hiện tại (nếu có)
 
     private void Awake()
     {
@@ -63,10 +63,10 @@ public class WeaponAttack : MonoBehaviour
         
         if (hits.Length == 0)
         {
-            if (targetEnemyAI != null)
+            if (targetEnemy != null)
             {
-                targetEnemyAI.SetTargetOutlineActive(false);
-                targetEnemyAI = null;
+                targetEnemy.SetTargetOutlineActive(false);
+                targetEnemy = null;
             }
         }
         else
@@ -91,14 +91,14 @@ public class WeaponAttack : MonoBehaviour
             if (target == null) return; // Không có đối thủ, không attack
             if (target.CompareTag(Params.BotTag) && gameObject.CompareTag(Params.PlayerTag))
             {
-                if (targetEnemyAI != null)
+                if (targetEnemy != null)
                 {
-                    targetEnemyAI.SetTargetOutlineActive(false);
-                    targetEnemyAI = null;
+                    targetEnemy.SetTargetOutlineActive(false);
+                    targetEnemy = null;
                 }
                         
-                targetEnemyAI = target.GetComponent<EnemyAI>();
-                targetEnemyAI.SetTargetOutlineActive(true);
+                targetEnemy = target.GetComponent<EnemyBase>();
+                targetEnemy.SetTargetOutlineActive(true);
             }
         }
         
@@ -167,7 +167,7 @@ public class WeaponAttack : MonoBehaviour
         weaponHandVisual.SetActive(true);
     }
     
-    public void upgradeAttackRadius(float radius)
+    public void UpgradeAttackRadius(float radius)
     {
         attackRadius += radius;
     }

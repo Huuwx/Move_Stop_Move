@@ -29,6 +29,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject uiShopPanel;
     [SerializeField] private Button buyButton;
     [SerializeField] private Button equipButton;
+    [SerializeField] private Button watchAdsButton;
     [SerializeField] private TextMeshProUGUI txtEquipButtonText;
     [SerializeField] private TextMeshProUGUI txtPrice;
     [SerializeField] private TextMeshProUGUI txtWeaponName;
@@ -112,17 +113,17 @@ public class UIController : MonoBehaviour
             txtNotify.text = "You Win!";
             GameController.Instance.GetData().SetBestRank(0);
             GameController.Instance.SaveData();
-            if(GameController.Instance.GetData().GetCurrentLevel() + 1 > GameController.Instance.GetData().GetBestRank() || GameController.Instance.GetData().GetBestRank() == 1)
-            {
-                GameController.Instance.GetData().SetBestRank(GameController.Instance.GetData().GetCurrentLevel() + 2);
-                GameController.Instance.SaveData();
-            }
         } else if (state == GameState.Lose)
         {
             winIcon.SetActive(false);
             loseIcon.SetActive(true);
             txtRank.text = GameController.Instance.Alive.ToString();
             txtNotify.text = "You Lose!";
+            if(GameController.Instance.Alive < GameController.Instance.GetData().GetBestRank() || GameController.Instance.GetData().GetBestRank() == 0)
+            {
+                GameController.Instance.GetData().SetBestRank(GameController.Instance.Alive);
+                GameController.Instance.SaveData();
+            }
         }
         
         if (txtCoinClaimed != null)
@@ -176,7 +177,7 @@ public class UIController : MonoBehaviour
             {
                 weaponsHolder.SetActive(true);
                 uiShopPanel.SetActive(true);
-                OpenShopWeaponInfo();
+                UpdateWeaponInfo(GameController.Instance.GetData().GetCurrentWeaponData());
             }
         } else if (index == 1)
         {
@@ -222,6 +223,7 @@ public class UIController : MonoBehaviour
     {
         if (currentWeaponData.isPurchased)
         {
+            watchAdsButton.gameObject.SetActive(false);
             buyButton.gameObject.SetActive(false);
             equipButton.gameObject.SetActive(true);
             if (currentWeaponData.isEquipped)
@@ -237,47 +239,7 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            buyButton.gameObject.SetActive(true);
-            equipButton.gameObject.SetActive(false);
-        }
-        
-        if (txtWeaponName != null)
-        {
-            txtWeaponName.text = currentWeaponData.name;
-        }
-        
-        if (txtPrice != null)
-        {
-            txtPrice.text = currentWeaponData.price.ToString();
-        }
-        
-        if (txtDescription != null)
-        {
-            txtDescription.text = currentWeaponData.description;
-        }
-    }
-    
-    public void OpenShopWeaponInfo()
-    {
-        WeaponData currentWeaponData = GameController.Instance.GetData().GetCurrentWeaponData();
-
-        if (currentWeaponData.isPurchased)
-        {
-            buyButton.gameObject.SetActive(false);
-            equipButton.gameObject.SetActive(true);
-            if (currentWeaponData.isEquipped)
-            {
-                equipButton.interactable = false;
-                txtEquipButtonText.text = "Equipped";
-            }
-            else
-            {
-                equipButton.interactable = true;
-                txtEquipButtonText.text = "Equip";
-            }
-        }
-        else
-        {
+            watchAdsButton.gameObject.SetActive(true);
             buyButton.gameObject.SetActive(true);
             equipButton.gameObject.SetActive(false);
         }

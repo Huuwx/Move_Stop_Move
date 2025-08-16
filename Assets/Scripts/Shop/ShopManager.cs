@@ -72,6 +72,13 @@ public class ShopManager : MonoBehaviour
             Debug.Log("Not enough coins to buy this weapon.");
         }
     }
+
+    public void WatchAds()
+    {
+        currentWeaponShopData.isPurchased = true;
+        uiController.UpdateWeaponInfo(currentWeaponShopData);
+        GameController.Instance.SaveData();
+    }
     
     public void EquipWeapon()
     {

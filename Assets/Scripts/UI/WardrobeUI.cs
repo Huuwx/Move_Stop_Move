@@ -14,6 +14,7 @@ public class WardrobeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI equipTxt;
     [SerializeField] private Button buySkinButton;
     [SerializeField] private Button equipSKinButton;
+    [SerializeField] private Button watchAdsButton;
     public List<Transform> gridParents;   // Content có GridLayoutGroup
     public ItemSlotUI slotPrefab;
     [SerializeField] List<CategoryBtn> categoryButtons; // Các nút category
@@ -70,6 +71,7 @@ public class WardrobeUI : MonoBehaviour
         // Cập nhật UI
         buySkinButton.gameObject.gameObject.SetActive(false);
         equipSKinButton.gameObject.gameObject.SetActive(false);
+        watchAdsButton.gameObject.gameObject.SetActive(false);
 
         // Bỏ highlight tất cả
         foreach (var s in _slots) s.SetSelected(false);
@@ -81,6 +83,7 @@ public class WardrobeUI : MonoBehaviour
         
         if (slot.item.unlocked)
         {
+            watchAdsButton.gameObject.gameObject.SetActive(false);
             buySkinButton.gameObject.gameObject.SetActive(false);
             equipSKinButton.gameObject.gameObject.SetActive(true);
             
@@ -97,6 +100,7 @@ public class WardrobeUI : MonoBehaviour
         }
         else
         {
+            watchAdsButton.gameObject.gameObject.SetActive(true);
             buySkinButton.gameObject.gameObject.SetActive(true);
             equipSKinButton.gameObject.gameObject.SetActive(false);
             
@@ -107,7 +111,7 @@ public class WardrobeUI : MonoBehaviour
         manager.Equip(slot.item);
 
         // Highlight ô đã chọn
-        // foreach (var s in _slots) s.SetSelected(s == slot);
+        foreach (var s in _slots) s.SetSelected(s == slot);
 
         foreach (var s in _slots)
         {
@@ -129,7 +133,6 @@ public class WardrobeUI : MonoBehaviour
             GameController.Instance.GetData().
                 SetCurrentCoin(GameController.Instance.GetData().GetCurrentCoin() - _currentItem.item.price);
             _currentItem.item.unlocked = true;
-            //GameController.Instance.GetData().AddKeyValue(slot.item.category.ToString(), slot.item.id);
             GameController.Instance.SaveData();
             
             // Cập nhật UI
@@ -139,6 +142,15 @@ public class WardrobeUI : MonoBehaviour
         {
             Debug.Log("Not enough coins to buy this skin!");
         }
+    }
+
+    public void OnClickWatchAds()
+    {
+        _currentItem.item.unlocked = true;
+        GameController.Instance.SaveData();
+            
+        // Cập nhật UI
+        OnClickItem(_currentItem);
     }
     
     public void OnClickEquipSkin()

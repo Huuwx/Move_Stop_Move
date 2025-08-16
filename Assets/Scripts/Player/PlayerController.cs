@@ -105,9 +105,12 @@ public class PlayerController : MonoBehaviour
         {
             pointsText.text = points.ToString();
         }
-        
-        transform.localScale += Vector3.one * Values.upgradeScale; 
-        weaponAttack.upgradeAttackRadius(Values.upgradeRadius);
+
+        if (GameController.Instance.mode == GameMode.Normal)
+        {
+            transform.localScale += Vector3.one * Values.upgradeScale;
+            weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
+        }
     }
 
     public void setIngameUIActive(GameState state)

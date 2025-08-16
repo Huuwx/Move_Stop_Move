@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : EnemyBase
 {
     [Header("Variables")]
     [SerializeField] float moveSpeed = 5f;
@@ -12,29 +12,15 @@ public class EnemyAI : MonoBehaviour
     public int points = 0;
     
     [Header("Refs")]
-    [SerializeField] WeaponAttack weaponAttack;
     [SerializeField] AnimationController animationController;
-    public SpawnPointState spawnPointState;
-    [SerializeField] private Collider enemyCollider;
-    [SerializeField] private GameObject targetOutline;
+    [SerializeField] WeaponAttack weaponAttack;
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
     [SerializeField] private GameObject ingameUI; // Giao diện trong game
-    
-    private Rigidbody rb;
 
     private Vector3 wanderDir;
     private float moveTimer = 0f;
     private float wanderTimer;
     private EnemyState state = EnemyState.Run;
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        if(enemyCollider == null)
-            enemyCollider = GetComponent<Collider>();
-        
-        rb.isKinematic = false; // Đảm bảo Rigidbody không bị kinematic
-    }
 
     private void OnEnable()
     {
@@ -45,7 +31,13 @@ public class EnemyAI : MonoBehaviour
         EventObserver.OnGameStateChanged -= setIngameUIActive;
     }
 
-    private void Start()
+    protected override void Awake()
+    {
+        base.Awake();
+        rb.isKinematic = false; // Đảm bảo Rigidbody không bị kinematic
+    }
+
+    protected void Start()
     {
         animationController = GetComponentInChildren<AnimationController>();
         ChooseRandomDirection();
@@ -117,7 +109,7 @@ public class EnemyAI : MonoBehaviour
         wanderTimer = wanderChangeDirTime + Random.Range(-0.5f, 0.5f);
     }
 
-    public void Die()
+    public override void Die()
     {
         state = EnemyState.Dead;
         animationController.SetDeadAnimation();
@@ -132,32 +124,21 @@ public class EnemyAI : MonoBehaviour
         //gameObject.SetActive(false);
     }
 
-    public void Reset()
+    public override void Reset()
     {
         state = EnemyState.Idle;
         animationController.SetIdleAnimation();
         weaponAttack.SetCanAttack(false);
         rb.isKinematic = false;
         enemyCollider.enabled = true; // Bật collider khi reset
+
+        SetTargetOutlineActive(false);
         
         if(animationController != null)
             animationController.Reset();
         
         moveTimer = 0f;
         wanderTimer = 0f;
-    }
-
-    public void TriggerDeadEvent()
-    {
-        EventObserver.RaiseOnAnyEnemyDead(this);
-    }
-    
-    public void SetTargetOutlineActive(bool isActive)
-    {
-        if (targetOutline != null)
-        {
-            targetOutline.SetActive(isActive);
-        }
     }
     
     public void SetPoints()
@@ -170,7 +151,7 @@ public class EnemyAI : MonoBehaviour
         }
         
         transform.localScale += Vector3.one * Values.upgradeScale; 
-        weaponAttack.upgradeAttackRadius(Values.upgradeRadius);
+        weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
     }
     
     public void setIngameUIActive(GameState state)

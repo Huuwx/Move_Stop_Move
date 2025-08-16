@@ -85,7 +85,7 @@ public class CameraFollow : MonoBehaviour
 
     public void UpgradeOffset()
     {
-        if (GameController.Instance.State == GameState.Playing)
+        if (GameController.Instance.State == GameState.Playing && GameController.Instance.mode == GameMode.Normal)
         {
             offsetGameplay += new Vector3(0f, 2f, -1f);
             Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;

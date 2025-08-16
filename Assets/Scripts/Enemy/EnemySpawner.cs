@@ -60,12 +60,11 @@ public class EnemySpawner : MonoBehaviour
         enemy.transform.rotation = Quaternion.identity; // Hoặc xoay theo hướng nào đó nếu cần
         enemy.transform.SetParent(poolParent);
 
-        if (GameController.Instance.mode == GameMode.Normal)
-        {
-            var ai = enemy.GetComponent<EnemyAI>();
-            ai.spawnPointState = spawnPointState;
-            ai.Reset();
-        }
+        
+        var ai = enemy.GetComponent<EnemyBase>();
+        ai.spawnPointState = spawnPointState;
+        ai.Reset();
+        
 
         enemy.SetActive(true); // Kích hoạt enemy
         

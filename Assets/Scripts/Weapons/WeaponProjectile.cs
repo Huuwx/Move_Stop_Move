@@ -82,16 +82,16 @@ public class WeaponProjectile : MonoBehaviour
                 }
                 else
                 {
-                    EnemyAI enemy = actor.GetComponent<EnemyAI>();
-                    if (enemy != null)
+                    EnemyAI enemyAI = actor.GetComponent<EnemyAI>();
+                    if (enemyAI != null)
                     {
-                        enemy.SetPoints();
+                        enemyAI.SetPoints();
                     }
                 }
     
-                EnemyAI enemyAI = other.GetComponent<EnemyAI>();
-                if (enemyAI != null)
-                    enemyAI.Die();
+                EnemyBase enemy = other.GetComponent<EnemyBase>();
+                if (enemy != null)
+                    enemy.Die();
             }
         }
     }

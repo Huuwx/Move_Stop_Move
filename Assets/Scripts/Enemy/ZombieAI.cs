@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class ZombieAI : MonoBehaviour
+public class ZombieAI : EnemyBase
 {
     [Header("Refs")]
     [SerializeField] Transform player;
@@ -20,11 +20,27 @@ public class ZombieAI : MonoBehaviour
 
     public System.Action OnTouchPlayer; // gán từ GameManager nếu muốn
 
-    void Awake()
+    protected void Awake()
     {
+        base.Awake();
         agent = GetComponent<NavMeshAgent>();
         if (!animator) animator = GetComponentInChildren<Animator>();
 
+        isTouchingPlayer = false;
+    }
+
+    public override void Die()
+    {
+        if(spawnPointState != null)
+            spawnPointState.state = SpawnState.Idle;
+        
+        TriggerDeadEvent();
+        
+        gameObject.SetActive(false);
+    }
+
+    public override void Reset()
+    {
         isTouchingPlayer = false;
     }
 
@@ -72,12 +88,6 @@ public class ZombieAI : MonoBehaviour
         return false;
     }
 
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.collider.CompareTag(Params.PlayerTag))
-            TouchPlayer();
-    }
-
     void TouchPlayer()
     {
         if (OnTouchPlayer != null) OnTouchPlayer.Invoke();
@@ -91,5 +101,11 @@ public class ZombieAI : MonoBehaviour
         agent.isStopped = true;
         
         isTouchingPlayer = true;
+    }
+    
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.CompareTag(Params.PlayerTag))
+            TouchPlayer();
     }
 }

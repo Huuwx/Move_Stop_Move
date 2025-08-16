@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -231,7 +231,7 @@ public class GameController : MonoBehaviour
     }
     
     // --- NEW: Xử lý sự kiện ---
-    void OnEnemyDeadEvent(EnemyAI ai)
+    void OnEnemyDeadEvent(EnemyBase enemy)
     {
         // Chỉ tăng buffer, không xử lý logic tại đây để tránh race
         deathBuffer++;
