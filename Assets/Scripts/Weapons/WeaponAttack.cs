@@ -21,6 +21,7 @@ public class WeaponAttack : MonoBehaviour
     private float attackCooldown = 0f;           // Thời gian cooldown hiện tại
     [SerializeField] private float attackRadius = 7f;                // Bán kính vùng attack
     
+    private bool ultimate = false;
     private bool canAttack = false;                // Đang ở trạng thái "stop", sẵn sàng attack
     private EnemyBase targetEnemy; // Đối thủ hiện tại (nếu có)
 
@@ -111,8 +112,15 @@ public class WeaponAttack : MonoBehaviour
             if (animationController != null)
             {
                 animationController.OnAttack += () => FireProjectile(target);
-                        
-                animationController.SetAttackAnimation();
+
+                if (!ultimate)
+                {
+                    animationController.SetAttackAnimation();
+                }
+                else
+                {
+                    animationController.SetUltiAnimation();
+                }
             }
             
             // Nếu chỉ muốn kill 1 đối thủ/lần attack, break
@@ -146,12 +154,23 @@ public class WeaponAttack : MonoBehaviour
         GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
         projectile.transform.position = throwOrigin.position;
         
-        if(!currentWeapon.isRotate)
-            projectile.transform.LookAt(collider.transform);
+        projectile.transform.LookAt(collider.transform);
         
         projectile.transform.SetParent(weaponInstantiateTransform);
         WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
-        weaponProjectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject);
+        weaponProjectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject, ultimate);
+        
+        if (ultimate)
+        {
+            if(gameObject.CompareTag(Params.PlayerTag))
+                GameController.Instance.GetPlayer().EndUltimate();
+            else
+            {
+                EnemyAI enemyAI = GetComponentInParent<EnemyAI>();
+                if (enemyAI != null)
+                    enemyAI.EndUltimate();
+            }
+        }
     }
 
     public void ChangeWeapon(WeaponData newWeapon)
@@ -184,6 +203,14 @@ public class WeaponAttack : MonoBehaviour
     public LayerMask GetTargetLayer()
     {
         return targetLayer;
+    }
+    public bool IsUltimate()
+    {
+        return ultimate;
+    }
+    public void SetUltimate(bool ultimate)
+    {
+        this.ultimate = ultimate;
     }
     
     private void OnDrawGizmosSelected()

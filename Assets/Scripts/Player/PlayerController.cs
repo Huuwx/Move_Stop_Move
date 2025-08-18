@@ -17,8 +17,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     public int points = 0; // Điểm của người chơi
 
+    public static event Action OnTriggerUltimate;
+    public static event Action OnUltimateEnd;
+    
     private Rigidbody rigid;
-
     private Vector2 dir;
     private Vector3 move;
 
@@ -38,12 +40,14 @@ public class PlayerController : MonoBehaviour
     {
         EventObserver.OnUpgrade += Upgrade;
         EventObserver.OnGameStateChanged += setIngameUIActive;
+        OnUltimateEnd += EndUltimate;
     }
 
     private void OnDisable()
     {
         EventObserver.OnUpgrade -= Upgrade;
         EventObserver.OnGameStateChanged -= setIngameUIActive;
+        OnUltimateEnd -= EndUltimate;
     }
 
     void Update()
@@ -111,6 +115,31 @@ public class PlayerController : MonoBehaviour
             transform.localScale += Vector3.one * Values.upgradeScale;
             weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
         }
+    }
+    
+    public void Ultimate()
+    {
+        if (weaponAttack.IsUltimate()) return; // Nếu đã là Ultimate thì không làm gì thêm
+        
+        weaponAttack.SetUltimate(true);
+        
+        if (OnTriggerUltimate != null)
+            OnTriggerUltimate.Invoke();
+        transform.localScale += Vector3.one * Values.upgradeScale * 5;
+        weaponAttack.UpgradeAttackRadius(Values.upgradeRadius * 5);
+        
+    }
+
+    public void EndUltimate()
+    {
+        if (!weaponAttack.IsUltimate()) return;
+        
+        weaponAttack.SetUltimate(false);
+        
+        if (OnUltimateEnd != null)
+            OnUltimateEnd.Invoke();
+        transform.localScale -= Vector3.one * Values.upgradeScale * 5;
+        weaponAttack.UpgradeAttackRadius(-Values.upgradeRadius * 5);
     }
 
     public void setIngameUIActive(GameState state)

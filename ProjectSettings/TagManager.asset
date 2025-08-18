@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bot
   - Wall
+  - Gift
   layers:
   - Default
   - TransparentFX

@@ -11,9 +11,13 @@ public class WeaponProjectile : MonoBehaviour
     
     [Header("Variables")]
     [SerializeField] private float maxLifeTime = 1.5f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
+    [SerializeField] private float rotateSpeed;
+    [SerializeField] private float ultimateSize = 2f; // Kích thước của vũ khí khi Ultimate
+    
+    private bool isUltimate = false; // Kiểm tra xem có phải là Ultimate hay không
     private Vector3 direction;      // Hướng bay của vũ khí
     private float timer;        // Đếm cho đến thời gian biến mất
-    [SerializeField] private float rotateSpeed;
+    
     
     private Rigidbody _rigidbody;
 
@@ -22,14 +26,18 @@ public class WeaponProjectile : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData, GameObject actor)
+    public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData, GameObject actor, bool isUltimate = false)
     {
         this.actor = actor; // Lưu actor bắn ra vũ khí này
         
         this.direction = direction.normalized;
         this.targetLayer = targetLayer;
         this.weaponData = weaponData;
+        this.isUltimate = isUltimate;
         this.timer = 0f;
+        
+        transform.localScale = Vector3.one;
+        
         gameObject.SetActive(true);
     }
 
@@ -41,8 +49,19 @@ public class WeaponProjectile : MonoBehaviour
             Deactivate();
         }
         
-        if(weaponData.isRotate)
-            transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+        if(weaponData.isRotate && !isUltimate)
+            transform.Rotate(0, -rotateSpeed * Time.deltaTime, 0);
+
+        if (isUltimate)
+        {
+            // Nếu là Ultimate, tăng kích thước vũ khí
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * ultimateSize, Time.deltaTime);
+        }
+        else
+        {
+            // Nếu không phải Ultimate, giữ kích thước bình thường
+            transform.localScale = Vector3.one;
+        }
     }
 
     private void FixedUpdate()

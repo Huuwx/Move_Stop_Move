@@ -40,11 +40,15 @@ public class CameraFollow : MonoBehaviour
     private void OnEnable()
     {
         EventObserver.OnUpgrade += UpgradeOffset;
+        PlayerController.OnTriggerUltimate += UltimateOffset;
+        PlayerController.OnUltimateEnd += ResetOffsetAferUltimate;
     }
 
     private void OnDisable()
     {
         EventObserver.OnUpgrade -= UpgradeOffset;
+        PlayerController.OnTriggerUltimate -= UltimateOffset;
+        PlayerController.OnUltimateEnd -= ResetOffsetAferUltimate;
     }
 
     private void LateUpdate()
@@ -85,9 +89,32 @@ public class CameraFollow : MonoBehaviour
 
     public void UpgradeOffset()
     {
-        if (GameController.Instance.State == GameState.Playing && GameController.Instance.mode == GameMode.Normal)
+        if (GameController.Instance.State == GameState.Playing 
+            && GameController.Instance.mode == GameMode.Normal)
         {
             offsetGameplay += new Vector3(0f, 2f, -1f);
+            Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
+            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5f * Time.deltaTime);
+        }
+    }
+    
+    public void UltimateOffset()
+    {
+        if (GameController.Instance.State == GameState.Playing 
+            && GameController.Instance.mode == GameMode.Normal)
+        {
+            offsetGameplay += new Vector3(0f, 2f, -1f) * 5;
+            Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
+            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5f * Time.deltaTime);
+        }
+    }
+
+    public void ResetOffsetAferUltimate()
+    {
+        if (GameController.Instance.State == GameState.Playing 
+            && GameController.Instance.mode == GameMode.Normal)
+        {
+            offsetGameplay -= new Vector3(0f, 2f, -1f) * 5;
             Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
             transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5f * Time.deltaTime);
         }

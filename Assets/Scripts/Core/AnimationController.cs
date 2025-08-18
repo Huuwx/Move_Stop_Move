@@ -49,7 +49,7 @@ public class AnimationController : MonoBehaviour
     
     public void SetUltiAnimation()
     {
-        IsPlayingUnStopAnimation = true;
+        IsPlayingSpecialAnimation = true;
         animator.SetBool(Params.IsUlti, true);
         animator.SetBool(Params.IsDead, false);
         animator.SetBool(Params.IsAttack, true);

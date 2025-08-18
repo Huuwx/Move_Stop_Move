@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLifeTime: 1.5
   rotateSpeed: 500
+  ultimateSize: 4
 --- !u!54 &6848971194494785101
 Rigidbody:
   m_ObjectHideFlags: 0

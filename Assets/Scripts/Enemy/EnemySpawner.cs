@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     
     public event Action OnEnemySpawned;
 
-    private void OnEnable()
+    void Start()
     {
         if (GameController.Instance.mode == GameMode.Normal)
         {
@@ -38,10 +38,7 @@ public class EnemySpawner : MonoBehaviour
                 spawnParent[0].gameObject.transform
                     .GetComponentsInChildren<SpawnPointState>().ToList();
         }
-    }
-
-    void Start()
-    {
+        
         //Spawn enemy ban đầu
          for (int i = 0; i < maxAliveCount && totalSpawned < maxSpawnCount; i++)
          {

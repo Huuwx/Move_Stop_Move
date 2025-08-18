@@ -154,6 +154,25 @@ public class EnemyAI : EnemyBase
         weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
     }
     
+    public void Ultimate()
+    {
+        if (weaponAttack.IsUltimate()) return; // Nếu đã là Ultimate thì không làm gì thêm
+        
+        transform.localScale += Vector3.one * Values.upgradeScale * 5;
+        weaponAttack.UpgradeAttackRadius(Values.upgradeRadius * 5);
+        weaponAttack.SetUltimate(true);
+    }
+
+    public void EndUltimate()
+    {
+        if (!weaponAttack.IsUltimate()) return;
+        
+        weaponAttack.SetUltimate(false);
+        
+        transform.localScale -= Vector3.one * Values.upgradeScale * 5;
+        weaponAttack.UpgradeAttackRadius(-Values.upgradeRadius * 5);
+    }
+    
     public void setIngameUIActive(GameState state)
     {
         if(state == GameState.Playing)

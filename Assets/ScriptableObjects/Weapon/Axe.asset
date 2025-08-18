@@ -17,7 +17,7 @@ MonoBehaviour:
   visual: {fileID: 8280672371199234657, guid: 27e0369068d38ad4b9c26d8c2212736f, type: 3}
   speed: 7
   isPurchased: 1
-  isEquipped: 1
+  isEquipped: 0
   price: 50
   name: Axe
   description: +1 Speed

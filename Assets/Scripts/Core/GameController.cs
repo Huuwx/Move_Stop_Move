@@ -74,8 +74,8 @@ public class GameController : MonoBehaviour
         
         SetState(GameState.Ready);
         
-        spawner = FindObjectOfType<EnemySpawner>();
-        player = FindObjectOfType<PlayerController>();
+        //spawner = FindObjectOfType<EnemySpawner>();
+        //player = FindObjectOfType<PlayerController>();
         
         if(mode == GameMode.Normal)
             Alive = spawner.MaxSpawnCount + 1;

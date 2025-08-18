@@ -10725,14 +10725,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf26ef0866ac7648b443623524db896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  wanderChangeDirTime: 12
-  points: 0
-  weaponAttack: {fileID: 6680224574462403981}
-  animationController: {fileID: 2728975717681033947}
   spawnPointState: {fileID: 0}
   enemyCollider: {fileID: 6977739190148084205}
   targetOutline: {fileID: 9139190126856732496}
+  moveSpeed: 5
+  wanderChangeDirTime: 12
+  points: 0
+  animationController: {fileID: 2728975717681033947}
+  weaponAttack: {fileID: 6680224574462403981}
   pointsText: {fileID: 338100353524953686}
   ingameUI: {fileID: 6649229363181923129}
 --- !u!1 &3072977309393249012
@@ -16936,18 +16936,15 @@ MonoBehaviour:
   currentWeapon: {fileID: 11400000, guid: 71bd5c5ea6bc2394cb20cea9e074fac9, type: 2}
   weaponHandVisual: {fileID: 1923162630884097815}
   handHoldWeaponTransform: {fileID: 4867016508929907187}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 192
   animationController: {fileID: 2728975717681033947}
   weaponInstantiateTransform: {fileID: 0}
   playerTransform: {fileID: 2295960680342472610}
   throwOrigin: {fileID: 6123144151275312886}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  attackRadius: 7
-  attackPolicy: {fileID: 11400000, guid: 50384e845306f6a43af52b013a80f006, type: 2}
-  targetingStrategy: {fileID: 11400000, guid: d34cb37aa803ee7499deef8be4bb95f6, type: 2}
   maxAttackCooldown: 0.9
-  canAttack: 0
+  attackRadius: 7
 --- !u!1 &7115706128397416062
 GameObject:
   m_ObjectHideFlags: 0
