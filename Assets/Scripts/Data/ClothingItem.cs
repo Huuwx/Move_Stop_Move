@@ -13,4 +13,5 @@ public class ClothingItem : ScriptableObject
     public bool unlocked = false;
     public bool equipped = false; // đã trang bị hay chưa
     public int price;
+    public int upgradeIndex = 0;
 }

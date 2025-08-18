@@ -10,19 +10,23 @@ public class WardrobeUI : MonoBehaviour
     public WardrobeManager manager;
 
     [Header("UI")] 
+    [SerializeField] private TextMeshProUGUI descriptionTxt;
     [SerializeField] private TextMeshProUGUI priceTxt;
     [SerializeField] private TextMeshProUGUI equipTxt;
     [SerializeField] private Button buySkinButton;
     [SerializeField] private Button equipSKinButton;
     [SerializeField] private Button watchAdsButton;
-    public List<Transform> gridParents;   // Content có GridLayoutGroup
-    public ItemSlotUI slotPrefab;
+    [SerializeField] Transform contents;
+    [SerializeField] GameObject columnPrefab; // Prefab của cột chứa các item
+    [SerializeField] ItemSlotUI slotPrefab;
     [SerializeField] List<CategoryBtn> categoryButtons; // Các nút category
     public OutfitCategory defaultCategory = OutfitCategory.Hat;
 
     OutfitCategory _current;
     readonly List<ItemSlotUI> _slots = new();
+    List<GameObject> columns = new List<GameObject>();
     private ItemSlotUI _currentItem;
+    private GameObject columnItem;
 
     void OnEnable()
     {
@@ -49,20 +53,24 @@ public class WardrobeUI : MonoBehaviour
         // Xóa slot cũ
         foreach (var s in _slots) Destroy(s.gameObject);
         _slots.Clear();
+        
+        // Xóa cột cũ
+        foreach (var c in columns) Destroy(c);
+        columns.Clear();
 
         // Tạo slot mới theo category
         var list = database.GetByCategory(cat);
-
-        int index = 0;
-        int count = 0;
+        
+        int count = -1;
         foreach (var item in list)
         {
-            if(count % 3 == 0 && count > 0) 
+            if(count == 2 || count == -1) 
             {
-                index++;
                 count = 0;
+                columnItem = Instantiate(columnPrefab, contents);
+                columns.Add(columnItem);
             }
-            var slot = Instantiate(slotPrefab, gridParents[index]);
+            var slot = Instantiate(slotPrefab, columnItem.transform);
             slot.Setup(item, this);
             _slots.Add(slot);
             count++;
@@ -80,6 +88,9 @@ public class WardrobeUI : MonoBehaviour
     public void OnClickItem(ItemSlotUI slot)
     {
         _currentItem = slot;
+        
+        // Cập nhật mô tả
+        descriptionTxt.text = slot.item.upgradeIndex.ToString() + "% Range";
         
         if (slot.item.unlocked)
         {

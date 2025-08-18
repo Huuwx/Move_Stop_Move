@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: e6f363834ca6cbe4d8f7406f075bc138, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 007faa8c165d7bf449bac12d6f1d3b26, type: 2}
+    - target: {fileID: -1504981713932161579, guid: e6f363834ca6cbe4d8f7406f075bc138, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 663ab16195a9f764c8f5f8e864f99001, type: 2}
     - target: {fileID: -927199367670048503, guid: e6f363834ca6cbe4d8f7406f075bc138, type: 3}
       propertyPath: m_Name
       value: Rau
