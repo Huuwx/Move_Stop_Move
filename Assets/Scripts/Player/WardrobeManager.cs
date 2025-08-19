@@ -16,7 +16,11 @@ public class WardrobeManager : MonoBehaviour
     [SerializeField] Transform pantsAnchor;
     [SerializeField] Transform shieldAnchor;
     [SerializeField] Transform fullBodyAnchor;
+    [SerializeField] Transform backAnchor;
+    [SerializeField] Transform tailAnchor;
+    
 
+    private bool isUseOutfitSet = false; // Biến này để xác định có sử dụng OutfitSet hay không
     Dictionary<OutfitCategory, Transform> _anchors;
     readonly Dictionary<OutfitCategory, GameObject> _equipped = new();
 
@@ -26,6 +30,8 @@ public class WardrobeManager : MonoBehaviour
         {
             { OutfitCategory.Hat,    hatAnchor },
             { OutfitCategory.Shield,    shieldAnchor },
+            { OutfitCategory.Back, backAnchor },
+            { OutfitCategory.Tail, tailAnchor }
         };
         
         // Thêm sẵn mọi key với giá trị null để lần đầu truy cập không bị lỗi
@@ -38,7 +44,20 @@ public class WardrobeManager : MonoBehaviour
         LoadFromSave();
     }
 
-    public void Equip(ClothingItem item)
+    public void EquipOutfit(OutfitSet outfitSet)
+    {
+        if (outfitSet == null) return;
+
+        ResetSkin();
+        
+        foreach (var item in outfitSet.items)
+        {
+            if (item == null) continue;
+            EquipSingleItem(item);
+        }
+    }
+    
+    public void EquipSingleItem(ClothingItem item)
     {
         var cat = item.category;
         
@@ -54,7 +73,7 @@ public class WardrobeManager : MonoBehaviour
             }
 
             return;
-        } else if (cat == OutfitCategory.FullBody)
+        } else if (cat == OutfitCategory.SkinFullBody)
         {
             fullBodyAnchor.gameObject.SetActive(true);
             SkinnedMeshRenderer skinnedMeshRenderer = fullBodyAnchor.GetComponent<SkinnedMeshRenderer>();
@@ -81,14 +100,47 @@ public class WardrobeManager : MonoBehaviour
         else _equipped[cat] = null;
     }
 
+    public void Equip(ClothingItem item)
+    {
+        if (isUseOutfitSet)
+        {
+            ResetSkin();
+            
+            pantsAnchor.gameObject.SetActive(true);
+            SkinnedMeshRenderer bodySkinnedMeshRenderer = fullBodyAnchor.GetComponent<SkinnedMeshRenderer>();
+            SkinnedMeshRenderer skinnedMeshRenderer = pantsAnchor.GetComponent<SkinnedMeshRenderer>();
+            if (skinnedMeshRenderer && bodySkinnedMeshRenderer)
+            {
+                bodySkinnedMeshRenderer.material = defaultMaterial;
+                skinnedMeshRenderer.material = defaultPantsMaterial;
+            }
+        }
+
+        EquipSingleItem(item);
+    }
+
     public void LoadFromSave()
     {
+        ResetSkin();
+        
         GameController.Instance.LoadData();
         foreach (OutfitCategory cat in Enum.GetValues(typeof(OutfitCategory)))
         {
             var id = GameController.Instance.GetData().GetValueByKey(cat.ToString());
             if (!string.IsNullOrEmpty(id))
             {
+                if (cat == OutfitCategory.OutfitSet)
+                {
+                    var outfitSet = database.GetOutfitSetById(id);
+                    if (outfitSet)
+                    {
+                        isUseOutfitSet = true;
+                        EquipOutfit(outfitSet);
+                        break;
+                    }
+                }
+                
+                isUseOutfitSet = false;
                 var item = database.GetById(id);
                 if (item) Equip(item);
             }
@@ -105,7 +157,7 @@ public class WardrobeManager : MonoBehaviour
                         skinnedMeshRenderer.material = defaultPantsMaterial;
                     }
                 }
-                else if(cat == OutfitCategory.FullBody)
+                else if(cat == OutfitCategory.SkinFullBody)
                 {
                     SkinnedMeshRenderer skinnedMeshRenderer = fullBodyAnchor.GetComponent<SkinnedMeshRenderer>();
                     if (skinnedMeshRenderer)
@@ -126,6 +178,26 @@ public class WardrobeManager : MonoBehaviour
                 }
 
             }
+        }
+    }
+
+    public void ResetSkin()
+    {
+        if (_equipped.TryGetValue(OutfitCategory.Back, out var oldBack) && oldBack)
+        {
+            Destroy(oldBack);
+        }
+        if (_equipped.TryGetValue(OutfitCategory.Hat, out var oldHat) && oldHat)
+        {
+            Destroy(oldHat);
+        }
+        if (_equipped.TryGetValue(OutfitCategory.Shield, out var oldShield) && oldShield)
+        {
+            Destroy(oldShield);
+        }
+        if (_equipped.TryGetValue(OutfitCategory.Tail, out var oldTail) && oldTail)
+        {
+            Destroy(oldTail);
         }
     }
 }

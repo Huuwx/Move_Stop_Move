@@ -492,6 +492,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1669003809}
+        m_TargetAssemblyTypeName: WardrobeManager, Assembly-CSharp
+        m_MethodName: LoadFromSave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &33718238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2692,6 +2704,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1669003809}
+        m_TargetAssemblyTypeName: WardrobeManager, Assembly-CSharp
+        m_MethodName: LoadFromSave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &373997826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3024,7 +3048,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -4307,7 +4331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -40.8, y: 500}
+  m_AnchoredPosition: {x: -40.80005, y: 500}
   m_SizeDelta: {x: 1000, y: 470}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &708846909
@@ -6565,6 +6589,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1669003809}
+        m_TargetAssemblyTypeName: WardrobeManager, Assembly-CSharp
+        m_MethodName: LoadFromSave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1045668808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7275,6 +7311,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1137268210}
         m_TargetAssemblyTypeName: CategoryBtn, Assembly-CSharp
         m_MethodName: OnChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1669003809}
+        m_TargetAssemblyTypeName: WardrobeManager, Assembly-CSharp
+        m_MethodName: LoadFromSave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9122,6 +9170,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1669003809}
+        m_TargetAssemblyTypeName: WardrobeManager, Assembly-CSharp
+        m_MethodName: LoadFromSave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12934,6 +12994,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 737622655}
     - target: {fileID: 2263197296321626787, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: backAnchor
+      value: 
+      objectReference: {fileID: 2066255499}
+    - target: {fileID: 2263197296321626787, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: tailAnchor
+      value: 
+      objectReference: {fileID: 2066255499}
+    - target: {fileID: 2263197296321626787, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: pantsAnchor
       value: 
       objectReference: {fileID: 69697562}
@@ -13628,7 +13696,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 333393910058912818, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1422663346141623407, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13672,7 +13740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7258028824893877174, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8119389365326426994, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_Name

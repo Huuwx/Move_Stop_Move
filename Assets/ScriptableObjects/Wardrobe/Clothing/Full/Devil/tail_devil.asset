@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 447fe5a69fa364b4680d6b59599146b0, type: 3}
-  m_Name: Thor_hat
+  m_Name: tail_devil
   m_EditorClassIdentifier: 
-  id: thor_hat
-  displayName: Thor hat
-  category: 0
+  id: tail_devil
+  displayName: Tail Devil
+  category: 6
   icon: {fileID: 0}
-  prefab: {fileID: 2720981748515952661, guid: c275a7a184d2c264aaebce45e6f6333e, type: 3}
+  prefab: {fileID: 3758508976634782109, guid: 3aa8d77801d12314fa3a48278a99226b, type: 3}
   material: {fileID: 0}
   unlocked: 0
   equipped: 0
-  price: 10
+  price: 0
   upgradeIndex: 0

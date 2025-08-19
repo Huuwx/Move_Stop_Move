@@ -57,23 +57,43 @@ public class WardrobeUI : MonoBehaviour
         // Xóa cột cũ
         foreach (var c in columns) Destroy(c);
         columns.Clear();
-
-        // Tạo slot mới theo category
-        var list = database.GetByCategory(cat);
         
-        int count = -1;
-        foreach (var item in list)
+        // Tạo slot mới theo category
+        if (cat != OutfitCategory.OutfitSet)
         {
-            if(count == 2 || count == -1) 
+            var list = database.GetByCategory(cat);
+            int count = -1;
+            foreach (var item in list)
             {
-                count = 0;
-                columnItem = Instantiate(columnPrefab, contents);
-                columns.Add(columnItem);
+                if(count == 2 || count == -1) 
+                {
+                    count = 0;
+                    columnItem = Instantiate(columnPrefab, contents);
+                    columns.Add(columnItem);
+                }
+                var slot = Instantiate(slotPrefab, columnItem.transform);
+                slot.Setup(item, this);
+                _slots.Add(slot);
+                count++;
             }
-            var slot = Instantiate(slotPrefab, columnItem.transform);
-            slot.Setup(item, this);
-            _slots.Add(slot);
-            count++;
+        }
+        else
+        {
+            var list = database.outfitSets;
+            int count = -1;
+            foreach (var item in list)
+            {
+                if(count == 2 || count == -1) 
+                {
+                    count = 0;
+                    columnItem = Instantiate(columnPrefab, contents);
+                    columns.Add(columnItem);
+                }
+                var slot = Instantiate(slotPrefab, columnItem.transform);
+                slot.Setup(item, this);
+                _slots.Add(slot);
+                count++;
+            }
         }
         
         // Cập nhật UI
@@ -89,37 +109,73 @@ public class WardrobeUI : MonoBehaviour
     {
         _currentItem = slot;
         
-        // Cập nhật mô tả
-        descriptionTxt.text = slot.item.upgradeIndex.ToString() + "% Range";
-        
-        if (slot.item.unlocked)
+        //Cập nhật mô tả
+        if (slot.outfitSet)
         {
-            watchAdsButton.gameObject.gameObject.SetActive(false);
-            buySkinButton.gameObject.gameObject.SetActive(false);
-            equipSKinButton.gameObject.gameObject.SetActive(true);
+            descriptionTxt.text = slot.outfitSet.upgradeIndex.ToString() + "% Range";
             
-            if (slot.item.equipped)
+            if (slot.outfitSet.unlocked)
             {
-                equipTxt.text = "Equipped";
-                equipSKinButton.interactable = false; // Vô hiệu hóa nút nếu đã mặc
+                watchAdsButton.gameObject.gameObject.SetActive(false);
+                buySkinButton.gameObject.gameObject.SetActive(false);
+                equipSKinButton.gameObject.gameObject.SetActive(true);
+            
+                if (slot.outfitSet.equipped)
+                {
+                    equipTxt.text = "Equipped";
+                    equipSKinButton.interactable = false; // Vô hiệu hóa nút nếu đã mặc
+                }
+                else
+                {
+                    equipTxt.text = "Equip";
+                    equipSKinButton.interactable = true; // Kích hoạt nút nếu chưa mặc
+                }
             }
             else
             {
-                equipTxt.text = "Equip";
-                equipSKinButton.interactable = true; // Kích hoạt nút nếu chưa mặc
+                watchAdsButton.gameObject.gameObject.SetActive(true);
+                buySkinButton.gameObject.gameObject.SetActive(true);
+                equipSKinButton.gameObject.gameObject.SetActive(false);
+            
+                priceTxt.text = slot.outfitSet.price.ToString();
             }
+        
+            // Equip lên player
+            manager.EquipOutfit(slot.outfitSet);
         }
         else
         {
-            watchAdsButton.gameObject.gameObject.SetActive(true);
-            buySkinButton.gameObject.gameObject.SetActive(true);
-            equipSKinButton.gameObject.gameObject.SetActive(false);
+            descriptionTxt.text = slot.item.upgradeIndex.ToString() + "% Range";
             
-            priceTxt.text = slot.item.price.ToString();
-        }
+            if (slot.item.unlocked)
+            {
+                watchAdsButton.gameObject.gameObject.SetActive(false);
+                buySkinButton.gameObject.gameObject.SetActive(false);
+                equipSKinButton.gameObject.gameObject.SetActive(true);
+            
+                if (slot.item.equipped)
+                {
+                    equipTxt.text = "Equipped";
+                    equipSKinButton.interactable = false; // Vô hiệu hóa nút nếu đã mặc
+                }
+                else
+                {
+                    equipTxt.text = "Equip";
+                    equipSKinButton.interactable = true; // Kích hoạt nút nếu chưa mặc
+                }
+            }
+            else
+            {
+                watchAdsButton.gameObject.gameObject.SetActive(true);
+                buySkinButton.gameObject.gameObject.SetActive(true);
+                equipSKinButton.gameObject.gameObject.SetActive(false);
+            
+                priceTxt.text = slot.item.price.ToString();
+            }
         
-        // Equip lên player
-        manager.Equip(slot.item);
+            // Equip lên player
+            manager.Equip(slot.item);
+        }
 
         // Highlight ô đã chọn
         foreach (var s in _slots) s.SetSelected(s == slot);
@@ -139,60 +195,66 @@ public class WardrobeUI : MonoBehaviour
     
     public void OnClickBuySkin()
     {
-        if (GameController.Instance.GetData().GetCurrentCoin() >= _currentItem.item.price)
+        if (_currentItem.item)
         {
-            GameController.Instance.GetData().
-                SetCurrentCoin(GameController.Instance.GetData().GetCurrentCoin() - _currentItem.item.price);
-            _currentItem.item.unlocked = true;
-            GameController.Instance.SaveData();
-            
-            // Cập nhật UI
-            OnClickItem(_currentItem);
+            if (GameController.Instance.GetData().GetCurrentCoin() >= _currentItem.item.price)
+            {
+                GameController.Instance.GetData()
+                    .SetCurrentCoin(GameController.Instance.GetData().GetCurrentCoin() - _currentItem.item.price);
+                _currentItem.item.unlocked = true;
+            }
+            else
+            {
+                Debug.Log("Not enough coins to buy this skin!");
+            }
         }
         else
         {
-            Debug.Log("Not enough coins to buy this skin!");
+            if (GameController.Instance.GetData().GetCurrentCoin() >= _currentItem.outfitSet.price)
+            {
+                GameController.Instance.GetData()
+                    .SetCurrentCoin(GameController.Instance.GetData().GetCurrentCoin() - _currentItem.outfitSet.price);
+                _currentItem.outfitSet.unlocked = true;
+            }
+            else
+            {
+                Debug.Log("Not enough coins to buy this skin!");
+            }
         }
+        
+        // Cập nhật UI
+        OnClickItem(_currentItem);
+        GameController.Instance.SaveData();
     }
 
     public void OnClickWatchAds()
     {
-        _currentItem.item.unlocked = true;
+        if (_currentItem.item)
+        {
+            _currentItem.item.unlocked = true;
+        }
+        else
+        {
+            _currentItem.outfitSet.unlocked = true;
+        }
+
         GameController.Instance.SaveData();
-            
         // Cập nhật UI
         OnClickItem(_currentItem);
     }
     
     public void OnClickEquipSkin()
     {
-        // Gọi hàm Equip trong WardrobeManager
-        manager.Equip(_currentItem.item);
-        
-        // Cập nhật trạng thái nút
-        equipSKinButton.interactable = false;
-        equipTxt.text = "Equipped";
-        
-        // Cập nhật trạng thái item
-        if(_currentItem.item.category == OutfitCategory.FullBody || _currentItem.item.category == OutfitCategory.Pants)
+        if (_currentItem.item)
         {
-            var list = database.GetByCategory(OutfitCategory.FullBody);
-            list.AddRange(database.GetByCategory(OutfitCategory.Pants));
-            // Nếu là FullBody hoặc Pants, cần đánh dấu tất cả item cùng category
-            foreach (var item in list)
-            {
-                if (item.id == _currentItem.item.id)
-                {
-                    item.equipped = true; // Đánh dấu là đã mặc
-                }
-                else
-                {
-                    item.equipped = false; // Đánh dấu là chưa mặc
-                }
-            }
-        }
-        else
-        {
+            // Gọi hàm Equip trong WardrobeManager
+            manager.Equip(_currentItem.item);
+
+            // Cập nhật trạng thái nút
+            equipSKinButton.interactable = false;
+            equipTxt.text = "Equipped";
+
+            // Cập nhật trạng thái item
             var list = database.GetByCategory(_currentItem.item.category);
             foreach (var item in list)
             {
@@ -205,17 +267,52 @@ public class WardrobeUI : MonoBehaviour
                     item.equipped = false; // Đánh dấu là chưa mặc
                 }
             }
-        }
+            
+            var listos = database.outfitSets;
+            foreach (var item in listos)
+            {
+                item.equipped = false; // Đánh dấu là chưa mặc
+            }
 
-        if (_currentItem.item.category == OutfitCategory.Pants)
-        {
-            GameController.Instance.GetData().AddKeyValue(OutfitCategory.FullBody.ToString(), null);
+            GameController.Instance.GetData().AddKeyValue(OutfitCategory.OutfitSet.ToString(), null);
+            GameController.Instance.GetData().AddKeyValue(_currentItem.item.category.ToString(), _currentItem.item.id);
         }
-        
+        else
+        {
+             // Gọi hàm Equip trong WardrobeManager
+            manager.EquipOutfit(_currentItem.outfitSet);
+
+            // Cập nhật trạng thái nút
+            equipSKinButton.interactable = false;
+            equipTxt.text = "Equipped";
+
+            // Cập nhật trạng thái item
+            var list = database.items;
+            foreach (var item in list)
+            {
+                item.equipped = false; // Đánh dấu là chưa mặc
+            }
+
+            var listos = database.outfitSets;
+            foreach (var item in listos)
+            {
+                if (item.id == _currentItem.outfitSet.id)
+                {
+                    item.equipped = true; // Đánh dấu là đã mặc
+                }
+                else
+                {
+                    item.equipped = false; // Đánh dấu là chưa mặc
+                }
+            }
+            
+            GameController.Instance.GetData().AddKeyValue(OutfitCategory.Hat.ToString(), null);
+            GameController.Instance.GetData().AddKeyValue(OutfitCategory.Pants.ToString(), null);
+            GameController.Instance.GetData().AddKeyValue(OutfitCategory.Shield.ToString(), null);
+            GameController.Instance.GetData().AddKeyValue(OutfitCategory.OutfitSet.ToString(), _currentItem.outfitSet.id);
+        }
         // Cập nhật UI
         OnClickItem(_currentItem);
-        
-        GameController.Instance.GetData().AddKeyValue(_currentItem.item.category.ToString(), _currentItem.item.id);
         GameController.Instance.SaveData();
     }
 }

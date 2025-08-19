@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 230, y: 150}
+  m_SizeDelta: {x: 170, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3263536604469607950
 CanvasRenderer:
@@ -301,6 +301,7 @@ MonoBehaviour:
   icon: {fileID: 843628755727556257}
   selectedFrame: {fileID: 5587966473814684439}
   item: {fileID: 0}
+  outfitSet: {fileID: 0}
 --- !u!1 &9170755830417224427
 GameObject:
   m_ObjectHideFlags: 0

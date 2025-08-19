@@ -46,5 +46,5 @@ public enum GameMode
 }
 
 // OutfitCategory.cs
-public enum OutfitCategory { Hat, Pants, Shield, FullBody}
+public enum OutfitCategory { Hat, Pants, Shield, OutfitSet, SkinFullBody, Back, Tail}
 

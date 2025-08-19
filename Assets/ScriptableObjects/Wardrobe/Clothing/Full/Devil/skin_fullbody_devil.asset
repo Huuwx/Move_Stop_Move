@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 447fe5a69fa364b4680d6b59599146b0, type: 3}
-  m_Name: Thor
+  m_Name: skin_fullbody_devil
   m_EditorClassIdentifier: 
-  id: thor
-  displayName: Thor
-  category: 3
+  id: devil_fullbody
+  displayName: Devil Full Body
+  category: 4
   icon: {fileID: 0}
-  prefab: {fileID: 2720981748515952661, guid: c275a7a184d2c264aaebce45e6f6333e, type: 3}
-  material: {fileID: 2100000, guid: 148bc6bebc310c24eaea9d4b41c9b3ce, type: 2}
-  unlocked: 1
+  prefab: {fileID: 0}
+  material: {fileID: 2100000, guid: 663ab16195a9f764c8f5f8e864f99001, type: 2}
+  unlocked: 0
   equipped: 0
-  price: 10
+  price: 0
+  upgradeIndex: 0

@@ -21,3 +21,4 @@ MonoBehaviour:
   unlocked: 0
   equipped: 0
   price: 10
+  upgradeIndex: 0

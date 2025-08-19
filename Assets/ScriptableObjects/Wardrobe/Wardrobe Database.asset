@@ -25,3 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5cb24c107e55d34ba8c98f9e2dde554, type: 2}
   - {fileID: 11400000, guid: 2bf242dd0160aa24780b18c58b471419, type: 2}
   - {fileID: 11400000, guid: 854cf892f94706048adcf87bce2b98ef, type: 2}
+  outfitSets:
+  - {fileID: 11400000, guid: a79fda9524055ce46bade9fa314ab93d, type: 2}
+  - {fileID: 11400000, guid: 76c260eb7f351f94691ee9bcbda77dc3, type: 2}
