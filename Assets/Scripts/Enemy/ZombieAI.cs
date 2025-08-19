@@ -94,10 +94,11 @@ public class ZombieAI : EnemyBase
     
     public override void Die()
     {
-        GameObject effect = PoolManager.Instance.GetObj(hittedEffect);
+        //GameObject effect = PoolManager.Instance.GetObj(hittedEffect);
+        GameObject effect = Instantiate(hittedEffect);
         effect.transform.SetParent(PoolManager.Instance.transform);
         effect.transform.rotation = Quaternion.identity;
-        effect.transform.position = new Vector3(transform.position.x, 42f, transform.position.z);
+        effect.transform.position = new Vector3(transform.position.x, 41f, transform.position.z);
         effect.GetComponent<ParticleSystem>().Play();
         
         if(spawnPointState != null)
@@ -115,13 +116,13 @@ public class ZombieAI : EnemyBase
         isTouchingPlayer = false;
     }
     
-    void OnCollisionEnter(Collision other)
-    {
-        PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-        if (playerController)
-        {
-            TouchPlayer();
-            playerController.Die();
-        }
-    }
+    // void OnCollisionEnter(Collision other)
+    // {
+    //     PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+    //     if (playerController)
+    //     {
+    //         TouchPlayer();
+    //         playerController.Die();
+    //     }
+    // }
 }

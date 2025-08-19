@@ -5694,8 +5694,8 @@ MonoBehaviour:
   targetOutline: {fileID: 7880740750420296009}
   player: {fileID: 0}
   animator: {fileID: 0}
-  hittedEffect: {fileID: 8245579016140902305, guid: 148304a08dd400e43bc375787b87ec9f, type: 3}
-  stoppingDistance: 0.4
+  hittedEffect: {fileID: 4021103657954561961, guid: 61726013ec1b2eb49b4471be2882bbdd, type: 3}
+  stoppingDistance: 3
   retargetInterval: 0.2
   detectionRadius: 999
 --- !u!54 &2079640770607488644

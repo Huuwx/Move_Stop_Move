@@ -610,6 +610,7 @@ MonoBehaviour:
   playerCollider: {fileID: 3195610202376438487}
   attackRangeCircle: {fileID: 8144955392570764803}
   pointsText: {fileID: 4121863542362101022}
+  ingameUI: {fileID: 0}
   moveSpeed: 5
   points: 0
 --- !u!114 &2263197296321626787
@@ -624,10 +625,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbc2cde9fdf40948ae21ba31bf19f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultMaterial: {fileID: 0}
+  defaultPantsMaterial: {fileID: 0}
   database: {fileID: 11400000, guid: f271f784416259d4f84f64d58c9b929f, type: 2}
   hatAnchor: {fileID: 5575011242601065346}
   pantsAnchor: {fileID: 0}
-  shirtAnchor: {fileID: 0}
+  shieldAnchor: {fileID: 0}
+  fullBodyAnchor: {fileID: 0}
 --- !u!1 &5636582465185802521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,11 +1033,6 @@ PrefabInstance:
 --- !u!4 &2838496016591486546 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2369251109624087118, guid: 943f1f3193990ba449e06e1a7ff60721, type: 3}
-  m_PrefabInstance: {fileID: 541866003417791516}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &3658720676828582525 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3838046893043969633, guid: 943f1f3193990ba449e06e1a7ff60721, type: 3}
   m_PrefabInstance: {fileID: 541866003417791516}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &991196623346304370
@@ -2092,7 +2091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5500996924759826666}
-  hittedEffect: {fileID: 3658720676828582525}
+  hittedEffect: {fileID: 4021103657954561960, guid: 61726013ec1b2eb49b4471be2882bbdd, type: 3}
 --- !u!1001 &1325199864247629580
 PrefabInstance:
   m_ObjectHideFlags: 0
