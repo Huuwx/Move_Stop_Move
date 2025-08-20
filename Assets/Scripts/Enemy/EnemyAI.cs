@@ -17,17 +17,23 @@ public class EnemyAI : EnemyBase
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
     [SerializeField] private GameObject ingameUI; // Giao diện trong game
 
+    protected OffscreenIndicatorManager _mgr;
     private Vector3 wanderDir;
     private float moveTimer = 0f;
     private float wanderTimer;
     private EnemyState state = EnemyState.Run;
-
-    private void OnEnable()
+    
+    void OnEnable()
     {
+        _mgr = FindObjectOfType<OffscreenIndicatorManager>();
+        if (_mgr) _mgr.RegisterTarget(this);
+        
         EventObserver.OnGameStateChanged += setIngameUIActive;
     }
-    private void OnDisable()
+    void OnDisable()
     {
+        if (_mgr) _mgr.UnregisterTarget(this);
+        
         EventObserver.OnGameStateChanged -= setIngameUIActive;
     }
 

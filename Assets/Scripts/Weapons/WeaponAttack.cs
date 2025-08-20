@@ -43,15 +43,27 @@ public class WeaponAttack : MonoBehaviour
 
         if (!gameObject.CompareTag(Params.PlayerTag)) return;
 
-        if (GameController.Instance.GetData().GetCurrentWeaponData() == null)
+        var id = GameController.Instance.GetData().GetValueByKey(Params.WeaponKey);
+        if (string.IsNullOrEmpty(id))
         {
-            GameController.Instance.GetData().SetCurrentWeaponData(currentWeapon);
+            GameController.Instance.GetData().AddKeyValue(Params.WeaponKey, currentWeapon.id);
             GameController.Instance.SaveData();
         }
         else
         {
-            currentWeapon = GameController.Instance.GetData().GetCurrentWeaponData();
+            var weapon = GameController.Instance.GetListWeapon().GetOutfitSetById(id);
+            currentWeapon = weapon;
         }
+        
+        // if (GameController.Instance.GetData().GetCurrentWeaponData() == null)
+        // {
+        //     GameController.Instance.GetData().SetCurrentWeaponData(currentWeapon);
+        //     GameController.Instance.SaveData();
+        // }
+        // else
+        // {
+        //     currentWeapon = GameController.Instance.GetData().GetCurrentWeaponData();
+        // }
         
         ChangeWeapon(currentWeapon);
     }

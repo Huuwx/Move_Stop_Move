@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786d6197de7de3341a7acd434f307720, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  id: 1
+  id: axe_weapon
+  index: 1
   modelPrefab: {fileID: 3601641492906425987, guid: 29a20b6ae1133cb46945d7883d443a95, type: 3}
   visual: {fileID: 8280672371199234657, guid: 27e0369068d38ad4b9c26d8c2212736f, type: 3}
   speed: 7

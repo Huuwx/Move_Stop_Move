@@ -6,8 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Data
 {
-    [Header("Player Data")] 
-    [SerializeField] private WeaponData currentWeaponData;
+    [Header("Player Data")]
     [SerializeField] List<string> keys = new();
     [SerializeField] List<string> values = new();
 
@@ -35,16 +34,6 @@ public class Data
     public void SetSelectedWeaponInShop(int selectedWeaponInShop)
     {
         this.selectedWeaponInShop = selectedWeaponInShop;
-    }
-
-    public WeaponData GetCurrentWeaponData()
-    {
-        return currentWeaponData;
-    }
-
-    public void SetCurrentWeaponData(WeaponData currentWeaponData)
-    {
-        this.currentWeaponData = currentWeaponData;
     }
 
     public void SetCurrentLevel(int currentLevel)

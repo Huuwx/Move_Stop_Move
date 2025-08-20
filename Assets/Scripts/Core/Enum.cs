@@ -13,6 +13,7 @@ public static class Params
     public const string BotTag = "Bot";
     public const string PlayerTag = "Player";
     public const string WallTag = "Wall";
+    public const string WeaponKey = "Weapon";
 }
 
 public static class Values

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786d6197de7de3341a7acd434f307720, type: 3}
   m_Name: Knife
   m_EditorClassIdentifier: 
-  id: 2
+  id: knife_weapon
+  index: 2
   modelPrefab: {fileID: 3601641492906425987, guid: 4e2429dee79322f4b884c421018375bc, type: 3}
   visual: {fileID: 2711840636633745024, guid: e454ac51551ba4440827b473fca8553b, type: 3}
   speed: 9

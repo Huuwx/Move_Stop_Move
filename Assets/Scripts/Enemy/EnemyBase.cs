@@ -16,7 +16,7 @@ public abstract class EnemyBase : MonoBehaviour
         if(enemyCollider == null)
             enemyCollider = GetComponent<Collider>();
     }
-    
+
     public void SetTargetOutlineActive(bool isActive)
     {
         if (targetOutline != null)

@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] EnemySpawner spawner;       
     [SerializeField] PlayerController player;
     [SerializeField] private UIController uiController;
+    [SerializeField] private ListWeapon listWeapon;
     [SerializeField] private List<GameObject> maps;
 
     [Header("Variables")]
@@ -259,5 +260,9 @@ public class GameController : MonoBehaviour
     public UIController GetUIController()
     {
         return uiController;
+    }
+    public ListWeapon GetListWeapon()
+    {
+        return listWeapon;
     }
 }

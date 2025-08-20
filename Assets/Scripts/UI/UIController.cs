@@ -184,7 +184,12 @@ public class UIController : MonoBehaviour
             {
                 weaponsHolder.SetActive(true);
                 uiShopPanel.SetActive(true);
-                UpdateWeaponInfo(GameController.Instance.GetData().GetCurrentWeaponData());
+                var id = GameController.Instance.GetData().GetValueByKey(Params.WeaponKey);
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var currentWeaponShopData = GameController.Instance.GetListWeapon().GetOutfitSetById(id);
+                    UpdateWeaponInfo(currentWeaponShopData);
+                }
             }
         } else if (index == 1)
         {

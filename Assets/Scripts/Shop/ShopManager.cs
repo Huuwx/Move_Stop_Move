@@ -8,12 +8,17 @@ public class ShopManager : MonoBehaviour
     [SerializeField] WeaponData currentWeaponShopData;
     [SerializeField] GameObject[] weaponModels;
     [SerializeField] WeaponData[] weaponDatas;
+    [SerializeField] private ListWeapon listWeapon;
 
     void OnEnable()
     {
-        currentWeaponShopData = GameController.Instance.GetData().GetCurrentWeaponData();
-        
-        currentWeaponIndex = GameController.Instance.GetData().GetCurrentWeaponData().id;
+        var id = GameController.Instance.GetData().GetValueByKey(Params.WeaponKey);
+        if (!string.IsNullOrEmpty(id))
+        {
+            currentWeaponShopData = listWeapon.GetOutfitSetById(id);
+        }
+
+        currentWeaponIndex = currentWeaponShopData.index;
 
         foreach (GameObject weapon in weaponModels)
         {
@@ -88,9 +93,23 @@ public class ShopManager : MonoBehaviour
                 Debug.Log("This weapon is already equipped.");
                 return;
             }
-            GameController.Instance.GetData().GetCurrentWeaponData().isEquipped = false;
-            GameController.Instance.GetData().SetCurrentWeaponData(currentWeaponShopData);
-            currentWeaponShopData.isEquipped = true;
+            // GameController.Instance.GetData().GetCurrentWeaponData().isEquipped = false;
+            // GameController.Instance.GetData().SetCurrentWeaponData(currentWeaponShopData);
+            // currentWeaponShopData.isEquipped = true;
+
+            foreach (var weapon in listWeapon.weaponList)
+            {
+                if(weapon.id == currentWeaponShopData.id)
+                {
+                    weapon.isEquipped = true;
+                }
+                else
+                {
+                    weapon.isEquipped = false;
+                }
+            }
+            GameController.Instance.GetData().AddKeyValue(Params.WeaponKey, currentWeaponShopData.id);
+            
             GameController.Instance.GetUIController().UpdateWeaponInfo(currentWeaponShopData);
             GameController.Instance.GetPlayer().GetWeaponAttack().ChangeWeapon(currentWeaponShopData);
             GameController.Instance.SaveData();

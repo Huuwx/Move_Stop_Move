@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786d6197de7de3341a7acd434f307720, type: 3}
   m_Name: Hammer
   m_EditorClassIdentifier: 
-  id: 0
+  id: hammer_weapon
+  index: 0
   modelPrefab: {fileID: 3601641492906425987, guid: 7059e0cd80abbab4b9db8d92ea439dac, type: 3}
   visual: {fileID: 623180822093679154, guid: 9fee06db42d96b14db0fd7a3cb26fffa, type: 3}
   speed: 6
