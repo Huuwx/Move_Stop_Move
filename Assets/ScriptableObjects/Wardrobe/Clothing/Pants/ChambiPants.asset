@@ -15,7 +15,7 @@ MonoBehaviour:
   id: chambi_pants
   displayName: Cham Bi Pants
   category: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 431ced603a20ad849a618af0e211d324, type: 3}
   prefab: {fileID: 5174702935042600908, guid: f98627a5cd65252488b9422e83df266b, type: 3}
   material: {fileID: 2100000, guid: 9ff53aa1445641942b183be1f4d15fd1, type: 2}
   unlocked: 0

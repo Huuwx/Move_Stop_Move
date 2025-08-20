@@ -10731,6 +10731,7 @@ MonoBehaviour:
   moveSpeed: 5
   wanderChangeDirTime: 12
   points: 0
+  enemySkin: {fileID: 364264976266927830}
   animationController: {fileID: 2728975717681033947}
   weaponAttack: {fileID: 6680224574462403981}
   pointsText: {fileID: 338100353524953686}

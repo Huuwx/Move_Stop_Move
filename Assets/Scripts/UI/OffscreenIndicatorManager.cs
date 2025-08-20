@@ -24,7 +24,8 @@ public class OffscreenIndicatorManager : MonoBehaviour
     {
         if (!target || _indicators.ContainsKey(target.transform)) return;
         var ind = Instantiate(indicatorPrefab, canvasRect);
-        ind.Init(cam, canvasRect, edgePadding, target.points);
+        ind.Init(cam, canvasRect, edgePadding, target.points, target.enemySkin.material.color);
+        target.OnUpgarde += ind.SetPoint;
         ind.SetTarget(target.transform);
         _indicators.Add(target.transform, ind);
     }
@@ -34,6 +35,7 @@ public class OffscreenIndicatorManager : MonoBehaviour
         if (!target) return;
         if (_indicators.TryGetValue(target.transform, out var ind))
         {
+            target.OnUpgarde -= ind.SetPoint; // hủy đăng ký sự kiện
             Destroy(ind.gameObject); // hoặc trả về pool
             _indicators.Remove(target.transform);
         }

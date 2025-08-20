@@ -116,13 +116,13 @@ public class ZombieAI : EnemyBase
         isTouchingPlayer = false;
     }
     
-    // void OnCollisionEnter(Collision other)
-    // {
-    //     PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-    //     if (playerController)
-    //     {
-    //         TouchPlayer();
-    //         playerController.Die();
-    //     }
-    // }
+    void OnCollisionEnter(Collision other)
+    {
+        PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+        if (playerController)
+        {
+            TouchPlayer();
+            playerController.Die();
+        }
+    }
 }

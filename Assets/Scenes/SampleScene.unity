@@ -1470,6 +1470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   database: {fileID: 11400000, guid: f271f784416259d4f84f64d58c9b929f, type: 2}
   manager: {fileID: 1669003809}
+  descriptionPanel: {fileID: 893642722}
   descriptionTxt: {fileID: 992898933}
   priceTxt: {fileID: 307538495}
   equipTxt: {fileID: 1865474914}
@@ -13802,7 +13803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8119389365326426994, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14052,7 +14053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7689661721366098675, guid: 0fc9fcf756c12d54aba1ccd7fc263012, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

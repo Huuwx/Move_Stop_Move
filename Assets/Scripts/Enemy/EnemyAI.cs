@@ -10,8 +10,9 @@ public class EnemyAI : EnemyBase
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float wanderChangeDirTime = 2.5f;
     public int points = 0;
-    
-    [Header("Refs")]
+
+    [Header("Refs")] 
+    public SkinnedMeshRenderer enemySkin;
     [SerializeField] AnimationController animationController;
     [SerializeField] WeaponAttack weaponAttack;
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
@@ -22,18 +23,22 @@ public class EnemyAI : EnemyBase
     private float moveTimer = 0f;
     private float wanderTimer;
     private EnemyState state = EnemyState.Run;
+
+    public Action OnUpgarde;
     
     void OnEnable()
     {
         _mgr = FindObjectOfType<OffscreenIndicatorManager>();
         if (_mgr) _mgr.RegisterTarget(this);
         
+        OnUpgarde += SetPoints; // Đăng ký sự kiện nâng cấp điểm
         EventObserver.OnGameStateChanged += setIngameUIActive;
     }
     void OnDisable()
     {
         if (_mgr) _mgr.UnregisterTarget(this);
         
+        OnUpgarde -= SetPoints; // Hủy đăng ký sự kiện nâng cấp điểm
         EventObserver.OnGameStateChanged -= setIngameUIActive;
     }
 
@@ -145,6 +150,11 @@ public class EnemyAI : EnemyBase
         
         moveTimer = 0f;
         wanderTimer = 0f;
+    }
+    
+    public void RaiseOnUpgradeEvent()
+    {
+        OnUpgarde?.Invoke();
     }
     
     public void SetPoints()

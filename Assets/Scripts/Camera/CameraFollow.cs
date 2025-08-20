@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [Header("Camera Target")]
     [SerializeField] private Transform target;
 
-    [Header("Follow")]
+    [Header("Camera Offsets and Angles")]
     [SerializeField] private Vector3 offsetGameplay = new Vector3(0, 60, -17);
     [SerializeField] private Vector3 offsetWaitMenu = new Vector3(0, 60, -7);
     [SerializeField] private Vector3 offsetSkinShop = new Vector3(0, 44, -10);
     [SerializeField] private float smoothSpeed = 25f;
+    [SerializeField] private float shopSmoothSpeed = 15f;
     [SerializeField] private float lookDownAngleGameplay = 45f;
     [SerializeField] private float lookDownAngleWaitMenu = 30f;
     [SerializeField] private float lookDownAngleSkinShop = 33f;
@@ -72,7 +74,7 @@ public class CameraFollow : MonoBehaviour
         else if (GameController.Instance.State == GameState.Shop)
         {
             desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetSkinShop;
-            transform.position = desiredPosition;
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, shopSmoothSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(lookDownAngleSkinShop, 0f, 0f);
         }
 

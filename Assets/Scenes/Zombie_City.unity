@@ -1522,12 +1522,12 @@ MonoBehaviour:
   spawner: {fileID: 1088998149}
   player: {fileID: 1669003806}
   uiController: {fileID: 1574626140}
+  listWeapon: {fileID: 11400000, guid: a673d6f84564248429fb306fe1b594fe, type: 2}
   maps:
   - {fileID: 1256518041655768}
   coinCollected: 0
   time: 3
   data:
-    currentWeaponData: {fileID: 11400000, guid: 71bd5c5ea6bc2394cb20cea9e074fac9, type: 2}
     keys: []
     values: []
     currentCoin: 1000
@@ -4665,6 +4665,14 @@ PrefabInstance:
       propertyPath: hatAnchor
       value: 
       objectReference: {fileID: 737622655}
+    - target: {fileID: 2263197296321626787, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: backAnchor
+      value: 
+      objectReference: {fileID: 2066255499}
+    - target: {fileID: 2263197296321626787, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: tailAnchor
+      value: 
+      objectReference: {fileID: 2066255499}
     - target: {fileID: 2263197296321626787, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: pantsAnchor
       value: 

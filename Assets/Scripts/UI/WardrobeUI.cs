@@ -9,7 +9,8 @@ public class WardrobeUI : MonoBehaviour
     public WardrobeDatabase database;
     public WardrobeManager manager;
 
-    [Header("UI")] 
+    [Header("UI")]
+    [SerializeField] private GameObject descriptionPanel;
     [SerializeField] private TextMeshProUGUI descriptionTxt;
     [SerializeField] private TextMeshProUGUI priceTxt;
     [SerializeField] private TextMeshProUGUI equipTxt;
@@ -57,6 +58,8 @@ public class WardrobeUI : MonoBehaviour
         // Xóa cột cũ
         foreach (var c in columns) Destroy(c);
         columns.Clear();
+        
+        descriptionPanel.SetActive(false);
         
         // Tạo slot mới theo category
         if (cat != OutfitCategory.OutfitSet)
@@ -108,6 +111,8 @@ public class WardrobeUI : MonoBehaviour
     public void OnClickItem(ItemSlotUI slot)
     {
         _currentItem = slot;
+        
+        descriptionPanel.SetActive(true);
         
         //Cập nhật mô tả
         if (slot.outfitSet)

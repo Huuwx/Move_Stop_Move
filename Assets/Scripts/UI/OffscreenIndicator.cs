@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,7 +6,6 @@ public class OffscreenIndicator : MonoBehaviour
 {
     [SerializeField] private Image arrowImage;          // ảnh mũi tên
     [SerializeField] private Image backgroundImage;    // nền (tuỳ chọn, có thể để trống nếu không cần)
-    //[SerializeField] private TMPro.TextMeshProUGUI distanceText; // tùy chọn
     [SerializeField] private TMPro.TextMeshProUGUI pointText; // tùy chọn
 
     private Camera cam;
@@ -13,17 +13,18 @@ public class OffscreenIndicator : MonoBehaviour
     private RectTransform rect;         // RectTransform của indicator
     private Transform target;
     private float padding;
-    //private bool showDistance;
 
     // cache screen center
     private Vector2 ScreenCenter => new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
 
-    public void Init(Camera cam, RectTransform canvasRect, float padding, int point)
+    public void Init(Camera cam, RectTransform canvasRect, float padding, int point, Color color)
     {
         this.cam = cam;
         this.canvasRect = canvasRect;
         this.padding = padding;
         pointText.text = point.ToString();
+        backgroundImage.color = color;
+        arrowImage.color = color;
         rect = (RectTransform)transform;
         SetVisible(false);
     }
@@ -35,6 +36,15 @@ public class OffscreenIndicator : MonoBehaviour
         if (arrowImage) arrowImage.enabled = v;
         if (backgroundImage) backgroundImage.enabled = v;
         if (pointText) pointText.enabled = v && pointText;
+    }
+    
+    public void SetPoint()
+    {
+        if (pointText)
+        {
+            int point = Int32.Parse(pointText.text) + 1;
+            pointText.text = point.ToString();
+        }
     }
 
     public void UpdateIndicator()
@@ -84,13 +94,14 @@ public class OffscreenIndicator : MonoBehaviour
 
         // Xoay mũi tên hướng từ tâm → vị trí mép
         float angle = Mathf.Atan2(fromCenter.y, fromCenter.x) * Mathf.Rad2Deg;
-        rect.rotation = Quaternion.Euler(0, 0, angle - 90f); // mũi tên sprite hướng lên trên? -90 cho đúng chiều
-
-        // Khoảng cách (tuỳ chọn)
-        // if (showDistance && distanceText)
-        // {
-        //     float dist = Vector3.Distance(cam.transform.position, target.position);
-        //     distanceText.text = Mathf.RoundToInt(dist).ToString();
-        // }
+        arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle -90f); // mũi tên sprite hướng lên trên? -90 cho đúng chiều
+        if(angle > 90f || angle < -90f)
+        {
+            arrowImage.transform.localPosition = new Vector3(-70f, 0, 0);
+        }
+        else
+        {
+            arrowImage.transform.localPosition = new Vector3(70f, 0, 0);
+        }
     }
 }

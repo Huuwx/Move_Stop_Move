@@ -15,7 +15,7 @@ MonoBehaviour:
   id: headphone
   displayName: HeadPhone
   category: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 4a48c6be06c5f6248a317fe3c25a3dbb, type: 3}
   prefab: {fileID: 3024613310880307215, guid: 26c070337e81e4e469d4be0b444cf850, type: 3}
   material: {fileID: 0}
   unlocked: 0

@@ -104,7 +104,7 @@ public class WeaponProjectile : MonoBehaviour
                     EnemyAI enemyAI = actor.GetComponent<EnemyAI>();
                     if (enemyAI != null)
                     {
-                        enemyAI.SetPoints();
+                        enemyAI.RaiseOnUpgradeEvent();
                     }
                 }
     

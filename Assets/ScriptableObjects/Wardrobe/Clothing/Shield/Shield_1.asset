@@ -15,7 +15,7 @@ MonoBehaviour:
   id: shield_1
   displayName: Shield
   category: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 9a30d2afe5852574ab9cf489905a83ec, type: 3}
   prefab: {fileID: 7074417411863781163, guid: 4a11230593a492b4e82f053560da7a87, type: 3}
   material: {fileID: 0}
   unlocked: 0
