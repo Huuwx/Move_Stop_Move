@@ -49,3 +49,9 @@ public enum GameMode
 // OutfitCategory.cs
 public enum OutfitCategory { Hat, Pants, Shield, OutfitSet, SkinFullBody, Back, Tail}
 
+// AbilitySO.cs
+public enum AbilityRarity { Common, Rare, Epic, Legendary }
+
+// StatType.cs
+public enum StatType { MaxHP, MoveSpeed, FireRate, Damage, ProjectileSpeed, ProjectileCount, Range, Scale }
+

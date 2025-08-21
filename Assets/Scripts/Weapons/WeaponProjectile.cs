@@ -11,6 +11,8 @@ public class WeaponProjectile : MonoBehaviour
     
     [Header("Variables")]
     [SerializeField] private float maxLifeTime = 1.5f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
+    [SerializeField] private float range;
+    [SerializeField] private float traveled; 
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float ultimateSize = 2f; // Kích thước của vũ khí khi Ultimate
     
@@ -43,11 +45,16 @@ public class WeaponProjectile : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= maxLifeTime)
-        {
-            Deactivate();
-        }
+        // timer += Time.deltaTime;
+        // if (timer >= maxLifeTime)
+        // {
+        //     Deactivate();
+        // }
+        
+        var delta = direction * (weaponData.speed * Time.deltaTime);
+        transform.position += (Vector3)delta;
+        traveled += delta.magnitude;
+        if (traveled >= range) Deactivate();
         
         if(weaponData.isRotate && !isUltimate)
             transform.Rotate(0, -rotateSpeed * Time.deltaTime, 0);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ZombieCity.Abilities;
 
 public class WeaponAttack : MonoBehaviour
 {
@@ -24,11 +25,15 @@ public class WeaponAttack : MonoBehaviour
     private bool ultimate = false;
     private bool canAttack = false;                // Đang ở trạng thái "stop", sẵn sàng attack
     private EnemyBase targetEnemy; // Đối thủ hiện tại (nếu có)
+    private IShotPattern _pattern = new BasicForwardPattern();
+    private PlayerStats _stats;
+    private bool _homing;
 
     private void Awake()
     {
         attackCooldown = 0f;
         canAttack = false;
+        _stats = GetComponentInParent<PlayerStats>();
     }
 
     private void Start()
@@ -135,17 +140,28 @@ public class WeaponAttack : MonoBehaviour
                 }
             }
             
+            if (_stats != null)
+            {
+                float fireRate = Mathf.Max(0.1f, _stats.Get(StatType.FireRate));
+                maxAttackCooldown = 1f / fireRate;
+            }
+            
             // Nếu chỉ muốn kill 1 đối thủ/lần attack, break
             attackCooldown = maxAttackCooldown;
         }
         else
         {
             attackCooldown -= Time.deltaTime; // Giảm cooldown
-            if(attackCooldown <= 0f)
-            {
-                weaponHandVisual.SetActive(true);
-                attackCooldown = 0f; // Đảm bảo cooldown không âm
-            }
+            if (attackCooldown > 0f) return;
+            
+            weaponHandVisual.SetActive(true);
+            attackCooldown = 0f; // Đảm bảo cooldown không âm
+
+            // if(attackCooldown <= 0f)
+            // {
+            //     weaponHandVisual.SetActive(true);
+            //     attackCooldown = 0f; // Đảm bảo cooldown không âm
+            // }
         }
     }
 
@@ -161,26 +177,35 @@ public class WeaponAttack : MonoBehaviour
         // Tính hướng ném
         Vector3 direction = new Vector3(collider.transform.position.x, 0, collider.transform.position.z) - new Vector3(throwOrigin.position.x, 0, throwOrigin.position.z);
         Vector3 dir = direction.normalized;
+        
+        IShotPattern effective = _pattern;                       // dùng pattern hiện tại
+        int extraByStat = Mathf.Max(0, Mathf.RoundToInt(_stats.Get(StatType.ProjectileCount) - 1));
+        if (extraByStat > 0) effective = new FanExtraProjectilesPattern(effective, extraByStat, 25f);
+
+        var dirs = effective.GetDirections(dir);
 
         // Tạo projectile
-        GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
-        projectile.transform.position = throwOrigin.position;
-        
-        projectile.transform.LookAt(collider.transform);
-        
-        projectile.transform.SetParent(weaponInstantiateTransform);
-        WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
-        weaponProjectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject, ultimate);
-        
-        if (ultimate)
+        foreach (var direct in dirs)
         {
-            if(gameObject.CompareTag(Params.PlayerTag))
-                GameController.Instance.GetPlayer().EndUltimate();
-            else
+            GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
+            projectile.transform.position = throwOrigin.position;
+        
+            projectile.transform.LookAt(collider.transform);
+        
+            projectile.transform.SetParent(weaponInstantiateTransform);
+            WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
+            weaponProjectile.Launch(dir.normalized, targetLayer, currentWeapon, playerTransform.gameObject, ultimate);
+        
+            if (ultimate)
             {
-                EnemyAI enemyAI = GetComponentInParent<EnemyAI>();
-                if (enemyAI != null)
-                    enemyAI.EndUltimate();
+                if(gameObject.CompareTag(Params.PlayerTag))
+                    GameController.Instance.GetPlayer().EndUltimate();
+                else
+                {
+                    EnemyAI enemyAI = GetComponentInParent<EnemyAI>();
+                    if (enemyAI != null)
+                        enemyAI.EndUltimate();
+                }
             }
         }
     }
@@ -224,6 +249,10 @@ public class WeaponAttack : MonoBehaviour
     {
         this.ultimate = ultimate;
     }
+    
+    public void SetHoming(bool on) => _homing = on;
+    public void AddPatternDecorator(IShotPattern decorator) => _pattern = decorator;
+    public void RemoveDecoratorById(string id) { /* chưa build stack ở bản đơn giản */ }
     
     private void OnDrawGizmosSelected()
     {
