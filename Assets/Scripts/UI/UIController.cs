@@ -279,12 +279,16 @@ public class UIController : MonoBehaviour
 
     public void UpdateTimeCounter(int time)
     {
-        timeCounterPanel.SetActive(true);
         timeCounterTxt.text = time.ToString();
         if (time <= 0)
         {
-            timeCounterPanel.SetActive(false);
+            SetActiveTimeCounterPanel(false);
         }
+    }
+    
+    public void SetActiveTimeCounterPanel(bool active)
+    {
+        timeCounterPanel.SetActive(active);
     }
 
     public void DisplayPauseGamePanel(bool active)

@@ -16,7 +16,7 @@ namespace ZombieCity.Abilities
             GameObject = go;
             Transform = go.transform;
             Stats = go.GetComponent<PlayerStats>();
-            Weapon = go.GetComponent<WeaponAttack>();
+            Weapon = go.GetComponentInChildren<WeaponAttack>();
             Lives  = go.GetComponent<LivesComponent>();
         }
     }

@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLifeTime: 1.5
+  range: 10
+  traveled: 0
   rotateSpeed: 500
   ultimateSize: 4
 --- !u!65 &5652067615196827688

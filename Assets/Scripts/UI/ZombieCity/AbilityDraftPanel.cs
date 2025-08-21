@@ -9,6 +9,8 @@ namespace ZombieCity.Abilities
         public Transform cardRoot;
 
         private PlayerAbilitySystem _system;
+        
+        private AbilitySO currentChoice;
 
         private void Awake() => _system = FindObjectOfType<PlayerAbilitySystem>(true);
 
@@ -22,21 +24,22 @@ namespace ZombieCity.Abilities
             foreach (var a in choices)
             {
                 var card = Instantiate(cardPrefab, cardRoot);
-                card.Bind(a, OnPick);
+                currentChoice = a;
+                card.Bind(a);
             }
         }
 
-        private void OnPick(AbilitySO so)
+        public void OnPick()
         {
-            _system.Pick(so);
+            _system.Pick(currentChoice);
             Close();
         }
-
         public void Close()
         {
             foreach (Transform c in cardRoot) Destroy(c.gameObject);
             gameObject.SetActive(false);
             Time.timeScale = 1f;
+            GameController.Instance.GetUIController().SetActiveTimeCounterPanel(true);
         }
     }
 }

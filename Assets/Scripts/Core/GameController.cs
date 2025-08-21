@@ -80,8 +80,11 @@ public class GameController : MonoBehaviour
         if(mode == GameMode.Normal)
             Alive = spawner.MaxSpawnCount + 1;
         else
+        {
+            FindObjectOfType<ZombieCity.Abilities.AbilityDraftPanel>(true).ShowDraft();
             Alive = spawner.MaxSpawnCount;
-        
+        }
+
         EventObserver.RaiseAliveChanged(Alive);
     }
 

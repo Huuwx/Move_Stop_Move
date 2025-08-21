@@ -7865,6 +7865,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274466791}
   m_CullTransparentMesh: 1
+--- !u!1 &1296354786 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5500996924759826666, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+  m_PrefabInstance: {fileID: 839630326081414968}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1300035380
 GameObject:
   m_ObjectHideFlags: 0
@@ -9597,7 +9602,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4505572303542186433, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
   m_PrefabInstance: {fileID: 839630326081414968}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1296354786}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bfece99f76cd745aeb0aed92b52552, type: 3}
@@ -9608,12 +9613,40 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2263197296321626787, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
   m_PrefabInstance: {fileID: 839630326081414968}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1296354786}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3dbc2cde9fdf40948ae21ba31bf19f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1669003812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296354786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd7bc1d6f554ab499c0b08e4b1eb3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp:
+    baseValue: 100
+  moveSpeed:
+    baseValue: 5
+  fireRate:
+    baseValue: 1.5
+  damage:
+    baseValue: 10
+  projSpeed:
+    baseValue: 14
+  projCount:
+    baseValue: 1
+  range:
+    baseValue: 8
+  scale:
+    baseValue: 1
 --- !u!1 &1670841212
 GameObject:
   m_ObjectHideFlags: 0
@@ -13372,7 +13405,10 @@ PrefabInstance:
     - {fileID: 5428817529670522426, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
     - {fileID: 2021158619695540280, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5500996924759826666, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1669003812}
   m_SourcePrefab: {fileID: 100100000, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
 --- !u!114 &931033720733334351
 MonoBehaviour:

@@ -14,7 +14,7 @@ public class ZombieAI : EnemyBase
     [SerializeField] float stoppingDistance = 0.4f;
     [SerializeField] float retargetInterval = 0.2f; // giãn nhịp update destination
     [SerializeField] float detectionRadius = 999f;
-
+    
     NavMeshAgent agent;
     float retargetTimer;
     bool isTouchingPlayer = true;
@@ -24,8 +24,6 @@ public class ZombieAI : EnemyBase
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
         if (!animator) animator = GetComponentInChildren<Animator>();
-
-        isTouchingPlayer = false;
     }
 
     void OnEnable()
@@ -94,6 +92,9 @@ public class ZombieAI : EnemyBase
     
     public override void Die()
     {
+        rb.isKinematic = true;
+        enemyCollider.enabled = false;
+        
         //GameObject effect = PoolManager.Instance.GetObj(hittedEffect);
         GameObject effect = Instantiate(hittedEffect);
         effect.transform.SetParent(PoolManager.Instance.transform);
@@ -114,6 +115,8 @@ public class ZombieAI : EnemyBase
     public override void Reset()
     {
         isTouchingPlayer = false;
+        rb.isKinematic = false;
+        enemyCollider.enabled = true;
     }
     
     void OnCollisionEnter(Collision other)

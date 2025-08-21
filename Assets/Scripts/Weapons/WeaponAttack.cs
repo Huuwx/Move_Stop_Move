@@ -177,16 +177,21 @@ public class WeaponAttack : MonoBehaviour
         // Tính hướng ném
         Vector3 direction = new Vector3(collider.transform.position.x, 0, collider.transform.position.z) - new Vector3(throwOrigin.position.x, 0, throwOrigin.position.z);
         Vector3 dir = direction.normalized;
+        Vector2 forward2D = new(dir.x, dir.z);
         
         IShotPattern effective = _pattern;                       // dùng pattern hiện tại
-        int extraByStat = Mathf.Max(0, Mathf.RoundToInt(_stats.Get(StatType.ProjectileCount) - 1));
-        if (extraByStat > 0) effective = new FanExtraProjectilesPattern(effective, extraByStat, 25f);
+        if (_stats != null)
+        {
+            int extraByStat = Mathf.Max(0, Mathf.RoundToInt(_stats.Get(StatType.ProjectileCount) - 1));
+            if (extraByStat > 0) effective = new FanExtraProjectilesPattern(effective, extraByStat, 25f);
+        }
 
-        var dirs = effective.GetDirections(dir);
+        var dirs = effective.GetDirections(forward2D);
 
         // Tạo projectile
         foreach (var direct in dirs)
         {
+            Vector3 direct3D = new Vector3(direct.x, 0, direct.y);
             GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
             projectile.transform.position = throwOrigin.position;
         
@@ -194,7 +199,7 @@ public class WeaponAttack : MonoBehaviour
         
             projectile.transform.SetParent(weaponInstantiateTransform);
             WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
-            weaponProjectile.Launch(dir.normalized, targetLayer, currentWeapon, playerTransform.gameObject, ultimate);
+            weaponProjectile.Launch(direct3D, targetLayer, currentWeapon, playerTransform.gameObject, ultimate);
         
             if (ultimate)
             {

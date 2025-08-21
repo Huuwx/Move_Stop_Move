@@ -18,7 +18,6 @@ public class WeaponProjectile : MonoBehaviour
     
     private bool isUltimate = false; // Kiểm tra xem có phải là Ultimate hay không
     private Vector3 direction;      // Hướng bay của vũ khí
-    private float timer;        // Đếm cho đến thời gian biến mất
     
     
     private Rigidbody _rigidbody;
@@ -36,7 +35,7 @@ public class WeaponProjectile : MonoBehaviour
         this.targetLayer = targetLayer;
         this.weaponData = weaponData;
         this.isUltimate = isUltimate;
-        this.timer = 0f;
+        this.traveled = 0f; // Reset traveled distance
         
         transform.localScale = Vector3.one;
         
@@ -45,14 +44,7 @@ public class WeaponProjectile : MonoBehaviour
 
     void Update()
     {
-        // timer += Time.deltaTime;
-        // if (timer >= maxLifeTime)
-        // {
-        //     Deactivate();
-        // }
-        
         var delta = direction * (weaponData.speed * Time.deltaTime);
-        transform.position += (Vector3)delta;
         traveled += delta.magnitude;
         if (traveled >= range) Deactivate();
         

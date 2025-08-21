@@ -26,6 +26,12 @@ public class EnemyAI : EnemyBase
 
     public Action OnUpgarde;
     
+    protected override void Awake()
+    {
+        base.Awake();
+        rb.isKinematic = false; // Đảm bảo Rigidbody không bị kinematic
+    }
+    
     void OnEnable()
     {
         _mgr = FindObjectOfType<OffscreenIndicatorManager>();
@@ -40,12 +46,6 @@ public class EnemyAI : EnemyBase
         
         OnUpgarde -= SetPoints; // Hủy đăng ký sự kiện nâng cấp điểm
         EventObserver.OnGameStateChanged -= setIngameUIActive;
-    }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        rb.isKinematic = false; // Đảm bảo Rigidbody không bị kinematic
     }
 
     protected void Start()

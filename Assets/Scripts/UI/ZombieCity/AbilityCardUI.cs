@@ -8,20 +8,26 @@ namespace ZombieCity.Abilities
     {
         public Image icon;
         public TMP_Text title;
-        public TMP_Text desc;
         public Button pickButton;
 
         private AbilitySO _ability;
-        private System.Action<AbilitySO> _onPick;
-
-        public void Bind(AbilitySO ability, System.Action<AbilitySO> onPick)
+        //private System.Action<AbilitySO> _onPick;
+        
+        public void Bind(AbilitySO ability)
         {
-            _ability = ability; _onPick = onPick;
+            _ability = ability;
             icon.sprite = ability.icon;
             title.text  = ability.displayName;
-            desc.text   = ability.description;
-            pickButton.onClick.RemoveAllListeners();
-            pickButton.onClick.AddListener(() => _onPick?.Invoke(_ability));
         }
+        
+        // public void Bind(AbilitySO ability, System.Action<AbilitySO> onPick)
+        // {
+        //     _ability = ability; _onPick = onPick;
+        //     icon.sprite = ability.icon;
+        //     title.text  = ability.displayName;
+        //     //desc.text   = ability.description;
+        //     pickButton.onClick.RemoveAllListeners();
+        //     pickButton.onClick.AddListener(() => _onPick?.Invoke(_ability));
+        // }
     }
 }
