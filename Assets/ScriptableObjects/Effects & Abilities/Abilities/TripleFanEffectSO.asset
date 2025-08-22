@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c62dc8a1687374588f64c6d04966e5, type: 3}
   m_Name: TripleFanEffectSO
   m_EditorClassIdentifier: 
-  id: tripple_arrow
-  displayName: Tripple Arrow
+  id: triple_arrow
+  displayName: Triple Arrow
   description: 
   icon: {fileID: 21300000, guid: 970925db9e357204d8c9cbfed938308d, type: 3}
   rarity: 0

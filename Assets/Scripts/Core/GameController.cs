@@ -106,7 +106,14 @@ public class GameController : MonoBehaviour
             if (time <= 0)
             {
                 StartGame();
+                time = 5;
             }
+        }
+
+        if (State == GameState.WaitForRevive)
+        {
+            time -= Time.deltaTime;
+            uiController.UpdateReviveTimer(Mathf.CeilToInt(time));
         }
         
         if (State != GameState.Playing) return;
@@ -220,7 +227,7 @@ public class GameController : MonoBehaviour
     public void EndGameLose()
     {
         if (State == GameState.Win || State == GameState.Lose) return;
-        SetState(GameState.Lose);
+        SetState(GameState.WaitForRevive);
         
         //if (player) SetPlayerControl(false);
     }

@@ -92,7 +92,7 @@ public class ZombieAI : EnemyBase
     
     public override void Die()
     {
-        rb.isKinematic = true;
+        //rb.isKinematic = true;
         enemyCollider.enabled = false;
         
         //GameObject effect = PoolManager.Instance.GetObj(hittedEffect);
@@ -115,7 +115,7 @@ public class ZombieAI : EnemyBase
     public override void Reset()
     {
         isTouchingPlayer = false;
-        rb.isKinematic = false;
+        //rb.isKinematic = false;
         enemyCollider.enabled = true;
     }
     
@@ -125,7 +125,7 @@ public class ZombieAI : EnemyBase
         if (playerController)
         {
             TouchPlayer();
-            playerController.Die();
+            playerController.KillPlayer();
         }
     }
 }

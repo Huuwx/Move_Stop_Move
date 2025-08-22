@@ -16,6 +16,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject inGameUI;
     [SerializeField] private WardrobeManager wardrobeManager;
     [SerializeField] private GameObject pauseGamePanel;
+    [SerializeField] private GameObject revivePanel;
+    [SerializeField] private TextMeshProUGUI txtReviveTime;
     
     [Header("Reference ZombieMode UI")]
     [SerializeField] private GameObject timeCounterPanel;
@@ -100,7 +102,7 @@ public class UIController : MonoBehaviour
             {
                 uiPanelGameComplete.SetActive(false);
             }
-            joystick.SetActive(false);
+            SetActiveInGameUI(false);
             winIcon.SetActive(false);
             loseIcon.SetActive(false);
             return;
@@ -108,7 +110,7 @@ public class UIController : MonoBehaviour
         
         if (state == GameState.Playing)
         {
-            joystick.SetActive(true);
+            SetActiveInGameUI(true);
             return;
         }
         
@@ -131,6 +133,9 @@ public class UIController : MonoBehaviour
                 GameController.Instance.GetData().SetBestRank(GameController.Instance.Alive);
                 GameController.Instance.SaveData();
             }
+        } else if(state == GameState.WaitForRevive){
+            SetActiveInGameUI(false);
+            revivePanel.SetActive(true);
         }
         
         if (txtCoinClaimed != null)
@@ -141,11 +146,7 @@ public class UIController : MonoBehaviour
         GameController.Instance.GetData().SetCurrentCoin(GameController.Instance.GetData().GetCurrentCoin() + GameController.Instance.coinCollected);
         GameController.Instance.SaveData();
         
-        joystick.SetActive(false);
-        if (uiPanelGameComplete != null)
-        {
-            uiPanelGameComplete.SetActive(true);
-        }
+        SetActiveInGameUI(false);
     }
     
     
@@ -285,16 +286,40 @@ public class UIController : MonoBehaviour
             SetActiveTimeCounterPanel(false);
         }
     }
+
+    public void UpdateReviveTimer(int time)
+    {
+        txtReviveTime.text = time.ToString();
+        if (time <= 0)
+        {
+            CloseRevivePanel();
+        }
+    }
+    
+    public void CloseRevivePanel()
+    {
+        revivePanel.SetActive(false);
+        GameController.Instance.SetState(GameState.Lose);
+        if (uiPanelGameComplete != null)
+        {
+            uiPanelGameComplete.SetActive(true);
+        }
+    }
     
     public void SetActiveTimeCounterPanel(bool active)
     {
         timeCounterPanel.SetActive(active);
     }
+    
+    public void SetActiveInGameUI(bool active)
+    {
+        inGameUI.SetActive(active);
+        joystick.SetActive(active);
+    }
 
     public void DisplayPauseGamePanel(bool active)
     {
         pauseGamePanel.SetActive(active);
-        inGameUI.SetActive(!active);
-        joystick.SetActive(!active);
+        SetActiveInGameUI(!active);
     }
 }

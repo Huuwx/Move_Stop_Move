@@ -23,7 +23,7 @@ namespace ZombieCity.Abilities
         public void Kill()
         {
             lives--;
-            if (lives >= 0)
+            if (lives > 0)
             {
                 // revive
                 EventObserver.OnPlayerRevived?.Invoke();

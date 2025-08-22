@@ -20,14 +20,8 @@ namespace ZombieCity.Abilities
     public class PlayerStats : MonoBehaviour
     {
         [Header("Base")]
-        public StatValue maxHp     = new() { baseValue = 100 };
-        public StatValue moveSpeed = new() { baseValue = 5 };
         public StatValue fireRate  = new() { baseValue = 1.5f }; // shots/sec
-        public StatValue damage    = new() { baseValue = 10 };
-        public StatValue projSpeed = new() { baseValue = 14 };
         public StatValue projCount = new() { baseValue = 1 };
-        public StatValue range     = new() { baseValue = 8 };
-        public StatValue scale     = new() { baseValue = 1 };
 
         private readonly List<StatModifier> _mods = new();
 
@@ -38,14 +32,8 @@ namespace ZombieCity.Abilities
         {
             float b = type switch
             {
-                StatType.MaxHP => maxHp.baseValue,
-                StatType.MoveSpeed => moveSpeed.baseValue,
                 StatType.FireRate => fireRate.baseValue,
-                StatType.Damage => damage.baseValue,
-                StatType.ProjectileSpeed => projSpeed.baseValue,
                 StatType.ProjectileCount => projCount.baseValue,
-                StatType.Range => range.baseValue,
-                StatType.Scale => scale.baseValue,
                 _ => 0
             };
             float add = 0, mult = 1;

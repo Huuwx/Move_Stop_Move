@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using ZombieCity.Abilities;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,13 +17,19 @@ public class PlayerController : MonoBehaviour
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
     public int points = 0; // Điểm của người chơi
-
+    
     public static event Action OnTriggerUltimate;
     public static event Action OnUltimateEnd;
     
+    private PlayerContext ctx;
     private Rigidbody rigid;
     private Vector2 dir;
     private Vector3 move;
+
+    private void Awake()
+    {
+        ctx = new PlayerContext(gameObject);
+    }
 
     private void Start()
     {
@@ -41,6 +48,7 @@ public class PlayerController : MonoBehaviour
         EventObserver.OnUpgrade += Upgrade;
         EventObserver.OnGameStateChanged += setIngameUIActive;
         OnUltimateEnd += EndUltimate;
+        EventObserver.OnPlayerDeath += Die; // Đăng ký sự kiện khi người chơi chết
     }
 
     private void OnDisable()
@@ -48,6 +56,7 @@ public class PlayerController : MonoBehaviour
         EventObserver.OnUpgrade -= Upgrade;
         EventObserver.OnGameStateChanged -= setIngameUIActive;
         OnUltimateEnd -= EndUltimate;
+        EventObserver.OnPlayerDeath -= Die; // Hủy đăng ký sự kiện khi người chơi chết
     }
 
     void Update()
@@ -81,12 +90,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Die()
+    private void Die()
     {
         rigid.isKinematic = true;
         playerCollider.enabled = false;
         weaponAttack.SetCanAttack(false);
         animationController.SetDeadAnimation();
+    }
+
+    public void KillPlayer()
+    {
+        ctx.Lives.Kill();
     }
     
     public void WinDance()
