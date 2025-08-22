@@ -63,8 +63,10 @@ namespace ZombieCity.Abilities
         {
             var dirs = inner.GetDirections(f);
             if (extra <= 0) return dirs;
-
-            float step = spreadDeg / (extra + 1);
+            
+            float count = extra + 1; // bao gồm cả mũi chính
+            if(Mathf.Approximately(count, 2)) count = 3;
+            float step = spreadDeg / count;
             float start = -spreadDeg * 0.5f;
             var baseAngle = Mathf.Atan2(f.y, f.x) * Mathf.Rad2Deg;
 
@@ -76,5 +78,7 @@ namespace ZombieCity.Abilities
             }
             return dirs;
         }
+        
+        public int GetExtraCount() => extra;
     }
 }

@@ -66,7 +66,7 @@ public class ZombieAI : EnemyBase
         }
 
         // Cập nhật Animator từ tốc độ thực
-        if (animator && !isTouchingPlayer)
+        if (animator)
             animator.SetBool("Start", true);
     }
 
@@ -87,7 +87,7 @@ public class ZombieAI : EnemyBase
         
         agent.isStopped = true;
         
-        isTouchingPlayer = true;
+        //isTouchingPlayer = true;
     }
     
     public override void Die()
@@ -106,7 +106,7 @@ public class ZombieAI : EnemyBase
             spawnPointState.state = SpawnState.Idle;
         
         agent.isStopped = true;
-        isTouchingPlayer = true;
+        //isTouchingPlayer = true;
 
         TriggerDeadEvent();
         gameObject.SetActive(false);
@@ -114,7 +114,7 @@ public class ZombieAI : EnemyBase
 
     public override void Reset()
     {
-        isTouchingPlayer = false;
+        //isTouchingPlayer = false;
         //rb.isKinematic = false;
         enemyCollider.enabled = true;
     }
@@ -125,7 +125,7 @@ public class ZombieAI : EnemyBase
         if (playerController)
         {
             TouchPlayer();
-            playerController.KillPlayer();
+            playerController.Die();
         }
     }
 }

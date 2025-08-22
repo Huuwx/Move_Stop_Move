@@ -8,7 +8,7 @@ namespace ZombieCity.Abilities
     {
         public Image icon;
         public TMP_Text title;
-        public Button pickButton;
+        //public Button pickButton;
 
         private AbilitySO _ability;
         //private System.Action<AbilitySO> _onPick;

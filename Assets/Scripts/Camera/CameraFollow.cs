@@ -31,9 +31,11 @@ public class CameraFollow : MonoBehaviour
     private readonly List<Renderer> _hitsThisFrame = new();             // renderer đang che
     private MaterialPropertyBlock _mpb;
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+    private bool isReseting = false; // Kiểm tra đã đặt lại vị trí camera sau khi hồi sinh hay chưa
 
     private void Awake()
     {
+        isReseting = false;
         _mpb = new MaterialPropertyBlock();
         if (obstructionMask.value == 0)
             obstructionMask = LayerMask.GetMask("Obstruction"); // fallback
@@ -55,7 +57,7 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target == null) return;
+        if (target == null || isReseting) return;
 
         // ====== Follow / góc nhìn ======
         Vector3 desiredPosition;
@@ -188,5 +190,13 @@ public class CameraFollow : MonoBehaviour
         baseCol.a = a;
         _mpb.SetColor(BaseColor, baseCol);
         r.SetPropertyBlock(_mpb);
+    }
+
+    public void SetCameraPos()
+    {
+        isReseting = true; // Đặt lại camera sau khi hồi sinh
+        Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
+        transform.position = desiredPosition;
+        isReseting = false;
     }
 }

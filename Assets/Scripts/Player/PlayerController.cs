@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using ZombieCity.Abilities;
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject attackRangeCircle;
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
     [SerializeField] GameObject ingameUI; // Giao diện trong game
+    [SerializeField] private List<GameObject> RevivePoints; // Danh sách các điểm hồi sinh
     
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
         EventObserver.OnGameStateChanged += setIngameUIActive;
         OnUltimateEnd += EndUltimate;
         EventObserver.OnPlayerDeath += Die; // Đăng ký sự kiện khi người chơi chết
+        EventObserver.OnPlayerRevived += Revive; // Đăng ký sự kiện khi người chơi hồi sinh
     }
 
     private void OnDisable()
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
         EventObserver.OnGameStateChanged -= setIngameUIActive;
         OnUltimateEnd -= EndUltimate;
         EventObserver.OnPlayerDeath -= Die; // Hủy đăng ký sự kiện khi người chơi chết
+        EventObserver.OnPlayerRevived -= Revive; // Hủy đăng ký sự kiện khi người chơi hồi sinh
     }
 
     void Update()
@@ -90,8 +94,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Revive()
     {
+        int index = UnityEngine.Random.Range(0, RevivePoints.Count);
+        transform.position = RevivePoints[index].transform.position; // Di chuyển đến điểm hồi sinh
+        rigid.isKinematic = false; // Bật vật lý lại
+        playerCollider.enabled = true; // Bật collider lại
+        animationController.SetIdleAnimation(); // Đặt lại trạng thái hoạt động
+        CameraFollow camera = Camera.main.GetComponent<CameraFollow>();
+        if (camera != null)
+        {
+            camera.SetCameraPos(); // Đặt lại vị trí camera
+        }
+        GameController.Instance.SetState(GameState.Playing);
+    }
+
+    public void Die()
+    {
+        GameController.Instance.SetState(GameState.Wait);
         rigid.isKinematic = true;
         playerCollider.enabled = false;
         weaponAttack.SetCanAttack(false);
@@ -128,6 +148,13 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale += Vector3.one * Values.upgradeScale;
             weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
+        }
+        else
+        {
+            if (points == 8)
+            {
+                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+            }
         }
     }
     
@@ -171,5 +198,10 @@ public class PlayerController : MonoBehaviour
     public WeaponAttack GetWeaponAttack()
     {
         return this.weaponAttack;
+    }
+    
+    public PlayerContext GetContext()
+    {
+        return ctx;
     }
 }

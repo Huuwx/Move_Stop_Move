@@ -38,7 +38,7 @@ public enum SpawnState
 
 public enum GameState
 {
-    Home, Shop, Ready, Playing, Paused, WaitForRevive, Win, Lose
+    Home, Shop, Ready, Playing, Paused, WaitForRevive, Wait, Win, Lose
 }
 
 public enum GameMode

@@ -2,23 +2,11 @@ using UnityEngine;
 
 namespace ZombieCity.Abilities
 {
-    [CreateAssetMenu(menuName = "ZombieCity/Effects/ExtraLife")]
-    public class ExtraLifeEffectSO : AbilityEffectSO
-    {
-        public override void Apply(PlayerContext ctx, AbilityRuntime runtime, int level)
-        {
-            ctx.Lives.AddLife(1);
-        }
-        public override void Remove(PlayerContext ctx, AbilityRuntime runtime, int level)
-        {
-            // không remove mạng đã cấp
-        }
-    }
-
     public class LivesComponent : MonoBehaviour
     {
         [SerializeField] int lives = 1;
         public void AddLife(int v) => lives += v;
+        public int GetLives() => lives;
 
         public void Kill()
         {

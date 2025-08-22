@@ -183,7 +183,14 @@ public class WeaponAttack : MonoBehaviour
         if (_stats != null)
         {
             int extraByStat = Mathf.Max(0, Mathf.RoundToInt(_stats.Get(StatType.ProjectileCount) - 1));
-            if (extraByStat > 0) effective = new FanExtraProjectilesPattern(effective, extraByStat, 25f);
+            if (effective is FanExtraProjectilesPattern)
+            {
+                // Nếu đã có FanExtraProjectilesPattern, cộng thêm vào số lượng hiện tại
+                extraByStat += ((FanExtraProjectilesPattern)effective).GetExtraCount();
+                effective = new FanExtraProjectilesPattern(new BasicForwardPattern(), extraByStat, 60f);
+            }
+            else
+                if (extraByStat > 0) effective = new FanExtraProjectilesPattern(effective, extraByStat, 60f);
         }
 
         var dirs = effective.GetDirections(forward2D);

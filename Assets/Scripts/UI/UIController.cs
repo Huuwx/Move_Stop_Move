@@ -122,6 +122,7 @@ public class UIController : MonoBehaviour
             txtNotify.text = "You Win!";
             GameController.Instance.GetData().SetBestRank(0);
             GameController.Instance.SaveData();
+            uiPanelGameComplete.SetActive(true);
         } else if (state == GameState.Lose)
         {
             winIcon.SetActive(false);

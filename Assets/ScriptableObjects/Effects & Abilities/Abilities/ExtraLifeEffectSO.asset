@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c62dc8a1687374588f64c6d04966e5, type: 3}
+  m_Name: ExtraLifeEffectSO
+  m_EditorClassIdentifier: 
+  id: extra_life
+  displayName: Extra Life
+  description: 
+  icon: {fileID: 21300000, guid: 19007d027a073434b99d17c56b31f878, type: 3}
+  rarity: 0
+  maxLevel: 1
+  prerequisites: []
+  effects:
+  - {fileID: 11400000, guid: 18d73d463b4c3d0489fde30b0520d89e, type: 2}

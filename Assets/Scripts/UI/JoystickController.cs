@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,6 +16,11 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
     private void Start()
     {
         if (joystickBG == null) joystickBG = GetComponent<RectTransform>();
+        ResetHandle();
+    }
+
+    private void OnEnable()
+    {
         ResetHandle();
     }
 

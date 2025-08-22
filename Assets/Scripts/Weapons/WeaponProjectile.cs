@@ -89,7 +89,7 @@ public class WeaponProjectile : MonoBehaviour
                         enemyAI.points += 1;
                     }
     
-                    playerController.KillPlayer();
+                    playerController.Die();
                 }
             } else if (other.CompareTag(Params.BotTag))
             {

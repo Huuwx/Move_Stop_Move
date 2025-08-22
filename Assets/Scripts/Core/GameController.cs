@@ -227,7 +227,13 @@ public class GameController : MonoBehaviour
     public void EndGameLose()
     {
         if (State == GameState.Win || State == GameState.Lose) return;
-        SetState(GameState.WaitForRevive);
+        
+        if(player.GetContext().Lives.GetLives() <= 1)
+            SetState(GameState.WaitForRevive);
+        else
+        {
+            player.KillPlayer();
+        }
         
         //if (player) SetPlayerControl(false);
     }

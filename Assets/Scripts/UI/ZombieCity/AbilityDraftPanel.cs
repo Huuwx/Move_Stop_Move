@@ -18,8 +18,14 @@ namespace ZombieCity.Abilities
         {
             gameObject.SetActive(true);
             Time.timeScale = 0f; // pause
-            foreach (Transform c in cardRoot) Destroy(c.gameObject);
+            
+            RollChoices();
+        }
 
+        public void RollChoices()
+        {
+            foreach (Transform c in cardRoot) Destroy(c.gameObject);
+            
             List<AbilitySO> choices = _system.RollChoices();
             foreach (var a in choices)
             {
