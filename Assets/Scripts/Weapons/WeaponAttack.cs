@@ -232,6 +232,34 @@ public class WeaponAttack : MonoBehaviour
             weaponHandPosition, 
             weaponHandRotation, 
             handHoldWeaponTransform);
+        
+        var applier = weaponHandVisual.GetComponent<WeaponSkinApplier>();
+        if (applier == null)
+        {
+            Debug.LogWarning("Weapon visual thiếu WeaponSkinApplier_SingleRenderer");
+        }
+        else
+        {
+            string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
+
+            var db = currentWeapon.skins;
+            var skin = db ? db.GetById(selectedId) : null;
+
+            if (skin && skin.id != "custom")
+            {
+                applier.ApplySkin(skin);
+            }
+            else
+            {
+                // var (bladeCol, handleCol) = WeaponSkinSave.LoadCustom(
+                //     currentWeapon.id,
+                //     new Color(0.9f,0.3f,1f),  // mặc định blade
+                //     new Color(0.6f,0.6f,0.6f) // mặc định handle
+                // );
+                // applier.ApplyCustom(bladeCol, handleCol);
+            }
+        }
+        
         weaponHandVisual.SetActive(true);
     }
     

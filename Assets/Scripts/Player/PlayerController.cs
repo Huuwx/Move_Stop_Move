@@ -154,6 +154,7 @@ public class PlayerController : MonoBehaviour
             if (points == 8)
             {
                 ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+                GameController.Instance.GetUIController().ShowLevelUpText();
             }
         }
     }

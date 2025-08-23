@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 615344662485035517}
   - component: {fileID: 6848971194494785101}
   - component: {fileID: 8563677155900792539}
+  - component: {fileID: -4499099759206886882}
   m_Layer: 0
   m_Name: Knife
   m_TagString: Untagged
@@ -100,6 +101,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.22, y: 0.18, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4499099759206886882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3601641492906425987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a86505a3a5a45541a48665853027ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponId: 
+  blade: {fileID: 0}
+  handle: {fileID: 0}
+  colorPropertyName: _BaseColor
 --- !u!1001 &2330415436833385077
 PrefabInstance:
   m_ObjectHideFlags: 0

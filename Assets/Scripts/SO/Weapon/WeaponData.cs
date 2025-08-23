@@ -18,4 +18,9 @@ public class WeaponData : ScriptableObject
     public string name;
     public string description;
     public bool isRotate = false;
+    
+    // ---------- Skin ----------
+    [Header("Skins")]
+    public WeaponSkinDatabase skins;   // database skin dành RIÊNG cho vũ khí này
+    public string selectedSkinId = "default"; // id skin đang chọn (mặc định)
 }

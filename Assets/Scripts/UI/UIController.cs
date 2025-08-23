@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ public class UIController : MonoBehaviour
     [Header("Reference ZombieMode UI")]
     [SerializeField] private GameObject timeCounterPanel;
     [SerializeField] private TextMeshProUGUI timeCounterTxt;
+    [SerializeField] private TextMeshProUGUI levelUpTxt;
     
     [Header("Reference Menu UI")]
     [SerializeField] private GameObject menuPanel;
@@ -322,5 +324,21 @@ public class UIController : MonoBehaviour
     {
         pauseGamePanel.SetActive(active);
         SetActiveInGameUI(!active);
+    }
+    
+    public void ShowLevelUpText()
+    {
+        levelUpTxt.gameObject.SetActive(true);
+        levelUpTxt.DOFade(1f, 1.5f).From(0f);
+        // Xuất hiện từ dưới (-500) lên giữa màn hình (0) trong 1.5 giây
+        levelUpTxt.rectTransform.anchoredPosition = new Vector2(0, 330);
+        levelUpTxt.rectTransform.DOAnchorPosY(600, 1.5f).SetEase(Ease.InOutCubic)
+        .OnComplete(() =>
+        {
+            levelUpTxt.DOFade(0f, 0.5f).From(1f).OnComplete(() =>
+            {
+                levelUpTxt.gameObject.SetActive(false);
+            });
+        });
     }
 }
