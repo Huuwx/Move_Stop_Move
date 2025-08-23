@@ -191,7 +191,7 @@ public class UIController : MonoBehaviour
                 var id = GameController.Instance.GetData().GetValueByKey(Params.WeaponKey);
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var currentWeaponShopData = GameController.Instance.GetListWeapon().GetOutfitSetById(id);
+                    var currentWeaponShopData = GameController.Instance.GetListWeapon().GetWeaponById(id);
                     UpdateWeaponInfo(currentWeaponShopData);
                 }
             }
@@ -290,6 +290,40 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void ReviveUseCoin()
+    {
+        if(GameController.Instance.GetData().GetCurrentCoin() >= 100)
+        {
+            GameController.Instance.GetData().SetCurrentCoin(GameController.Instance.GetData().GetCurrentCoin() - 100);
+            GameController.Instance.SaveData();
+            UpdateCoin();
+            GameController.Instance.GetPlayer().Revive();
+            revivePanel.SetActive(false);
+        }
+        else
+        {
+            // Hiển thị thông báo không đủ coin
+            Debug.Log("Not enough coins to revive!");
+        }
+    }
+    
+    public void ReviveWatchAds()
+    {
+        // Giả sử quảng cáo đã được xem thành công
+        bool adWatchedSuccessfully = true; // Thay đổi theo logic thực tế của bạn
+
+        if (adWatchedSuccessfully)
+        {
+            GameController.Instance.GetPlayer().Revive();
+            revivePanel.SetActive(false);
+        }
+        else
+        {
+            // Hiển thị thông báo quảng cáo không thành công
+            Debug.Log("Ad was not watched successfully!");
+        }
+    }
+
     public void UpdateReviveTimer(int time)
     {
         txtReviveTime.text = time.ToString();
@@ -328,11 +362,12 @@ public class UIController : MonoBehaviour
     
     public void ShowLevelUpText()
     {
+        //InOutCubic
         levelUpTxt.gameObject.SetActive(true);
-        levelUpTxt.DOFade(1f, 1.5f).From(0f);
+        levelUpTxt.DOFade(1f, 1.3f).From(0f);
         // Xuất hiện từ dưới (-500) lên giữa màn hình (0) trong 1.5 giây
-        levelUpTxt.rectTransform.anchoredPosition = new Vector2(0, 330);
-        levelUpTxt.rectTransform.DOAnchorPosY(600, 1.5f).SetEase(Ease.InOutCubic)
+        levelUpTxt.rectTransform.anchoredPosition = new Vector2(0, 400);
+        levelUpTxt.rectTransform.DOAnchorPosY(600, 1.5f).SetEase(Ease.OutSine)
         .OnComplete(() =>
         {
             levelUpTxt.DOFade(0f, 0.5f).From(1f).OnComplete(() =>

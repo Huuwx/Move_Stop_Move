@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/ListWeapon")]
 public class ListWeapon : ScriptableObject
 {
-   public List<WeaponData> weaponList = new List<WeaponData>();
+   public List<WeaponData> weaponList;
    
-   public WeaponData GetOutfitSetById(string id)
+   public WeaponData GetWeaponById(string id)
       => weaponList.Find(o => o && o.id == id);
 }

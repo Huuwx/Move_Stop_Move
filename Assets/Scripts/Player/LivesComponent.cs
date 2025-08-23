@@ -14,12 +14,12 @@ namespace ZombieCity.Abilities
             if (lives > 0)
             {
                 // revive
-                EventObserver.OnPlayerRevived?.Invoke();
+                PlayerController.RaiseOnPlayerRevived();
                 // hồi HP, v.v.
             }
             else
             {
-                EventObserver.OnPlayerDeath?.Invoke();
+                PlayerController.RaiseOnPlayerDeath();
                 // Game over
             }
         }

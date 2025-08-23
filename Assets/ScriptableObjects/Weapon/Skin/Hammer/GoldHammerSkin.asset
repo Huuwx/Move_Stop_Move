@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b19115b084b405c409a43c24f80adcea, type: 3}
-  m_Name: HammerSkin1
+  m_Name: GoldHammerSkin
   m_EditorClassIdentifier: 
-  weaponId: 
-  id: 
+  weaponId: hammer_weapon
+  id: gold
   displayName: 
   icon: {fileID: 0}
   isLocked: 0
-  bladeColor: {r: 1, g: 1, b: 1, a: 1}
-  guardColor: {r: 1, g: 1, b: 1, a: 1}
-  handleColor: {r: 1, g: 1, b: 1, a: 1}
-  bladeMatOverride: {fileID: 0}
-  guardMatOverride: {fileID: 0}
-  handleMatOverride: {fileID: 0}
+  slotColors: []
+  slotOverrides:
+  - {fileID: 2100000, guid: b1e9de798d885c74c8f134ef9d409a68, type: 2}
+  - {fileID: 2100000, guid: a783f5bb82ffebc49b357e1bdcf95bb6, type: 2}

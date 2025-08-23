@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    
     private int currentWeaponIndex = 0;
     [SerializeField] WeaponData currentWeaponShopData;
     [SerializeField] GameObject[] weaponModels;
@@ -15,7 +14,7 @@ public class ShopManager : MonoBehaviour
         var id = GameController.Instance.GetData().GetValueByKey(Params.WeaponKey);
         if (!string.IsNullOrEmpty(id))
         {
-            currentWeaponShopData = listWeapon.GetOutfitSetById(id);
+            currentWeaponShopData = listWeapon.GetWeaponById(id);
         }
 
         currentWeaponIndex = currentWeaponShopData.index;

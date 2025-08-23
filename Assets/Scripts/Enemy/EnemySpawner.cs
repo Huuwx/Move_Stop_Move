@@ -46,6 +46,7 @@ public class EnemySpawner : MonoBehaviour
          }
     }
 
+    // Xử lý sự kiện SpawnEnemy
     void SpawnEnemy()
     {
         // Chọn vị trí spawn ngẫu nhiên

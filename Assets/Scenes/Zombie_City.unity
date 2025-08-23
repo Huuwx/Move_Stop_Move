@@ -1929,6 +1929,7 @@ MonoBehaviour:
   offsetGameplay: {x: 0, y: 60, z: -17}
   offsetWaitMenu: {x: 0, y: 45, z: -7}
   offsetSkinShop: {x: 0, y: 44, z: -10}
+  offsetWin: {x: 0, y: 47, z: -7}
   smoothSpeed: 25
   shopSmoothSpeed: 15
   lookDownAngleGameplay: 45
@@ -6493,7 +6494,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0.000015258789, y: -67.6}
-  m_SizeDelta: {x: 728.935, y: 184.01}
+  m_SizeDelta: {x: 780, y: 184.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1387873942
 MonoBehaviour:
@@ -6515,7 +6516,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Touch To Replay
+  m_text: Touch To Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -6542,7 +6543,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 87.45
+  m_fontSize: 83
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9008,9 +9009,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ZombieCity.Abilities.AbilityDraftPanel, Assembly-CSharp
-        m_MethodName: Close
+      - m_Target: {fileID: 1574626140}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: ReviveUseCoin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10251,9 +10252,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ZombieCity.Abilities.AbilityDraftPanel, Assembly-CSharp
-        m_MethodName: OnPick
+      - m_Target: {fileID: 1574626140}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: ReviveWatchAds
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

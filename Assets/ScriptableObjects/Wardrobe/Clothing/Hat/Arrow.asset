@@ -18,7 +18,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 9e625da8cd138ff44988498da1d462b7, type: 3}
   prefab: {fileID: 2205132651983253792, guid: c0836a2f75b520a4ab69ce62ba57bbe9, type: 3}
   material: {fileID: 0}
-  unlocked: 0
+  unlocked: 1
   equipped: 0
   price: 0
   upgradeIndex: 0

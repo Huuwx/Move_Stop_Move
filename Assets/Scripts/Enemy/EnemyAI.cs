@@ -112,6 +112,7 @@ public class EnemyAI : EnemyBase
         }
     }
 
+    // Chọn hướng di chuyển ngẫu nhiên mới
     void ChooseRandomDirection()
     {
         moveTimer = Random.Range(2f, 4f);
@@ -120,6 +121,7 @@ public class EnemyAI : EnemyBase
         wanderTimer = wanderChangeDirTime + Random.Range(-0.5f, 0.5f);
     }
 
+    // --- Xử lý trạng thái của enemy ---
     public override void Die()
     {
         state = EnemyState.Dead;
@@ -152,24 +154,6 @@ public class EnemyAI : EnemyBase
         wanderTimer = 0f;
     }
     
-    public void RaiseOnUpgradeEvent()
-    {
-        OnUpgarde?.Invoke();
-    }
-    
-    public void SetPoints()
-    {
-        points += 1; // Tăng điểm mỗi khi người chơi giết được một đối thủ
-        
-        if (pointsText != null)
-        {
-            pointsText.text = points.ToString();
-        }
-        
-        transform.localScale += Vector3.one * Values.upgradeScale; 
-        weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
-    }
-    
     public void Ultimate()
     {
         if (weaponAttack.IsUltimate()) return; // Nếu đã là Ultimate thì không làm gì thêm
@@ -187,6 +171,25 @@ public class EnemyAI : EnemyBase
         
         transform.localScale -= Vector3.one * Values.upgradeScale * 5;
         weaponAttack.UpgradeAttackRadius(-Values.upgradeRadius * 5);
+    }
+    
+    // --- Xử lý sự kiện ---
+    public void RaiseOnUpgradeEvent()
+    {
+        OnUpgarde?.Invoke();
+    }
+    
+    public void SetPoints()
+    {
+        points += 1; // Tăng điểm mỗi khi người chơi giết được một đối thủ
+        
+        if (pointsText != null)
+        {
+            pointsText.text = points.ToString();
+        }
+        
+        transform.localScale += Vector3.one * Values.upgradeScale; 
+        weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
     }
     
     public void setIngameUIActive(GameState state)

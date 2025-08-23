@@ -23,3 +23,5 @@ MonoBehaviour:
   name: Hammer
   description: 
   isRotate: 1
+  skins: {fileID: 11400000, guid: 07df61eb74e4e8d47a9ef9032874af83, type: 2}
+  selectedSkinId: default

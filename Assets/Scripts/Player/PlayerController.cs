@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     
     public static event Action OnTriggerUltimate;
     public static event Action OnUltimateEnd;
+    public static event Action OnPlayerDeath;
+    public static event Action OnPlayerRevived;
     
     private PlayerContext ctx;
     private Rigidbody rigid;
@@ -50,8 +52,8 @@ public class PlayerController : MonoBehaviour
         EventObserver.OnUpgrade += Upgrade;
         EventObserver.OnGameStateChanged += setIngameUIActive;
         OnUltimateEnd += EndUltimate;
-        EventObserver.OnPlayerDeath += Die; // Đăng ký sự kiện khi người chơi chết
-        EventObserver.OnPlayerRevived += Revive; // Đăng ký sự kiện khi người chơi hồi sinh
+        OnPlayerDeath += Die; // Đăng ký sự kiện khi người chơi chết
+        OnPlayerRevived += Revive; // Đăng ký sự kiện khi người chơi hồi sinh
     }
 
     private void OnDisable()
@@ -59,8 +61,8 @@ public class PlayerController : MonoBehaviour
         EventObserver.OnUpgrade -= Upgrade;
         EventObserver.OnGameStateChanged -= setIngameUIActive;
         OnUltimateEnd -= EndUltimate;
-        EventObserver.OnPlayerDeath -= Die; // Hủy đăng ký sự kiện khi người chơi chết
-        EventObserver.OnPlayerRevived -= Revive; // Hủy đăng ký sự kiện khi người chơi hồi sinh
+        OnPlayerDeath -= Die; // Hủy đăng ký sự kiện khi người chơi chết
+        OnPlayerRevived -= Revive; // Hủy đăng ký sự kiện khi người chơi hồi sinh
     }
 
     void Update()
@@ -182,6 +184,17 @@ public class PlayerController : MonoBehaviour
             OnUltimateEnd.Invoke();
         transform.localScale -= Vector3.one * Values.upgradeScale * 5;
         weaponAttack.UpgradeAttackRadius(-Values.upgradeRadius * 5);
+    }
+    
+    public static void RaiseOnPlayerDeath()
+    {
+        if (OnPlayerDeath != null)
+            OnPlayerDeath.Invoke();
+    }
+    public static void RaiseOnPlayerRevived()
+    {
+        if (OnPlayerRevived != null)
+            OnPlayerRevived.Invoke();
     }
 
     public void setIngameUIActive(GameState state)

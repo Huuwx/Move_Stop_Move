@@ -15,7 +15,7 @@ public class WeaponSkinApplier : MonoBehaviour
 
     void Awake()
     {
-        if (!targetRenderer) targetRenderer = GetComponent<Renderer>();
+        if (!targetRenderer) targetRenderer = GetComponentInChildren<Renderer>();
         _colorId = Shader.PropertyToID(colorPropertyName);
         EnsureBlocks();
     }

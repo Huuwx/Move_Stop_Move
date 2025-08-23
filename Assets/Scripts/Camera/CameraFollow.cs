@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -11,6 +12,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Vector3 offsetGameplay = new Vector3(0, 60, -17);
     [SerializeField] private Vector3 offsetWaitMenu = new Vector3(0, 60, -7);
     [SerializeField] private Vector3 offsetSkinShop = new Vector3(0, 44, -10);
+    [SerializeField] private Vector3 offsetWin = new Vector3(0, 47, -7);
     [SerializeField] private float smoothSpeed = 25f;
     [SerializeField] private float shopSmoothSpeed = 15f;
     [SerializeField] private float lookDownAngleGameplay = 45f;
@@ -70,14 +72,34 @@ public class CameraFollow : MonoBehaviour
         else if (GameController.Instance.State == GameState.Home)
         {
             desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetWaitMenu;
-            transform.position = desiredPosition;
+            transform.DOKill(false);
+            transform.DOMove(desiredPosition, 0.25f)  // tween ngắn lặp lại, nhìn mượt
+                .SetEase(Ease.OutSine)
+                .SetUpdate(UpdateType.Late)
+                .SetLink(gameObject);
             transform.rotation = Quaternion.Euler(lookDownAngleWaitMenu, 0f, 0f);
         }
         else if (GameController.Instance.State == GameState.Shop)
         {
             desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetSkinShop;
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, shopSmoothSpeed * Time.deltaTime);
+            // transform.position = Vector3.Lerp(transform.position, desiredPosition, shopSmoothSpeed * Time.deltaTime);
+            transform.DOKill(false);
+            transform.DOMove(desiredPosition, 0.25f)  // tween ngắn lặp lại, nhìn mượt
+                .SetEase(Ease.OutSine)
+                .SetUpdate(UpdateType.Late)
+                .SetLink(gameObject);
             transform.rotation = Quaternion.Euler(lookDownAngleSkinShop, 0f, 0f);
+        }
+        else if (GameController.Instance.State == GameState.Win)
+        {
+            desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetWin;
+            // transform.position = Vector3.Lerp(transform.position, desiredPosition, shopSmoothSpeed * Time.deltaTime);
+            transform.DOKill(false);
+            transform.DOMove(desiredPosition, 0.25f)  // tween ngắn lặp lại, nhìn mượt
+                .SetEase(Ease.OutSine)
+                .SetUpdate(UpdateType.Late)
+                .SetLink(gameObject);
+            transform.rotation = Quaternion.Euler(lookDownAngleGameplay, 0f, 0f);
         }
 
         // ====== Occlusion cập nhật ======
@@ -97,6 +119,7 @@ public class CameraFollow : MonoBehaviour
             && GameController.Instance.mode == GameMode.Normal)
         {
             offsetGameplay += new Vector3(0f, 2f, -1f);
+            offsetWin += new Vector3(0f, 2f, -1f);
             Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
             transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5f * Time.deltaTime);
         }

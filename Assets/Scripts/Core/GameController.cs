@@ -159,7 +159,7 @@ public class GameController : MonoBehaviour
         }
     }
     
-    // --- NEW: Lưu/Load dữ liệu ---
+    // --- Lưu/Load dữ liệu ---
     public void SaveData()
     {
         string saveString = JsonUtility.ToJson(data);
@@ -179,7 +179,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // --- NEW: Quản lý trạng thái game ---
+    // --- Quản lý trạng thái game ---
     public void StartGame()
     {
         if (State == GameState.Playing) return;
@@ -219,6 +219,7 @@ public class GameController : MonoBehaviour
         if (player)
         {
             //SetPlayerControl(false);
+            player.SetPlayerAttackRange(false);
             player.WinDance();
         }
         
@@ -227,9 +228,12 @@ public class GameController : MonoBehaviour
     public void EndGameLose()
     {
         if (State == GameState.Win || State == GameState.Lose) return;
-        
-        if(player.GetContext().Lives.GetLives() <= 1)
+
+        if (player.GetContext().Lives.GetLives() <= 1)
+        {
             SetState(GameState.WaitForRevive);
+            time = 5f;
+        }
         else
         {
             player.KillPlayer();
@@ -243,7 +247,7 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
-    // --- NEW: Xử lý sự kiện ---
+    // --- Xử lý sự kiện ---
     void OnEnemyDeadEvent(EnemyBase enemy)
     {
         // Chỉ tăng buffer, không xử lý logic tại đây để tránh race

@@ -77,7 +77,8 @@ public class WeaponProjectile : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
-            Deactivate(); // Tắt projectile (pooling)
+            if(!isUltimate)
+                Deactivate(); // Tắt projectile (pooling)
             if (other.CompareTag(Params.PlayerTag))
             {
                 PlayerController playerController = other.GetComponent<PlayerController>();

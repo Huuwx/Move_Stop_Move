@@ -8,10 +8,6 @@ public class EventObserver : MonoBehaviour
     public static event Action<EnemyBase> OnAnyEnemyDead;
     public static event Action OnUpgrade;
     public static event Action OnGiftCollected;
-    public static Action OnLevelStart;
-    public static Action<GameObject> OnEnemyKilled; // pass enemy GO
-    public static Action OnPlayerDeath;
-    public static Action OnPlayerRevived;
 
     public static void RaiseAliveChanged(int alive) => OnAliveChanged?.Invoke(alive);
     public static void RaiseGameStateChanged(GameState s) => OnGameStateChanged?.Invoke(s);
