@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponSkinSelector : MonoBehaviour
 {
     [SerializeField] private WeaponData weaponData;           // vũ khí đang hiển thị trong UI
     [SerializeField] private WeaponSkinApplier applier;       // applier của model đang render ở UI (hoặc ở tay)
     [SerializeField] private WeaponSkinDatabase database;     // có thể lấy từ weaponData.skins
+    [SerializeField] private GameObject customPalettePanel;
+    [SerializeField] private RectTransform equipBtn;
 
     private bool isCustom;
     private Color[] customColors;
@@ -36,6 +39,8 @@ public class WeaponSkinSelector : MonoBehaviour
     public void SelectPreset(string skinId)
     {
         if (!weaponData || !database) return;
+        equipBtn.anchoredPosition = new Vector2(0f, 150f);
+        customPalettePanel.SetActive(false);
         isCustom = false;
         WeaponSkinSave.SaveSelected(weaponData.id, skinId);
         var skin = database.GetById(skinId);
@@ -46,6 +51,8 @@ public class WeaponSkinSelector : MonoBehaviour
     public void SelectCustom()
     {
         if (!weaponData) return;
+        equipBtn.anchoredPosition = new Vector2(0f, -150f);
+        customPalettePanel.SetActive(true);
         isCustom = true;
         WeaponSkinSave.SaveSelected(weaponData.id, "custom");
 

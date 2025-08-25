@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: DBHammerSkins
   m_EditorClassIdentifier: 
   skins:
-  - {fileID: 11400000, guid: 878ac445532086947ba80d9619dffd83, type: 2}
   - {fileID: 11400000, guid: 0c6899324514d3346ba4340959ad2217, type: 2}
   - {fileID: 11400000, guid: e2e5c51a283f2894c81d3a17512ae993, type: 2}
   - {fileID: 11400000, guid: 0a096737fde35d645b31be5c6b3c1c7c, type: 2}

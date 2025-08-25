@@ -8,6 +8,7 @@ public class ShopManager : MonoBehaviour
     [Header("Skin UI")]
     [SerializeField] private WeaponSkinSelector _weaponSkinSelector; // panel điều khiển skin (đã có)
     [SerializeField] private WeaponSkinListUI _skinListUI;                 // grid preset (script ở trên)
+    [SerializeField] private CustomSkinPanel _customSkinPanel; // gắn trong Inspector
 
     [Header("Data / Preview")]
     [SerializeField] private WeaponData currentWeaponShopData;
@@ -139,19 +140,32 @@ public class ShopManager : MonoBehaviour
             weaponModels[i].SetActive(i == index && active);
     }
 
+    // private void RefreshSkinUIForCurrentWeapon()
+    // {
+    //     var model = weaponModels[currentWeaponIndex];
+    //     // Bảo đảm model preview có applier
+    //     var applier = model.GetComponent<WeaponSkinApplier>();
+    //     if (applier == null) applier = model.AddComponent<WeaponSkinApplier>();
+    //
+    //     // 1) Setup selector => áp ngay skin đã lưu (preset/custom) lên model preview
+    //     if (_weaponSkinSelector)
+    //         _weaponSkinSelector.Setup(currentWeaponShopData, applier);
+    //
+    //     // 2) Build lại grid preset đúng database skin của vũ khí này
+    //     if (_skinListUI)
+    //         _skinListUI.Build(currentWeaponShopData);
+    // }
+    
     private void RefreshSkinUIForCurrentWeapon()
     {
         var model = weaponModels[currentWeaponIndex];
-        // Bảo đảm model preview có applier
-        var applier = model.GetComponent<WeaponSkinApplier>();
-        if (applier == null) applier = model.AddComponent<WeaponSkinApplier>();
+        var applier = model.GetComponent<WeaponSkinApplier>() ?? model.AddComponent<WeaponSkinApplier>();
 
-        // 1) Setup selector => áp ngay skin đã lưu (preset/custom) lên model preview
-        if (_weaponSkinSelector)
-            _weaponSkinSelector.Setup(currentWeaponShopData, applier);
+        // Preset selector + grid
+        _weaponSkinSelector?.Setup(currentWeaponShopData, applier);
+        _skinListUI?.Build(currentWeaponShopData);
 
-        // 2) Build lại grid preset đúng database skin của vũ khí này
-        if (_skinListUI)
-            _skinListUI.Build(currentWeaponShopData);
+        // >>> NEW: mở panel Custom cho đúng vũ khí & đúng số part
+        _customSkinPanel?.OpenFor(currentWeaponShopData, applier);
     }
 }
