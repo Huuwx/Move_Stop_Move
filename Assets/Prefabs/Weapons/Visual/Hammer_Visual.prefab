@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4756194712357034599}
   - component: {fileID: 2269363513940558992}
   - component: {fileID: 7732605124950566536}
+  - component: {fileID: 8416489495038786195}
   m_Layer: 0
   m_Name: Hammer_Visual
   m_TagString: Untagged
@@ -64,8 +65,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 08795c504b7d8a345bcbb0ca1ba1118f, type: 2}
-  - {fileID: 2100000, guid: 08795c504b7d8a345bcbb0ca1ba1118f, type: 2}
+  - {fileID: 2100000, guid: a783f5bb82ffebc49b357e1bdcf95bb6, type: 2}
+  - {fileID: 2100000, guid: a78a732521d122746a7bdb57f58e1ae7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,3 +88,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8416489495038786195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623180822093679154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a86505a3a5a45541a48665853027ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 7732605124950566536}

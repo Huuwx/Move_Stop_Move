@@ -1,12 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skins/Weapon Skin Database", fileName = "WeaponSkinDB")]
+[CreateAssetMenu(menuName = "Game/Skins/Weapon Skin Database", fileName = "WeaponSkinDatabase")]
 public class WeaponSkinDatabase : ScriptableObject
 {
-    public string weaponId;
-    public List<WeaponSkinSO> skins;
+    public WeaponSkin[] skins;
 
-    public WeaponSkinSO GetById(string id) => skins.Find(s => s.id == id);
-    public int IndexOf(string id) => skins.FindIndex(s => s.id == id);
+    public WeaponSkin GetById(string id)
+        => System.Array.Find(skins, s => s && s.id == id);
+
+    public WeaponSkin GetDefault()
+        => GetById("default") ?? (skins != null && skins.Length > 0 ? skins[0] : null);
 }

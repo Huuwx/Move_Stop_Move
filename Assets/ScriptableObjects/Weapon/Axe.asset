@@ -17,9 +17,11 @@ MonoBehaviour:
   modelPrefab: {fileID: 3601641492906425987, guid: 29a20b6ae1133cb46945d7883d443a95, type: 3}
   visual: {fileID: 8280672371199234657, guid: 27e0369068d38ad4b9c26d8c2212736f, type: 3}
   speed: 7
-  isPurchased: 0
+  isPurchased: 1
   isEquipped: 0
   price: 50
   name: Axe
   description: +1 Speed
   isRotate: 1
+  skins: {fileID: 11400000, guid: 026d403b8180e67419bc9de68760308f, type: 2}
+  selectedSkinId: default

@@ -1,38 +1,40 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class WeaponSkinSave
 {
-    static string KSel(string wid) => $"skin_{wid}";
-    static string KCol(string wid, int i) => $"skin_{wid}_slot{i}";
+    static string KeySkin(string weaponId)         => $"weapon_{weaponId}_skin";
+    static string KeyCount(string weaponId)        => $"weapon_{weaponId}_custom_count";
+    static string KeySlot(string weaponId, int i)  => $"weapon_{weaponId}_custom_{i}";
 
     public static void SaveSelected(string weaponId, string skinId)
     {
-        PlayerPrefs.SetString(KSel(weaponId), skinId);
+        PlayerPrefs.SetString(KeySkin(weaponId), skinId);
         PlayerPrefs.Save();
     }
-    public static string LoadSelected(string weaponId, string fallback)
-        => PlayerPrefs.GetString(KSel(weaponId), fallback);
 
-    public static void SaveCustom(string weaponId, IList<Color> colors)
+    public static string LoadSelected(string weaponId, string fallback = "default")
     {
-        for (int i = 0; i < colors.Count; i++) SaveColor(KCol(weaponId, i), colors[i]);
-        PlayerPrefs.SetInt($"skin_{weaponId}_count", colors.Count);
+        return PlayerPrefs.GetString(KeySkin(weaponId), fallback);
+    }
+
+    public static void SaveCustom(string weaponId, Color[] colors)
+    {
+        if (colors == null) return;
+        PlayerPrefs.SetInt(KeyCount(weaponId), colors.Length);
+        for (int i = 0; i < colors.Length; i++)
+            PlayerPrefs.SetString(KeySlot(weaponId, i), ColorUtility.ToHtmlStringRGBA(colors[i]));
         PlayerPrefs.Save();
     }
-    public static List<Color> LoadCustom(string weaponId, int expectedCount, Color fallback)
-    {
-        int count = PlayerPrefs.GetInt($"skin_{weaponId}_count", expectedCount);
-        var list = new List<Color>(count);
-        for (int i = 0; i < count; i++) list.Add(LoadColor(KCol(weaponId, i), fallback));
-        return list;
-    }
 
-    static void SaveColor(string k, Color c)
-    { PlayerPrefs.SetFloat(k+"r",c.r); PlayerPrefs.SetFloat(k+"g",c.g); PlayerPrefs.SetFloat(k+"b",c.b); PlayerPrefs.SetFloat(k+"a",c.a); }
-    static Color LoadColor(string k, Color fb)
+    public static Color[] LoadCustom(string weaponId, int expectedSlots)
     {
-        if (!PlayerPrefs.HasKey(k+"r")) return fb;
-        return new Color(PlayerPrefs.GetFloat(k+"r"), PlayerPrefs.GetFloat(k+"g"), PlayerPrefs.GetFloat(k+"b"), PlayerPrefs.GetFloat(k+"a",1));
+        int n = PlayerPrefs.GetInt(KeyCount(weaponId), expectedSlots);
+        var arr = new Color[n];
+        for (int i = 0; i < n; i++)
+        {
+            string hex = PlayerPrefs.GetString(KeySlot(weaponId, i), "FFFFFFFF");
+            if (!ColorUtility.TryParseHtmlString("#" + hex, out arr[i])) arr[i] = Color.white;
+        }
+        return arr;
     }
 }

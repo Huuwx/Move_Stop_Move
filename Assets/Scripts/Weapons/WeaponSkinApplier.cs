@@ -1,79 +1,92 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-/// Áp skin/custom cho 1 Renderer nhiều material slots (Element 0..n-1)
-[RequireComponent(typeof(Renderer))]
+[DisallowMultipleComponent]
 public class WeaponSkinApplier : MonoBehaviour
 {
-    [SerializeField] private string weaponId;        // khớp WeaponData.id
-    [SerializeField] private Renderer targetRenderer;
-    [Tooltip("URP Lit: _BaseColor | BiRP/Standard: _Color")]
-    public string colorPropertyName = "_BaseColor";
+    [SerializeField] private MeshRenderer meshRenderer;
 
-    private int _colorId;
-    private readonly Dictionary<int, MaterialPropertyBlock> _blocks = new();
-
-    void Awake()
+    void Reset()
     {
-        if (!targetRenderer) targetRenderer = GetComponentInChildren<Renderer>();
-        _colorId = Shader.PropertyToID(colorPropertyName);
-        EnsureBlocks();
+        if (!meshRenderer) meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
-    void EnsureBlocks()
+    public int MaterialCount => meshRenderer ? meshRenderer.sharedMaterials.Length : 0;
+
+    string FindColorProp(Material m)
     {
-        int n = GetSlotCount();
-        for (int i = 0; i < n; i++)
-            if (!_blocks.ContainsKey(i)) _blocks[i] = new MaterialPropertyBlock();
+        if (!m) return null;
+        if (m.HasProperty("_BaseColor")) return "_BaseColor"; // URP Lit
+        if (m.HasProperty("_Color"))     return "_Color";     // Standard
+        return null;
     }
 
-    public int GetSlotCount() => targetRenderer ? targetRenderer.sharedMaterials.Length : 0;
-
-    public void ApplySkin(WeaponSkinSO skin)
+    string FindTexProp(Material m)
     {
-        if (!targetRenderer || skin == null) return;
-        if (!string.IsNullOrEmpty(skin.weaponId) && skin.weaponId != weaponId)
-            Debug.LogWarning($"Skin '{skin.id}' không thuộc weapon '{weaponId}'");
+        if (!m) return null;
+        if (m.HasProperty("_BaseMap")) return "_BaseMap"; // URP Lit
+        if (m.HasProperty("_MainTex")) return "_MainTex"; // Standard
+        return null;
+    }
 
-        EnsureBlocks();
+    public void ApplySkin(WeaponSkin skin)
+    {
+        if (!meshRenderer || skin == null) return;
+        ClearAllPropertyBlocks();
 
-        // 1) override material theo slot (nếu có)
-        if (skin.slotOverrides != null && skin.slotOverrides.Count > 0)
+        foreach (var s in skin.slots)
         {
-            var mats = targetRenderer.sharedMaterials;
-            int n = Mathf.Min(mats.Length, skin.slotOverrides.Count);
-            for (int i = 0; i < n; i++)
-                if (skin.slotOverrides[i]) mats[i] = skin.slotOverrides[i];
-            targetRenderer.sharedMaterials = mats;
-        }
+            if (s.materialIndex < 0 || s.materialIndex >= MaterialCount) continue;
 
-        // 2) gán màu theo slot
-        ApplyCustom(skin.slotColors);
-    }
+            var mat = meshRenderer.sharedMaterials[s.materialIndex];
+            var block = new MaterialPropertyBlock();
+            meshRenderer.GetPropertyBlock(block, s.materialIndex);
 
-    public void ApplyCustom(IList<Color> colors)
-    {
-        if (!targetRenderer || colors == null) return;
+            if (s.overrideColor)
+            {
+                string colorProp = FindColorProp(mat);
+                if (!string.IsNullOrEmpty(colorProp))
+                    block.SetColor(colorProp, s.color);
+            }
 
-        int n = Mathf.Min(GetSlotCount(), colors.Count);
-        for (int i = 0; i < n; i++)
-        {
-            var mpb = _blocks[i];
-            targetRenderer.GetPropertyBlock(mpb, i);
-            mpb.SetColor(_colorId, colors[i]);
-            targetRenderer.SetPropertyBlock(mpb, i);
+            if (s.overrideTexture && s.albedo)
+            {
+                string texProp = FindTexProp(mat);
+                if (!string.IsNullOrEmpty(texProp))
+                    block.SetTexture(texProp, s.albedo);
+            }
+
+            meshRenderer.SetPropertyBlock(block, s.materialIndex);
         }
     }
 
-    // Tiện lợi: set 1 slot
-    public void ApplyCustomForSlot(int slotIndex, Color color)
+    // Custom: mảng màu theo thứ tự materialIndex (0..n-1)
+    public void ApplyCustomColors(Color[] slotColors)
     {
-        if (!targetRenderer) return;
-        if (slotIndex < 0 || slotIndex >= GetSlotCount()) return;
+        if (!meshRenderer || slotColors == null) return;
+        ClearAllPropertyBlocks();
 
-        var mpb = _blocks[slotIndex];
-        targetRenderer.GetPropertyBlock(mpb, slotIndex);
-        mpb.SetColor(_colorId, color);
-        targetRenderer.SetPropertyBlock(mpb, slotIndex);
+        int n = Mathf.Min(slotColors.Length, MaterialCount);
+        for (int i = 0; i < n; i++)
+        {
+            var mat = meshRenderer.sharedMaterials[i];
+            string colorProp = FindColorProp(mat);
+            if (string.IsNullOrEmpty(colorProp)) continue;
+
+            var block = new MaterialPropertyBlock();
+            meshRenderer.GetPropertyBlock(block, i);
+            block.SetColor(colorProp, slotColors[i]);
+            meshRenderer.SetPropertyBlock(block, i);
+        }
+    }
+
+    public void ClearAllPropertyBlocks()
+    {
+        if (!meshRenderer) return;
+        var block = new MaterialPropertyBlock();
+        for (int i = 0; i < MaterialCount; i++)
+        {
+            block.Clear();
+            meshRenderer.SetPropertyBlock(block, i);
+        }
     }
 }

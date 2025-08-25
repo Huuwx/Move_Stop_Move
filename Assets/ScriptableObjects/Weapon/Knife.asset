@@ -23,5 +23,5 @@ MonoBehaviour:
   name: Knife
   description: +2 Speed
   isRotate: 0
-  skins: {fileID: 0}
+  skins: {fileID: 11400000, guid: ae45af33284cae240b86a7d85a6c0477, type: 2}
   selectedSkinId: default

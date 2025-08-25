@@ -200,6 +200,19 @@ public class WeaponAttack : MonoBehaviour
         {
             Vector3 direct3D = new Vector3(direct.x, 0, direct.y);
             GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
+            
+            var projApplier = projectile.GetComponentInChildren<WeaponSkinApplier>();
+            if (projApplier)
+            {
+                string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
+                var db = currentWeapon.skins;
+                var skin = db ? db.GetById(selectedId) : null;
+
+                if (skin && skin.id != "custom") projApplier.ApplySkin(skin);
+                else projApplier.ApplyCustomColors(WeaponSkinSave.LoadCustom(currentWeapon.id, projApplier.MaterialCount));
+            }
+
+            
             projectile.transform.position = throwOrigin.position;
         
             projectile.transform.LookAt(collider.transform);
@@ -225,43 +238,35 @@ public class WeaponAttack : MonoBehaviour
     public void ChangeWeapon(WeaponData newWeapon)
     {
         currentWeapon = newWeapon;
-        Vector3 weaponHandPosition = weaponHandVisual.gameObject.transform.position;
-        Quaternion weaponHandRotation = weaponHandVisual.gameObject.transform.rotation;
-        Destroy(weaponHandVisual.gameObject);
-        weaponHandVisual = Instantiate(currentWeapon.visual, 
-            weaponHandPosition, 
-            weaponHandRotation, 
-            handHoldWeaponTransform);
-        
+
+        Vector3 weaponHandPosition = weaponHandVisual.transform.position;
+        Quaternion weaponHandRotation = weaponHandVisual.transform.rotation;
+        Destroy(weaponHandVisual);
+
+        weaponHandVisual = Instantiate(currentWeapon.visual, weaponHandPosition, weaponHandRotation, handHoldWeaponTransform);
+
         var applier = weaponHandVisual.GetComponent<WeaponSkinApplier>();
-        // if (applier == null)
-        // {
-        //     Debug.LogWarning("Weapon visual thiếu WeaponSkinApplier_SingleRenderer");
-        // }
-        // else
-        // {
-        //     string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
-        //
-        //     var db = currentWeapon.skins;
-        //     var skin = db ? db.GetById(selectedId) : null;
-        //
-        //     if (skin && skin.id != "custom")
-        //     {
-        //         applier.ApplySkin(skin);
-        //     }
-        //     else
-        //     {
-        //         // var (bladeCol, handleCol) = WeaponSkinSave.LoadCustom(
-        //         //     currentWeapon.id,
-        //         //     new Color(0.9f,0.3f,1f),  // mặc định blade
-        //         //     new Color(0.6f,0.6f,0.6f) // mặc định handle
-        //         // );
-        //         // applier.ApplyCustom(bladeCol, handleCol);
-        //     }
-        // }
-        
+        if (applier == null) applier = weaponHandVisual.AddComponent<WeaponSkinApplier>();
+
+        string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
+
+        var db   = currentWeapon.skins;
+        var skin = db ? db.GetById(selectedId) : null;
+
+        if (skin && skin.id != "custom")
+        {
+            applier.ApplySkin(skin);
+        }
+        else
+        {
+            // Load màu custom theo số material của vũ khí
+            var colors = WeaponSkinSave.LoadCustom(currentWeapon.id, applier.MaterialCount);
+            applier.ApplyCustomColors(colors);
+        }
+
         weaponHandVisual.SetActive(true);
     }
+
     
     public void UpgradeAttackRadius(float radius)
     {

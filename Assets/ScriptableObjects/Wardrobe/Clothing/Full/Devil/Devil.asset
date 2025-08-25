@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4a18fc0ab3dc0274e82662fa525ce40c, type: 2}
   - {fileID: 11400000, guid: e8dd796c7584ddf41add9ea6c27ed984, type: 2}
   - {fileID: 11400000, guid: 03e37de5f2b98774f9d5d77d801c4533, type: 2}
-  unlocked: 0
+  unlocked: 1
   equipped: 0
   upgradeIndex: 0
   price: 0

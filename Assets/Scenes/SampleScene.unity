@@ -4137,13 +4137,15 @@ GameObject:
   m_Component:
   - component: {fileID: 587695813}
   - component: {fileID: 587695814}
+  - component: {fileID: 587695815}
+  - component: {fileID: 587695816}
   m_Layer: 5
   m_Name: Skin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &587695813
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4189,6 +4191,36 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &587695815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587695812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6185431ad65d57c45bd407934e4fff20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 0}
+  applier: {fileID: 0}
+  database: {fileID: 0}
+--- !u!114 &587695816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587695812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8310af6e1f5e1aa4bb309c2a3220bb29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selector: {fileID: 587695815}
+  gridRoot: {fileID: 587695813}
+  itemPrefab: {fileID: 4048168696118756992, guid: ae5f530b9ad4110499c24a53867503b0, type: 3}
 --- !u!1 &597507433 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7689661721366098675, guid: 0fc9fcf756c12d54aba1ccd7fc263012, type: 3}
@@ -6254,6 +6286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce5a7d142beb4349a68181536f17fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponSkinSelector: {fileID: 587695815}
+  _skinListUI: {fileID: 587695816}
   currentWeaponShopData: {fileID: 0}
   weaponModels:
   - {fileID: 1641755667}
