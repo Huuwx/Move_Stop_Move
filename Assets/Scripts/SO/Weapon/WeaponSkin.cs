@@ -5,7 +5,7 @@ public class WeaponSkin : ScriptableObject
 {
     public string id = "default";
     public string displayName;
-    public Sprite preview;
+    public RenderTexture preview;
     public bool isCustom = false; // preset: false, skin đặc biệt "custom": true
 
     [System.Serializable]

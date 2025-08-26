@@ -132,7 +132,7 @@ public class CameraFollow : MonoBehaviour
         {
             offsetGameplay += new Vector3(0f, 2f, -1f) * 5;
             Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
-            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, 10f * Time.deltaTime);
         }
     }
 
@@ -143,7 +143,7 @@ public class CameraFollow : MonoBehaviour
         {
             offsetGameplay -= new Vector3(0f, 2f, -1f) * 5;
             Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
-            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, 10f * Time.deltaTime);
         }
     }
 

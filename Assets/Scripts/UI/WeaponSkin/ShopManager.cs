@@ -92,6 +92,7 @@ public class ShopManager : MonoBehaviour
     public void WatchAds()
     {
         currentWeaponShopData.isPurchased = true;
+        _skinListUI.gameObject.SetActive(true);
         GameController.Instance.GetUIController().UpdateWeaponInfo(currentWeaponShopData);
         GameController.Instance.SaveData();
     }

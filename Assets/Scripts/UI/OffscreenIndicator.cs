@@ -94,14 +94,14 @@ public class OffscreenIndicator : MonoBehaviour
 
         // Xoay mũi tên hướng từ tâm → vị trí mép
         float angle = Mathf.Atan2(fromCenter.y, fromCenter.x) * Mathf.Rad2Deg;
-        arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle -90f); // mũi tên sprite hướng lên trên? -90 cho đúng chiều
-        if(angle > 90f || angle < -90f)
-        {
-            arrowImage.transform.localPosition = new Vector3(-70f, 0, 0);
-        }
-        else
-        {
-            arrowImage.transform.localPosition = new Vector3(70f, 0, 0);
-        }
+        arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle); // nếu set mũi tên sprite hướng lên trên? -90 cho đúng chiều
+        // if(angle > 90f || angle < -90f)
+        // {
+        //     arrowImage.transform.localPosition = new Vector3(-70f, 0, 0);
+        // }
+        // else
+        // {
+        //     arrowImage.transform.localPosition = new Vector3(70f, 0, 0);
+        // }
     }
 }

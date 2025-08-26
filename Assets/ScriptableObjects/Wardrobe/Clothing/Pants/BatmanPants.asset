@@ -15,7 +15,7 @@ MonoBehaviour:
   id: batman_pants
   displayName: Batman Pants
   category: 1
-  icon: {fileID: 21300000, guid: e4f64be77ed3e4f4f8a8758cc81e31df, type: 3}
+  icon: {fileID: 8400000, guid: ac1768bc7e804b94698b31ef8afc7072, type: 2}
   prefab: {fileID: 0}
   material: {fileID: 2100000, guid: 86dc3f4609021c24e9c6b0497d64b048, type: 2}
   unlocked: 0

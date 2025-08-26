@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: custom
   displayName: 
-  preview: {fileID: 21300000, guid: e6897a324d55a964a9d218db3952755c, type: 3}
+  preview: {fileID: 8400000, guid: 46646f6afc52c3248868f790852ab352, type: 2}
   isCustom: 1
   slots:
   - materialIndex: 0
-    overrideColor: 1
-    color: {r: 0, g: 0, b: 0, a: 0}
+    overrideColor: 0
+    color: {r: 1, g: 1, b: 1, a: 0}
     overrideTexture: 0
     albedo: {fileID: 0}
   - materialIndex: 1
-    overrideColor: 1
-    color: {r: 0, g: 0, b: 0, a: 0}
+    overrideColor: 0
+    color: {r: 1, g: 1, b: 1, a: 0}
     overrideTexture: 0
     albedo: {fileID: 0}

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using ZombieCity.Abilities;
+using Random = UnityEngine.Random;
 
 public class WeaponAttack : MonoBehaviour
 {
@@ -28,12 +29,15 @@ public class WeaponAttack : MonoBehaviour
     private IShotPattern _pattern = new BasicForwardPattern();
     private PlayerStats _stats;
     private bool _homing;
+    public int attackCount = 1;
 
     private void Awake()
     {
         attackCooldown = 0f;
         canAttack = false;
         _stats = GetComponentInParent<PlayerStats>();
+        
+        attackCount = Random.Range(1, 3);
     }
 
     private void Start()
@@ -200,27 +204,41 @@ public class WeaponAttack : MonoBehaviour
         {
             Vector3 direct3D = new Vector3(direct.x, 0, direct.y);
             GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
-            
-            var projApplier = projectile.GetComponentInChildren<WeaponSkinApplier>();
-            if (projApplier)
+
+            if (gameObject.CompareTag(Params.PlayerTag))
             {
-                string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
-                var db = currentWeapon.skins;
-                var skin = db ? db.GetById(selectedId) : null;
+                var projApplier = projectile.GetComponentInChildren<WeaponSkinApplier>();
+                if (projApplier)
+                {
+                    string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
+                    var db = currentWeapon.skins;
+                    var skin = db ? db.GetById(selectedId) : null;
 
-                if (skin && skin.id != "custom") projApplier.ApplySkin(skin);
-                else projApplier.ApplyCustomColors(WeaponSkinSave.LoadCustom(currentWeapon.id, projApplier.MaterialCount));
+                    if (skin && skin.id != "custom") projApplier.ApplySkin(skin);
+                    else
+                        projApplier.ApplyCustomColors(WeaponSkinSave.LoadCustom(currentWeapon.id,
+                            projApplier.MaterialCount));
+                }
             }
-
-            
             projectile.transform.position = throwOrigin.position;
         
-            projectile.transform.LookAt(collider.transform);
+            //projectile.transform.LookAt(collider.transform);
         
             projectile.transform.SetParent(weaponInstantiateTransform);
             WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
             weaponProjectile.Launch(direct3D, targetLayer, currentWeapon, playerTransform.gameObject, ultimate);
-        
+            if (gameObject.CompareTag(Params.BotTag))
+            {
+                attackCount--;
+                if (attackCount <= 0)
+                {
+                    EnemyAI enemyAI = GetComponentInParent<EnemyAI>();
+                    if (enemyAI != null)
+                        enemyAI.ChooseRandomDirection();
+                }
+            }
+            
+            
             if (ultimate)
             {
                 if(gameObject.CompareTag(Params.PlayerTag))

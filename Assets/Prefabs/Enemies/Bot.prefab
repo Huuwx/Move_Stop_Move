@@ -16902,7 +16902,7 @@ GameObject:
   - component: {fileID: 6680224574462403981}
   m_Layer: 6
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16946,6 +16946,7 @@ MonoBehaviour:
   throwOrigin: {fileID: 6123144151275312886}
   maxAttackCooldown: 0.9
   attackRadius: 7
+  attackCount: 1
 --- !u!1 &7115706128397416062
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DBAxeSkins
   m_EditorClassIdentifier: 
   skins:
+  - {fileID: 11400000, guid: c25f8b507cec20f4196a13ee51b277e2, type: 2}
   - {fileID: 11400000, guid: 06087cd32bfa6d048aeff76c147d9a43, type: 2}
   - {fileID: 11400000, guid: b98b10910e5b3e544ad3751329ce90d4, type: 2}
   - {fileID: 11400000, guid: 088667a0df401754c9f156e9ee7e2255, type: 2}

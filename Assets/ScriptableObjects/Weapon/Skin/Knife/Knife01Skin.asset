@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: no1_hammer
   displayName: 
-  preview: {fileID: 21300000, guid: 1d4a1e06b32619f4aa7d65d84aeb84d8, type: 3}
+  preview: {fileID: 8400000, guid: 9676b26af81551f4690afebfafd436e8, type: 2}
   isCustom: 0
   slots:
   - materialIndex: 0

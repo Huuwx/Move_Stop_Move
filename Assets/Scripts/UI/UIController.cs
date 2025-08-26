@@ -49,6 +49,10 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject skinShopPanel;
     [SerializeField] TextMeshProUGUI txtSkinShopCoin;
 
+    [Header("Reference Model 3D")] 
+    [SerializeField] private GameObject weapons;
+    [SerializeField] private GameObject skins;
+
     private void Start()
     {
         if(uiPanelGameComplete != null)
@@ -183,6 +187,7 @@ public class UIController : MonoBehaviour
 
         if (index == 0)
         {
+            weapons.SetActive(true);
             GameController.Instance.GetPlayer().gameObject.SetActive(false);
             if (uiShopPanel != null)
             {
@@ -197,6 +202,7 @@ public class UIController : MonoBehaviour
             }
         } else if (index == 1)
         {
+            skins.SetActive(true);
             GameController.Instance.SetState(GameState.Shop);
             if (skinShopPanel != null)
             {
@@ -215,6 +221,7 @@ public class UIController : MonoBehaviour
 
         if (index == 0)
         {
+            weapons.SetActive(false);
             GameController.Instance.GetPlayer().gameObject.SetActive(true);
             if (uiShopPanel != null)
             {
@@ -224,6 +231,7 @@ public class UIController : MonoBehaviour
         }
         else if (index == 1)
         {
+            skins.SetActive(false);
             GameController.Instance.SetState(GameState.Home);
             if (skinShopPanel != null)
             {

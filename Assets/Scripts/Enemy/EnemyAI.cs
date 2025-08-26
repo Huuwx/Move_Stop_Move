@@ -65,21 +65,24 @@ public class EnemyAI : EnemyBase
         Collider[] hits = Physics.OverlapSphere(transform.position, weaponAttack.GetAttackRadius(), weaponAttack.GetTargetLayer());
         Transform target = null;
 
-        foreach (Collider hit in hits)
+        if (weaponAttack.attackCount > 0)
         {
-            if (hit.gameObject == gameObject) continue; // bỏ qua chính mình
-            if (!hit.gameObject.activeSelf) continue;   // bỏ qua đối thủ đã chết
-            
-            target = hit.transform;
-            break;
-        }
+            foreach (Collider hit in hits)
+            {
+                if (hit.gameObject == gameObject) continue; // bỏ qua chính mình
+                if (!hit.gameObject.activeSelf) continue; // bỏ qua đối thủ đã chết
 
-        if (target != null && weaponAttack.GetAttackCooldown() <= 0f)
-        {
-            // 2. Chuyển sang Attack (stop, nhìn mục tiêu)
-            state = EnemyState.Attack;
-            weaponAttack.SetCanAttack(true);
-            moveTimer = 0f;
+                target = hit.transform;
+                break;
+            }
+
+            if (target != null && weaponAttack.GetAttackCooldown() <= 0f)
+            {
+                // 2. Chuyển sang Attack (stop, nhìn mục tiêu)
+                state = EnemyState.Attack;
+                weaponAttack.SetCanAttack(true);
+                moveTimer = 0f;
+            }
         }
         else
         {
@@ -108,12 +111,13 @@ public class EnemyAI : EnemyBase
             {
                 moveTimer = 0f;
                 animationController.SetIdleAnimation();
+                weaponAttack.attackCount = Random.Range(1, 3);
             }
         }
     }
 
     // Chọn hướng di chuyển ngẫu nhiên mới
-    void ChooseRandomDirection()
+    public void ChooseRandomDirection()
     {
         moveTimer = Random.Range(2f, 4f);
         float angle = Random.Range(0f, 360f);

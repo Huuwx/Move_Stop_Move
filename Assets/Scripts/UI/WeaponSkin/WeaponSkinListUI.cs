@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponSkinListUI : MonoBehaviour
 {
     [SerializeField] WeaponSkinSelector selector;
     [SerializeField] Transform gridRoot;
     [SerializeField] WeaponSkinItemUI itemPrefab; // prefab UI có Image + Button
-    [SerializeField] Sprite customIcon; // icon cho ô Custom
+    [SerializeField] RenderTexture customIcon; // icon cho ô Custom
 
     List<WeaponSkinItemUI> items = new();
 
@@ -20,36 +21,41 @@ public class WeaponSkinListUI : MonoBehaviour
 
         var db = weapon.skins;
         if (!db || db.skins == null) return;
-
-         //Thêm ô Custom
-         var custom = Instantiate(itemPrefab, gridRoot);
-         bool customSelected = WeaponSkinSave.LoadSelected(weapon.id, weapon.selectedSkinId) == "custom";
-         custom.Bind(
-             "(Custom)",
-             preview: customIcon, // có thể để 1 icon bút vẽ tùy bạn
-             click: () => UpdateCustomSelection(),
-             locked: false,
-             selected: customSelected,
-             id: "custom"
-         );
-
-        items.Add(custom);
         
         foreach (var skin in db.skins)
         {
-            var ui = Instantiate(itemPrefab, gridRoot);
-            bool locked = false; // hoặc đọc từ dữ liệu mua/bỏ khóa
-            bool selected = (skin.id == WeaponSkinSave.LoadSelected(weapon.id, weapon.selectedSkinId));
-            ui.Bind(
-                skin.displayName,
-                skin.preview,
-                click: () => UpdateSelection(skin.id),
-                locked: locked,
-                selected: selected,
-                id: skin.id
-            );
+            if (!skin.isCustom)
+            {
+                var ui = Instantiate(itemPrefab, gridRoot);
+                bool locked = false; // hoặc đọc từ dữ liệu mua/bỏ khóa
+                bool selected = (skin.id == WeaponSkinSave.LoadSelected(weapon.id, weapon.selectedSkinId));
+                ui.Bind(
+                    skin.displayName,
+                    skin.preview,
+                    click: () => UpdateSelection(skin.id),
+                    locked: locked,
+                    selected: selected,
+                    id: skin.id
+                );
+                items.Add(ui);
+            }
+            else
+            {
+                //Thêm ô Custom
+                var custom = Instantiate(itemPrefab, gridRoot);
+                bool customSelected = WeaponSkinSave.LoadSelected(weapon.id, weapon.selectedSkinId) == "custom";
+                custom.Bind(
+                    skin.displayName,
+                    skin.preview,
+                    click: () => UpdateCustomSelection(),
+                    locked: false,
+                    selected: customSelected,
+                    id: "custom"
+                );
+                items.Add(custom);
+            }
 
-            items.Add(ui);
+            
         }
     }
     

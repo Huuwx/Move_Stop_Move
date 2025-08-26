@@ -6747,6 +6747,8 @@ MonoBehaviour:
   txtShopCoin: {fileID: 0}
   skinShopPanel: {fileID: 0}
   txtSkinShopCoin: {fileID: 0}
+  weapons: {fileID: 0}
+  skins: {fileID: 0}
 --- !u!1 &1579028858
 GameObject:
   m_ObjectHideFlags: 0
@@ -8701,7 +8703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 464773162524152043, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 40
+      value: 40.27
       objectReference: {fileID: 0}
     - target: {fileID: 464773162524152043, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9246,7 +9248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1422663346141623407, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -34.85
+      value: -34.5
       objectReference: {fileID: 0}
     - target: {fileID: 1422663346141623407, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_LocalPosition.z

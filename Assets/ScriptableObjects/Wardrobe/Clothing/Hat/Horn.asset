@@ -15,7 +15,7 @@ MonoBehaviour:
   id: horn
   displayName: Horn
   category: 0
-  icon: {fileID: 21300000, guid: 96aa2aa907c41114ab172688737b5c28, type: 3}
+  icon: {fileID: 8400000, guid: 291d3ff7d80e8914ab9f9667aa751dea, type: 2}
   prefab: {fileID: 3060513212969178238, guid: e420c0148f0378847a5710c0e417e2ca, type: 3}
   material: {fileID: 0}
   unlocked: 0

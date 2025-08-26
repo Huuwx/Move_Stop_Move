@@ -79,6 +79,7 @@ public class WardrobeUI : MonoBehaviour
                 _slots.Add(slot);
                 count++;
             }
+            OnClickItem(_slots[0]);
         }
         else
         {
@@ -97,15 +98,16 @@ public class WardrobeUI : MonoBehaviour
                 _slots.Add(slot);
                 count++;
             }
+            OnClickItem(_slots[0]);
         }
         
         // Cập nhật UI
-        buySkinButton.gameObject.gameObject.SetActive(false);
-        equipSKinButton.gameObject.gameObject.SetActive(false);
-        watchAdsButton.gameObject.gameObject.SetActive(false);
+        // buySkinButton.gameObject.gameObject.SetActive(false);
+        // equipSKinButton.gameObject.gameObject.SetActive(false);
+        // watchAdsButton.gameObject.gameObject.SetActive(false);
 
         // Bỏ highlight tất cả
-        foreach (var s in _slots) s.SetSelected(false);
+        //foreach (var s in _slots) s.SetSelected(false);
     }
 
     public void OnClickItem(ItemSlotUI slot)

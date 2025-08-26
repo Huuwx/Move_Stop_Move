@@ -15,7 +15,7 @@ MonoBehaviour:
   id: hat_cap
   displayName: Hat Cap
   category: 0
-  icon: {fileID: 21300000, guid: 92463543e35047541a75ae878d1b3257, type: 3}
+  icon: {fileID: 8400000, guid: cf8578280b774da44baae32be4545ab1, type: 2}
   prefab: {fileID: 217358528533199921, guid: 74f6e77ac0786d544b90421851c0c4a5, type: 3}
   material: {fileID: 0}
   unlocked: 0

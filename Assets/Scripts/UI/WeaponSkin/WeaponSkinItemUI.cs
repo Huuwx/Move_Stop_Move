@@ -8,7 +8,7 @@ public class WeaponSkinItemUI : MonoBehaviour
 {
     [Header("Refs")]
     [SerializeField] private Button button;            // Button gốc để bấm chọn
-    [SerializeField] private Image previewImage;       // Ảnh preview skin (Sprite)
+    [SerializeField] private RawImage previewImage;       // Ảnh preview skin (Sprite)
     [SerializeField] private GameObject lockIcon;      // icon/nhãn khóa (nếu skin chưa mở)
     [SerializeField] private GameObject selectedFrame; // khung highlight khi đang chọn
 
@@ -22,7 +22,7 @@ public class WeaponSkinItemUI : MonoBehaviour
     void Reset()
     {
         if (!button)        button        = GetComponentInChildren<Button>(true);
-        if (!previewImage)  previewImage  = GetComponentInChildren<Image>(true);
+        if (!previewImage)  previewImage  = GetComponentInChildren<RawImage>(true);
         // lockIcon & selectedFrame: tự kéo thả trong Inspector
     }
 
@@ -35,7 +35,7 @@ public class WeaponSkinItemUI : MonoBehaviour
     /// <param name="locked">Skin đang bị khóa?</param>
     /// <param name="selected">Skin hiện đang được chọn?</param>
     /// <param name="id">Id nội bộ của skin (vd: "gold", "custom")</param>
-    public void Bind(string displayName, Sprite preview, Action click,
+    public void Bind(string displayName, RenderTexture preview, Action click,
                      bool locked = false, bool selected = false, string id = "")
     {
         skinId = id;
@@ -43,7 +43,7 @@ public class WeaponSkinItemUI : MonoBehaviour
         
         if (previewImage)
         {
-            previewImage.sprite = preview;
+            previewImage.texture = preview;
             previewImage.enabled = preview != null;
         }
 
@@ -83,10 +83,10 @@ public class WeaponSkinItemUI : MonoBehaviour
     public bool IsSelected() => isSelected;
 
     // Helper nếu cần cập nhật preview/name động:
-    public void SetPreview(Sprite s)
+    public void SetPreview(RenderTexture s)
     {
         if (!previewImage) return;
-        previewImage.sprite = s;
+        previewImage.texture = s;
         previewImage.enabled = s != null;
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   id: cowboy_hat
   displayName: CowBoy
   category: 0
-  icon: {fileID: 21300000, guid: d1fe9fc514e52d14c8d8acc35592667b, type: 3}
+  icon: {fileID: 8400000, guid: 19f60a2fd66db6c40acf38b6f26a6fe9, type: 2}
   prefab: {fileID: 4932577291807489996, guid: d8fbb1fd26d2a484b9002b4cc9a1af31, type: 3}
   material: {fileID: 0}
   unlocked: 0
