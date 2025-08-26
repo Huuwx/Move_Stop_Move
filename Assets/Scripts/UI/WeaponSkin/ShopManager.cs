@@ -78,6 +78,7 @@ public class ShopManager : MonoBehaviour
             GameController.Instance.GetData().SetCurrentCoin(
                 GameController.Instance.GetData().GetCurrentCoin() - currentWeaponShopData.price);
             currentWeaponShopData.isPurchased = true;
+            _skinListUI.gameObject.SetActive(true);
             GameController.Instance.GetUIController().UpdateWeaponInfo(currentWeaponShopData);
             GameController.Instance.GetUIController().UpdateCoin();
             GameController.Instance.SaveData();
@@ -99,11 +100,11 @@ public class ShopManager : MonoBehaviour
     {
         if (currentWeaponShopData.isPurchased)
         {
-            if (currentWeaponShopData.isEquipped)
-            {
-                Debug.Log("This weapon is already equipped.");
-                return;
-            }
+            // if (currentWeaponShopData.isEquipped)
+            // {
+            //     Debug.Log("This weapon is already equipped.");
+            //     return;
+            // }
             // GameController.Instance.GetData().GetCurrentWeaponData().isEquipped = false;
             // GameController.Instance.GetData().SetCurrentWeaponData(currentWeaponShopData);
             // currentWeaponShopData.isEquipped = true;
@@ -163,6 +164,13 @@ public class ShopManager : MonoBehaviour
 
         // Preset selector + grid
         _weaponSkinSelector?.Setup(currentWeaponShopData, applier);
+        if (!currentWeaponShopData.isPurchased)
+        {
+            _skinListUI.gameObject.SetActive(false);
+            return;
+        }
+        _skinListUI.gameObject.SetActive(true);
+        
         _skinListUI?.Build(currentWeaponShopData);
 
         // >>> NEW: mở panel Custom cho đúng vũ khí & đúng số part

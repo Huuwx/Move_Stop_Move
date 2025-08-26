@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +8,11 @@ public class WeaponSkinSelector : MonoBehaviour
     [SerializeField] private WeaponSkinApplier applier;       // applier của model đang render ở UI (hoặc ở tay)
     [SerializeField] private WeaponSkinDatabase database;     // có thể lấy từ weaponData.skins
     [SerializeField] private GameObject customPalettePanel;
-    [SerializeField] private RectTransform equipBtn;
+    [SerializeField] private RectTransform equipBtnReactTransform;
+    [SerializeField] private Button equipButton;
+    [SerializeField] private TextMeshProUGUI equipBtnText;
 
+    private string currentSelectedSkinId;
     private bool isCustom;
     private Color[] customColors;
 
@@ -23,13 +27,13 @@ public class WeaponSkinSelector : MonoBehaviour
 
         if (selected == "custom")
         {
-            isCustom = true;
+            UpdateCustomLayout();
             customColors = WeaponSkinSave.LoadCustom(weaponData.id, applier.MaterialCount);
             applier.ApplyCustomColors(customColors);
         }
         else
         {
-            isCustom = false;
+            UpdatePresetLayout();
             var skin = database ? database.GetById(selected) : null;
             if (skin) applier.ApplySkin(skin);
         }
@@ -39,27 +43,81 @@ public class WeaponSkinSelector : MonoBehaviour
     public void SelectPreset(string skinId)
     {
         if (!weaponData || !database) return;
-        equipBtn.anchoredPosition = new Vector2(0f, 150f);
-        customPalettePanel.SetActive(false);
-        isCustom = false;
-        WeaponSkinSave.SaveSelected(weaponData.id, skinId);
+        UpdatePresetLayout();
+        currentSelectedSkinId = skinId;
+        UpdateTextEquipButton(currentSelectedSkinId);
+        //WeaponSkinSave.SaveSelected(weaponData.id, skinId);
         var skin = database.GetById(skinId);
         if (skin) applier.ApplySkin(skin);
+    }
+    
+    public void OnClickEquip()
+    {
+        if (!weaponData || !weaponData.isPurchased) return;
+        string currentSkinId = WeaponSkinSave.LoadSelected(weaponData.id, weaponData.selectedSkinId);
+        if (isCustom)
+        {
+            if (currentSkinId != "custom")
+            {
+                WeaponSkinSave.SaveSelected(weaponData.id, "custom");
+                equipBtnText.text = "Equipped";
+                equipButton.interactable = false;
+            }
+        }
+        else
+        {
+            var skin = database ? database.GetById(currentSelectedSkinId) : null;
+            if (skin != null)
+            {
+                WeaponSkinSave.SaveSelected(weaponData.id, skin.id);
+                equipBtnText.text = "Equipped";
+                equipButton.interactable = false;
+            }
+        }
+    }
+
+    public void UpdatePresetLayout()
+    {
+        equipBtnReactTransform.anchoredPosition = new Vector2(0f, 150f);
+        customPalettePanel.SetActive(false);
+        isCustom = false;
+    }
+    
+    public void UpdateTextEquipButton(string skinId)
+    {
+        string currentWeaponId = GameController.Instance.GetData().GetValueByKey(Params.WeaponKey);
+        string currentSkinId = WeaponSkinSave.LoadSelected(weaponData.id, weaponData.selectedSkinId);
+        if (currentSkinId == skinId && weaponData.id == currentWeaponId)
+        {
+            equipBtnText.text = "Equipped";
+            equipButton.interactable = false;
+        }
+        else
+        {
+            equipBtnText.text = "Equip";
+            equipButton.interactable = true;
+        }
     }
 
     // chuyển sang tab "Custom" (hiện bảng màu)
     public void SelectCustom()
     {
         if (!weaponData) return;
-        equipBtn.anchoredPosition = new Vector2(0f, -150f);
-        customPalettePanel.SetActive(true);
-        isCustom = true;
-        WeaponSkinSave.SaveSelected(weaponData.id, "custom");
+        UpdateCustomLayout();
+        UpdateTextEquipButton("custom");
+        //WeaponSkinSave.SaveSelected(weaponData.id, "custom");
 
         if (customColors == null || customColors.Length != applier.MaterialCount)
             customColors = WeaponSkinSave.LoadCustom(weaponData.id, applier.MaterialCount);
 
         applier.ApplyCustomColors(customColors);
+    }
+
+    public void UpdateCustomLayout()
+    {
+        equipBtnReactTransform.anchoredPosition = new Vector2(0f, -150f);
+        customPalettePanel.SetActive(true);
+        isCustom = true;
     }
 
     // gắn vào color picker của từng phần (slotIndex = 0..MaterialCount-1)

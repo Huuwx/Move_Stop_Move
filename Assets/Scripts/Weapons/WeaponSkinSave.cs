@@ -2,9 +2,9 @@ using UnityEngine;
 
 public static class WeaponSkinSave
 {
-    static string KeySkin(string weaponId)         => $"weapon_{weaponId}_skin";
-    static string KeyCount(string weaponId)        => $"weapon_{weaponId}_custom_count";
-    static string KeySlot(string weaponId, int i)  => $"weapon_{weaponId}_custom_{i}";
+    public static string KeySkin(string weaponId)         => $"weapon_{weaponId}_skin";
+    public static string KeyCount(string weaponId)        => $"weapon_{weaponId}_custom_count";
+    public static string KeySlot(string weaponId, int i)  => $"weapon_{weaponId}_custom_{i}";
 
     public static void SaveSelected(string weaponId, string skinId)
     {

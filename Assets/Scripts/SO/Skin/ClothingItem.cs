@@ -1,5 +1,6 @@
 // ClothingItem.cs
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Wardrobe/Clothing Item")]
 public class ClothingItem : ScriptableObject
@@ -7,7 +8,7 @@ public class ClothingItem : ScriptableObject
     public string id;                       // duy nhất (vd: "hat_viking_01")
     public string displayName;
     public OutfitCategory category;
-    public Sprite icon;                     // icon hiện trong ô xanh
+    public RenderTexture icon;                     // icon hiện trong ô xanh
     public GameObject prefab;               // prefab đội/mặc/cầm
     public Material material;
     public bool unlocked = false;
