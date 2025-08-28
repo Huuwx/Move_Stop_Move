@@ -2369,8 +2369,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 81.942314, y: 80.86482, z: 71.10222}
-  m_Center: {x: 0.1752938, y: 15.859526, z: 36.936317}
+  m_Size: {x: 86.315636, y: 87.424736, z: 71.10222}
+  m_Center: {x: -0.2620358, y: 17.827553, z: 36.936317}
 --- !u!1 &421221192160990194
 GameObject:
   m_ObjectHideFlags: 0
@@ -8814,10 +8814,10 @@ GameObject:
   - component: {fileID: 7609552830896187800}
   - component: {fileID: 8489684581812209655}
   - component: {fileID: 2873197723172844817}
-  - component: {fileID: 4997721331454830321}
+  - component: {fileID: 2574892131153810875}
   m_Layer: 0
   m_Name: Gas_station (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8834,7 +8834,9 @@ Transform:
   m_LocalPosition: {x: 209.3, y: 0, z: -7.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7956955193233041964}
+  - {fileID: 3036613539004816148}
   m_Father: {fileID: 473363994287122618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8489684581812209655
@@ -8890,8 +8892,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4997721331454830321
-MeshCollider:
+--- !u!65 &2574892131153810875
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8908,10 +8910,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 819f35f18f4d00140ac7c0617f6e8e03, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 7.023214, y: 4.9741077, z: 2.8499656}
+  m_Center: {x: -0.81254673, y: 2.4072776, z: -3.2456956}
 --- !u!1 &1425477389466454352
 GameObject:
   m_ObjectHideFlags: 0
@@ -12635,7 +12636,7 @@ GameObject:
   - component: {fileID: 8672303968406727265}
   - component: {fileID: 1826095554376530994}
   - component: {fileID: 7300261359681869613}
-  - component: {fileID: 1327092657411608622}
+  - component: {fileID: 1804318194273855792}
   m_Layer: 0
   m_Name: Gas_station
   m_TagString: Untagged
@@ -12655,7 +12656,9 @@ Transform:
   m_LocalPosition: {x: 143.3, y: 0, z: 10.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4545758298436126701}
+  - {fileID: 5030805530599936060}
   m_Father: {fileID: 473363994287122618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1826095554376530994
@@ -12711,8 +12714,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1327092657411608622
-MeshCollider:
+--- !u!65 &1804318194273855792
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -12729,10 +12732,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 819f35f18f4d00140ac7c0617f6e8e03, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 6.841914, y: 8.536983, z: 2.638958}
+  m_Center: {x: -0.6990026, y: 4.188715, z: -3.0807562}
 --- !u!1 &1936769333476751731
 GameObject:
   m_ObjectHideFlags: 0
@@ -24635,6 +24637,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.0000205, y: 7.797122, z: 6.0000205}
   m_Center: {x: 0.0034140348, y: 3.8985517, z: 0.00008022785}
+--- !u!1 &4254431970045039802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4545758298436126701}
+  - component: {fileID: 7515531917812034946}
+  m_Layer: 0
+  m_Name: gas_pump
+  m_TagString: Wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4545758298436126701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4254431970045039802}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8672303968406727265}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7515531917812034946
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4254431970045039802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.76492536, y: 0.9059717, z: 0.40056118}
+  m_Center: {x: 0.047015034, y: 0.4348875, z: -0.0999068}
 --- !u!1 &4262816887975147112
 GameObject:
   m_ObjectHideFlags: 0
@@ -27938,6 +27993,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0592831, y: 1.9783444, z: 1.3787785}
   m_Center: {x: -0.0000038295416, y: 0.98745686, z: -0.12487846}
+--- !u!1 &4771080536548495768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3036613539004816148}
+  - component: {fileID: 2342994358648092013}
+  m_Layer: 0
+  m_Name: gas_pump
+  m_TagString: Wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3036613539004816148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771080536548495768}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.79, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7609552830896187800}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2342994358648092013
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771080536548495768}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.76492536, y: 0.9059717, z: 0.40056118}
+  m_Center: {x: 0.047015034, y: 0.4348875, z: -0.0999068}
 --- !u!1 &4777144734359158570
 GameObject:
   m_ObjectHideFlags: 0
@@ -28024,6 +28132,59 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4789487540326511750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5030805530599936060}
+  - component: {fileID: 3899606437897227045}
+  m_Layer: 0
+  m_Name: gas_pump (1)
+  m_TagString: Wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5030805530599936060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789487540326511750}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.79, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8672303968406727265}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3899606437897227045
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789487540326511750}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.76492536, y: 0.9059717, z: 0.40056118}
+  m_Center: {x: 0.047015034, y: 0.4348875, z: -0.0999068}
 --- !u!1 &4796378450716268040
 GameObject:
   m_ObjectHideFlags: 0
@@ -49217,6 +49378,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.000018, y: 6.418116, z: 6.000018}
   m_Center: {x: 0.003413394, y: 3.209049, z: 0.00008022785}
+--- !u!1 &8898400771326639602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7956955193233041964}
+  - component: {fileID: 4212537580531882445}
+  m_Layer: 0
+  m_Name: gas_pump
+  m_TagString: Wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7956955193233041964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898400771326639602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7609552830896187800}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4212537580531882445
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898400771326639602}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.76492536, y: 0.9059717, z: 0.40056118}
+  m_Center: {x: 0.047015034, y: 0.4348875, z: -0.0999068}
 --- !u!1 &8911718407708498147
 GameObject:
   m_ObjectHideFlags: 0

@@ -130,6 +130,8 @@ public class WeaponAttack : MonoBehaviour
             
             playerTransform.LookAt(target.transform);
             
+            //playerTransform.transform.rotation = Quaternion.LookRotation(target.bounds.center - playerTransform.transform.position, Vector3.up);
+            
             if (animationController != null)
             {
                 animationController.OnAttack += () => FireProjectile(target);
@@ -203,8 +205,13 @@ public class WeaponAttack : MonoBehaviour
         foreach (var direct in dirs)
         {
             Vector3 direct3D = new Vector3(direct.x, 0, direct.y);
-            GameObject projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
-
+            GameObject projectile = null;
+            if (gameObject.CompareTag(Params.BotTag))
+                projectile =
+                    PoolManager.Instance.GetObjByName(currentWeapon.modelPrefab.name + "(Clone)", currentWeapon.modelPrefab);
+            else
+                projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
+            
             if (gameObject.CompareTag(Params.PlayerTag))
             {
                 var projApplier = projectile.GetComponentInChildren<WeaponSkinApplier>();
@@ -214,15 +221,30 @@ public class WeaponAttack : MonoBehaviour
                     var db = currentWeapon.skins;
                     var skin = db ? db.GetById(selectedId) : null;
 
-                    if (skin && skin.id != "custom") projApplier.ApplySkin(skin);
+                    if (skin && skin.id != "custom")
+                    {
+                        projApplier.ApplySkin(skin);
+                    }
                     else
                         projApplier.ApplyCustomColors(WeaponSkinSave.LoadCustom(currentWeapon.id,
                             projApplier.MaterialCount));
+                    
+                    projectile.name += "_" + skin.id;
+                }
+            }
+            else
+            {
+                if (projectile.name != currentWeapon.modelPrefab.name)
+                {
+                    
                 }
             }
             projectile.transform.position = throwOrigin.position;
-        
-            //projectile.transform.LookAt(collider.transform);
+            
+            // Sai vì dùng throwOrigin → hãy dùng từ chính viên đạn
+            projectile.transform.rotation =
+                Quaternion.LookRotation(collider.bounds.center - projectile.transform.position, Vector3.up);
+
         
             projectile.transform.SetParent(weaponInstantiateTransform);
             WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();

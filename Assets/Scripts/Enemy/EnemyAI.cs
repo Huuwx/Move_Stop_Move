@@ -56,13 +56,14 @@ public class EnemyAI : EnemyBase
 
     void Update()
     {
-        if (state == EnemyState.Dead || 
-            GameController.Instance.State == GameState.Home || 
-            GameController.Instance.State == GameState.Shop || 
+        if (state == EnemyState.Dead ||
+            GameController.Instance.State == GameState.Home ||
+            GameController.Instance.State == GameState.Shop ||
             GameController.Instance.State == GameState.Ready) return;
 
         // 1. Tìm mục tiêu gần nhất trong bán kính attack
-        Collider[] hits = Physics.OverlapSphere(transform.position, weaponAttack.GetAttackRadius(), weaponAttack.GetTargetLayer());
+        Collider[] hits = Physics.OverlapSphere(transform.position, weaponAttack.GetAttackRadius(),
+            weaponAttack.GetTargetLayer());
         Transform target = null;
 
         if (weaponAttack.attackCount > 0)
@@ -86,34 +87,39 @@ public class EnemyAI : EnemyBase
         }
         else
         {
-            if (animationController.IsPlayingUnStopAnimation || animationController.IsPlayingSpecialAnimation)
-                return;
-            
-            // 3. Nếu không có đối thủ, quay lại Wander (di chuyển ngẫu nhiên)
-            state = EnemyState.Idle;
             weaponAttack.SetCanAttack(false);
-
-            wanderTimer -= Time.deltaTime;
-            if (wanderTimer <= 0)
-            {
-                ChooseRandomDirection();
-            }
-            // Di chuyển theo hướng ngẫu nhiên
-            if(moveTimer > 0)
-            {
-                state = EnemyState.Run;
-                moveTimer -= Time.deltaTime;
-                transform.Translate(wanderDir * moveSpeed * Time.deltaTime, Space.World);
-                transform.forward = wanderDir;
-                animationController.SetRunAnimation();
-            }
-            else
-            {
-                moveTimer = 0f;
-                animationController.SetIdleAnimation();
-                weaponAttack.attackCount = Random.Range(1, 3);
-            }
         }
+
+        if (animationController.IsPlayingUnStopAnimation || animationController.IsPlayingSpecialAnimation)
+            return;
+
+        // 3. Nếu không có đối thủ, quay lại Wander (di chuyển ngẫu nhiên)
+        state = EnemyState.Idle;
+        //weaponAttack.SetCanAttack(false);
+
+        wanderTimer -= Time.deltaTime;
+        if (wanderTimer <= 0)
+        {
+            ChooseRandomDirection();
+        }
+
+        // Di chuyển theo hướng ngẫu nhiên
+        if (moveTimer > 0)
+        {
+            state = EnemyState.Run;
+            moveTimer -= Time.deltaTime;
+            transform.Translate(wanderDir * moveSpeed * Time.deltaTime, Space.World);
+            transform.forward = wanderDir;
+            animationController.SetRunAnimation();
+        }
+        else
+        {
+            moveTimer = 0f;
+            animationController.SetIdleAnimation();
+            if(weaponAttack.attackCount <= 0)
+                weaponAttack.attackCount = Random.Range(1, 3);
+        }
+
     }
 
     // Chọn hướng di chuyển ngẫu nhiên mới

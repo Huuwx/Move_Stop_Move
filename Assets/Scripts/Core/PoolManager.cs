@@ -40,4 +40,24 @@ public class PoolManager : MonoBehaviour
         listObj.Add(newObj);
         return newObj;
     }
+    
+    public GameObject GetObjByName(string name, GameObject prefab)
+    {
+        List<GameObject> listObj = new  List<GameObject>();
+        if(pool.ContainsKey(prefab))
+            listObj =  pool[prefab];
+        else 
+            pool.Add(prefab, listObj);
+
+        foreach (GameObject obj in listObj)
+        {
+            if (obj.activeSelf || obj.name != name)
+                continue;
+            return obj;
+        }
+        
+        GameObject newObj = Instantiate(prefab);
+        listObj.Add(newObj);
+        return newObj;
+    }
 }
