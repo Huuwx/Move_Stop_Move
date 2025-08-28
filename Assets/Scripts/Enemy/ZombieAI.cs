@@ -14,9 +14,24 @@ public class ZombieAI : EnemyBase
     [SerializeField] float stoppingDistance = 0.4f;
     [SerializeField] float retargetInterval = 0.2f; // giãn nhịp update destination
     [SerializeField] float detectionRadius = 999f;
-    
+
+    // ====== Speed by distance ======
+    [Header("Speed By Distance")]
+    [SerializeField] float nearRadius = 3.0f;    // trong bán kính này: chạy chậm
+    [SerializeField] float farRadius  = 12.0f;   // ngoài ~ bán kính này: chạy nhanh
+    [SerializeField] float nearSpeed  = 4f;    // tốc độ khi gần
+    [SerializeField] float farSpeed   = 6f;    // tốc độ khi xa
+    [SerializeField] float speedSmooth = 8f;     // hệ số lerp mượt tốc độ
+    [SerializeField] float nearAccel = 8f;       // gia tốc khi gần (mượt)
+    [SerializeField] float farAccel  = 20f;      // gia tốc khi xa (bốc)
+    [SerializeField] bool  clampY    = true;     // nếu game top-down, không tính chênh Y
+
+    // Hysteresis nhẹ để tránh nhấp nháy khi đứng sát rìa
+    [SerializeField] float hysteresis = 0.5f;    // cộng/trừ vào near/far khi xác định vùng
+
     NavMeshAgent agent;
     float retargetTimer;
+    float targetSpeed;      // tốc độ mục tiêu theo khoảng cách
     bool isTouchingPlayer = true;
 
     protected void Awake()
@@ -35,6 +50,12 @@ public class ZombieAI : EnemyBase
         }
         EnsureOnNavMesh();
         agent.stoppingDistance = stoppingDistance;
+
+        // Khởi tạo tốc độ ban đầu
+        targetSpeed = nearSpeed;
+        agent.speed = nearSpeed;
+        agent.acceleration = nearAccel;
+        agent.autoBraking = false; // để đỡ “phanh gấp” trước mục tiêu
     }
 
     void Update()
@@ -42,10 +63,10 @@ public class ZombieAI : EnemyBase
         if (GameController.Instance.State != GameState.Playing)
         {
             agent.isStopped = true;
-            animator.SetBool("Start", false);
+            if (animator) animator.SetBool("Start", false);
             return;
         }
-        
+
         if (!player || !agent) return;
 
         if (!agent.isOnNavMesh)
@@ -53,10 +74,10 @@ public class ZombieAI : EnemyBase
             EnsureOnNavMesh();
             return;
         }
-        
+
         agent.isStopped = false;
 
-        // Cập nhật đích thưa hơn
+        // === Cập nhật đích theo nhịp thưa ===
         retargetTimer -= Time.deltaTime;
         if (retargetTimer <= 0f)
         {
@@ -65,9 +86,28 @@ public class ZombieAI : EnemyBase
                 agent.SetDestination(player.position);
         }
 
-        // Cập nhật Animator từ tốc độ thực
+        // === Tính khoảng cách & đặt tốc độ mục tiêu theo khoảng cách ===
+        float dist = DistanceXZ(transform.position, player.position, clampY);
+
+        // Nội suy mượt giữa nearSpeed và farSpeed theo khoảng cách
+        // t = 0 (≤ nearRadius - hys) → nearSpeed
+        // t = 1 (≥ farRadius  + hys) → farSpeed
+        float t = Mathf.InverseLerp(nearRadius - hysteresis, farRadius + hysteresis, dist);
+        float desiredSpeed = Mathf.Lerp(nearSpeed, farSpeed, t);
+        float desiredAccel = Mathf.Lerp(nearAccel,  farAccel,  t);
+
+        // Lerp theo thời gian để mượt
+        targetSpeed = Mathf.Lerp(targetSpeed, desiredSpeed, speedSmooth * Time.deltaTime);
+        agent.speed = targetSpeed;
+        agent.acceleration = desiredAccel;
+
+        // Cập nhật Animator (nếu có)
         if (animator)
+        {
             animator.SetBool("Start", true);
+            // Nếu bạn có tham số float "MoveSpeed" cho blend-tree:
+            // animator.SetFloat("MoveSpeed", agent.velocity.magnitude);
+        }
     }
 
     bool EnsureOnNavMesh()
@@ -80,34 +120,25 @@ public class ZombieAI : EnemyBase
 
     void TouchPlayer()
     {
-        if (animator)
-        {
-            animator.SetBool("Start", false);
-        }
-        
+        if (animator) animator.SetBool("Start", false);
         agent.isStopped = true;
-        
         //isTouchingPlayer = true;
     }
-    
+
     public override void Die()
     {
-        //rb.isKinematic = true;
         enemyCollider.enabled = false;
-        
-        //GameObject effect = PoolManager.Instance.GetObj(hittedEffect);
+
         GameObject effect = Instantiate(hittedEffect);
         effect.transform.SetParent(PoolManager.Instance.transform);
         effect.transform.rotation = Quaternion.identity;
         effect.transform.position = new Vector3(transform.position.x, 41f, transform.position.z);
         effect.GetComponent<ParticleSystem>().Play();
-        
-        if(spawnPointState != null)
-            spawnPointState.state = SpawnState.Idle;
-        
-        agent.isStopped = true;
-        //isTouchingPlayer = true;
 
+        if (spawnPointState != null)
+            spawnPointState.state = SpawnState.Idle;
+
+        agent.isStopped = true;
         TriggerDeadEvent();
         gameObject.SetActive(false);
     }
@@ -115,10 +146,9 @@ public class ZombieAI : EnemyBase
     public override void Reset()
     {
         //isTouchingPlayer = false;
-        //rb.isKinematic = false;
         enemyCollider.enabled = true;
     }
-    
+
     void OnCollisionEnter(Collision other)
     {
         PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
@@ -127,5 +157,13 @@ public class ZombieAI : EnemyBase
             TouchPlayer();
             playerController.Die();
         }
+    }
+
+    // ===== Helpers =====
+    float DistanceXZ(Vector3 a, Vector3 b, bool removeY)
+    {
+        if (!removeY) return Vector3.Distance(a, b);
+        a.y = 0f; b.y = 0f;
+        return Vector3.Distance(a, b);
     }
 }

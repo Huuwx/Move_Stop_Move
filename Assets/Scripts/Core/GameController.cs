@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     [Header("Variables")]
     public int coinCollected = 0; // Số coin đã thu thập
     public float time = 3;
+    public bool isPlaying = false;
 
     [Header("Data")]
     [SerializeField] private Data data;
@@ -101,6 +102,7 @@ public class GameController : MonoBehaviour
         
         if (mode == GameMode.Zombie && State == GameState.Ready)
         {
+            if(!isPlaying) return;
             time -= Time.deltaTime;
             uiController.UpdateTimeCounter(Mathf.CeilToInt(time));
             if (time <= 0)

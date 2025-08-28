@@ -46,6 +46,7 @@ public class CameraFollow : MonoBehaviour
 
     private void OnEnable()
     {
+        
         EventObserver.OnUpgrade += UpgradeOffset;
         PlayerController.OnTriggerUltimate += UltimateOffset;
         PlayerController.OnUltimateEnd += ResetOffsetAferUltimate;
@@ -102,6 +103,12 @@ public class CameraFollow : MonoBehaviour
                 .SetLink(gameObject);
             transform.rotation = Quaternion.Euler(lookDownAngleGameplay, 0f, 0f);
         }
+        else if (GameController.Instance.State == GameState.Ready)
+        {
+            desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, 10f * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(lookDownAngleGameplay, 0f, 0f);
+        }
 
         // ====== Occlusion cập nhật ======
         if (Time.time >= _nextCheckTime)
@@ -116,8 +123,10 @@ public class CameraFollow : MonoBehaviour
 
     public void UpgradeOffset()
     {
-        if (GameController.Instance.State == GameState.Playing 
-            && GameController.Instance.mode == GameMode.Normal)
+        if (((GameController.Instance.State == GameState.Playing
+              && GameController.Instance.mode == GameMode.Normal))
+            || !((GameController.Instance.State == GameState.Playing
+                && GameController.Instance.mode == GameMode.Zombie)))
         {
             offsetGameplay += new Vector3(0f, 2f, -1f);
             offsetWin += new Vector3(0f, 2f, -1f);
@@ -125,7 +134,7 @@ public class CameraFollow : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 5f * Time.deltaTime);
         }
     }
-    
+
     public void UltimateOffset()
     {
         if (GameController.Instance.State == GameState.Playing 
@@ -146,6 +155,14 @@ public class CameraFollow : MonoBehaviour
             Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
             transform.position = Vector3.Lerp(transform.position, desiredPosition, 10f * Time.deltaTime);
         }
+    }
+    
+    public void SetCameraPos()
+    {
+        isReseting = true; // Đặt lại camera sau khi hồi sinh
+        Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
+        transform.position = desiredPosition;
+        isReseting = false;
     }
 
     // --------- OCCLUSION LOGIC ---------
@@ -214,13 +231,5 @@ public class CameraFollow : MonoBehaviour
         baseCol.a = a;
         _mpb.SetColor(BaseColor, baseCol);
         r.SetPropertyBlock(_mpb);
-    }
-
-    public void SetCameraPos()
-    {
-        isReseting = true; // Đặt lại camera sau khi hồi sinh
-        Vector3 desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
-        transform.position = desiredPosition;
-        isReseting = false;
     }
 }

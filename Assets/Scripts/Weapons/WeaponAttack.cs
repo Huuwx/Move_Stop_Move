@@ -29,6 +29,8 @@ public class WeaponAttack : MonoBehaviour
     private IShotPattern _pattern = new BasicForwardPattern();
     private PlayerStats _stats;
     private bool _homing;
+    
+    //enemy only
     public int attackCount = 1;
 
     private void Awake()
@@ -128,7 +130,15 @@ public class WeaponAttack : MonoBehaviour
         {
             if (target == null) return; // Không có đối thủ, không attack
             
-            playerTransform.LookAt(target.transform);
+            // Lấy vị trí mục tiêu
+            Vector3 targetPos = target.transform.position;
+
+            // Giữ nguyên độ cao (Y) của player => chỉ xoay trên mặt phẳng XZ
+            targetPos.y = playerTransform.position.y;
+
+            // Xoay player về phía mục tiêu
+            playerTransform.LookAt(targetPos);
+
             
             //playerTransform.transform.rotation = Quaternion.LookRotation(target.bounds.center - playerTransform.transform.position, Vector3.up);
             

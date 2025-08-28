@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
     public int points = 0; // Điểm của người chơi
+    public int maxBullets = 2;
     
     public static event Action OnTriggerUltimate;
     public static event Action OnUltimateEnd;
@@ -45,6 +46,9 @@ public class PlayerController : MonoBehaviour
         
         playerCollider.enabled = true; // Bật collider khi khởi tạo
         rigid.isKinematic = false;
+
+       // maxBullets = GameController.Instance.GetData().GetBulletMax();
+        //moveSpeed += GameController.Instance.GetData().GetSpeedPercent() * 0.05f;
     }
 
     private void OnEnable()
@@ -148,12 +152,35 @@ public class PlayerController : MonoBehaviour
 
         if (GameController.Instance.mode == GameMode.Normal)
         {
-            transform.localScale += Vector3.one * Values.upgradeScale;
-            weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
+            UpgradeRangeScale();
         }
         else
         {
             if (points == 8)
+            {
+                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+                GameController.Instance.GetUIController().ShowLevelUpText();
+            }
+
+            
+            if (maxBullets <= 2) return;
+            if (points == 16)
+            {
+                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+                GameController.Instance.GetUIController().ShowLevelUpText();
+            }
+
+
+            if (maxBullets <= 3) return;
+            if (points == 24)
+            {
+                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+                GameController.Instance.GetUIController().ShowLevelUpText();
+            }
+
+            
+            if (maxBullets <= 4) return;
+            if (points == 32)
             {
                 ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
                 GameController.Instance.GetUIController().ShowLevelUpText();
@@ -209,6 +236,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void UpgradeRangeScale()
+    {
+        transform.localScale += Vector3.one * Values.upgradeScale;
+        weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
+    }
+
     public WeaponAttack GetWeaponAttack()
     {
         return this.weaponAttack;
@@ -217,5 +250,15 @@ public class PlayerController : MonoBehaviour
     public PlayerContext GetContext()
     {
         return ctx;
+    }
+    
+    public float GetSpeed()
+    {
+        return moveSpeed;
+    }
+    
+    public void UpgradeSpeed(float plus)
+    {
+        moveSpeed += plus;
     }
 }

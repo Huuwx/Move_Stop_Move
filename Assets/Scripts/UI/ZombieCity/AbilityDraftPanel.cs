@@ -17,7 +17,8 @@ namespace ZombieCity.Abilities
         public void ShowDraft()
         {
             gameObject.SetActive(true);
-            Time.timeScale = 0f; // pause
+            GameController.Instance.isPlaying = false;
+            //Time.timeScale = 0f; // pause
             
             RollChoices();
         }
@@ -44,7 +45,8 @@ namespace ZombieCity.Abilities
         {
             foreach (Transform c in cardRoot) Destroy(c.gameObject);
             gameObject.SetActive(false);
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
+            GameController.Instance.isPlaying = true;
             GameController.Instance.GetUIController().SetActiveTimeCounterPanel(true);
         }
     }

@@ -5675,7 +5675,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!114 &7719995303481718257
 MonoBehaviour:
@@ -5698,6 +5698,15 @@ MonoBehaviour:
   stoppingDistance: 0.4
   retargetInterval: 0.2
   detectionRadius: 999
+  nearRadius: 10
+  farRadius: 15
+  nearSpeed: 4
+  farSpeed: 7
+  speedSmooth: 8
+  nearAccel: 8
+  farAccel: 20
+  clampY: 1
+  hysteresis: 0.5
 --- !u!54 &2079640770607488644
 Rigidbody:
   m_ObjectHideFlags: 0

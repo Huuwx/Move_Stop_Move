@@ -79,6 +79,7 @@ public class ShopManager : MonoBehaviour
                 GameController.Instance.GetData().GetCurrentCoin() - currentWeaponShopData.price);
             currentWeaponShopData.isPurchased = true;
             _skinListUI.gameObject.SetActive(true);
+            _skinListUI?.Build(currentWeaponShopData);
             GameController.Instance.GetUIController().UpdateWeaponInfo(currentWeaponShopData);
             GameController.Instance.GetUIController().UpdateCoin();
             GameController.Instance.SaveData();
@@ -93,6 +94,7 @@ public class ShopManager : MonoBehaviour
     {
         currentWeaponShopData.isPurchased = true;
         _skinListUI.gameObject.SetActive(true);
+        _skinListUI?.Build(currentWeaponShopData);
         GameController.Instance.GetUIController().UpdateWeaponInfo(currentWeaponShopData);
         GameController.Instance.SaveData();
     }
