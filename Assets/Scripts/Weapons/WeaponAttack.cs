@@ -222,33 +222,38 @@ public class WeaponAttack : MonoBehaviour
             else
                 projectile = PoolManager.Instance.GetObj(currentWeapon.modelPrefab);
             
-            if (gameObject.CompareTag(Params.PlayerTag))
+            var projApplier = projectile.GetComponentInChildren<WeaponSkinApplier>();
+            if (projApplier)
             {
-                var projApplier = projectile.GetComponentInChildren<WeaponSkinApplier>();
-                if (projApplier)
-                {
-                    string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
-                    var db = currentWeapon.skins;
-                    var skin = db ? db.GetById(selectedId) : null;
+                string selectedId = currentWeapon.selectedSkinId;
+        
+                if(gameObject.CompareTag(Params.PlayerTag))
+                    selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
+                var db = currentWeapon.skins;
+                var skin = db ? db.GetById(selectedId) : null;
 
-                    if (skin && skin.id != "custom")
-                    {
-                        projApplier.ApplySkin(skin);
-                    }
-                    else
-                        projApplier.ApplyCustomColors(WeaponSkinSave.LoadCustom(currentWeapon.id,
-                            projApplier.MaterialCount));
-                    
-                    projectile.name += "_" + skin.id;
-                }
-            }
-            else
-            {
-                if (projectile.name != currentWeapon.modelPrefab.name)
+                if (skin && skin.id != "custom")
                 {
-                    
+                    projApplier.ApplySkin(skin);
                 }
+                else
+                    projApplier.ApplyCustomColors(WeaponSkinSave.LoadCustom(currentWeapon.id,
+                        projApplier.MaterialCount));
+                    
+                projectile.name += "_" + skin.id;
             }
+            
+            // if (gameObject.CompareTag(Params.PlayerTag))
+            // {
+            //     
+            // }
+            // else
+            // {
+            //     if (projectile.name != currentWeapon.modelPrefab.name)
+            //     {
+            //         
+            //     }
+            // }
             projectile.transform.position = throwOrigin.position;
             
             // Sai vì dùng throwOrigin → hãy dùng từ chính viên đạn
@@ -298,7 +303,10 @@ public class WeaponAttack : MonoBehaviour
         var applier = weaponHandVisual.GetComponent<WeaponSkinApplier>();
         if (applier == null) applier = weaponHandVisual.AddComponent<WeaponSkinApplier>();
 
-        string selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
+        string selectedId = currentWeapon.selectedSkinId;
+        
+        if(gameObject.CompareTag(Params.PlayerTag))
+            selectedId = WeaponSkinSave.LoadSelected(currentWeapon.id, currentWeapon.selectedSkinId);
 
         var db   = currentWeapon.skins;
         var skin = db ? db.GetById(selectedId) : null;
@@ -343,6 +351,14 @@ public class WeaponAttack : MonoBehaviour
     public void SetUltimate(bool ultimate)
     {
         this.ultimate = ultimate;
+    }
+    public WeaponData GetCurrentWeapon()
+    {
+        return currentWeapon;
+    }
+    public void SetCurrentWeapon(WeaponData weapon)
+    {
+        currentWeapon = weapon;
     }
     
     public void SetHoming(bool on) => _homing = on;

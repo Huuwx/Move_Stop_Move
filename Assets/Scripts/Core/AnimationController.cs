@@ -111,7 +111,7 @@ public class AnimationController : MonoBehaviour
             EnemyAI enemyAI = player.GetComponent<EnemyAI>();
             if (enemyAI != null)
             {
-                enemyAI.TriggerDeadEvent();
+                enemyAI.TriggerDeadEvent(1);
             }
             player.SetActive(false);
         }

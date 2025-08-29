@@ -25,9 +25,9 @@ public abstract class EnemyBase : MonoBehaviour
         }
     }
     
-    public void TriggerDeadEvent()
+    public void TriggerDeadEvent(int coin)
     {
-        EventObserver.RaiseOnAnyEnemyDead(this);
+        EventObserver.RaiseOnAnyEnemyDead(this, coin);
     }
 
     public abstract void Die();

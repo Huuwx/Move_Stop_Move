@@ -5,6 +5,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class ZombieAI : EnemyBase
 {
+    public bool isBoss = false;
+    
     [Header("Refs")]
     [SerializeField] Transform player;
     [SerializeField] Animator animator;
@@ -33,6 +35,7 @@ public class ZombieAI : EnemyBase
     float retargetTimer;
     float targetSpeed;      // tốc độ mục tiêu theo khoảng cách
     bool isTouchingPlayer = true;
+    private int BossHP = 7;
 
     protected void Awake()
     {
@@ -127,6 +130,20 @@ public class ZombieAI : EnemyBase
 
     public override void Die()
     {
+        if (isBoss)
+        {
+            BossHP--;
+            if (BossHP > 0)
+            {
+                GameObject hitEffect = Instantiate(hittedEffect);
+                hitEffect.transform.SetParent(PoolManager.Instance.transform);
+                hitEffect.transform.rotation = Quaternion.identity;
+                hitEffect.transform.position = new Vector3(transform.position.x, 41f, transform.position.z);
+                hitEffect.GetComponent<ParticleSystem>().Play();
+                return;
+            }
+        }
+        
         enemyCollider.enabled = false;
 
         GameObject effect = Instantiate(hittedEffect);
@@ -139,7 +156,10 @@ public class ZombieAI : EnemyBase
             spawnPointState.state = SpawnState.Idle;
 
         agent.isStopped = true;
-        TriggerDeadEvent();
+        if(isBoss)
+            TriggerDeadEvent(5);
+        else
+            TriggerDeadEvent(1);
         gameObject.SetActive(false);
     }
 

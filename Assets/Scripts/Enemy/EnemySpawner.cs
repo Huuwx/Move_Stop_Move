@@ -15,8 +15,12 @@ public class EnemySpawner : MonoBehaviour
     [Header("Refs")]
     [SerializeField] Transform poolParent;          // Nơi chứa các enemy đã spawn (để quản lý dễ hơn)
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] private GameObject bossPrefab;
     [SerializeField] private List<GameObject> spawnParent;
     [SerializeField] List<SpawnPointState> spawnPoints;        // Các vị trí spawn có thể (hoặc random trong vùng)
+    [SerializeField] private Color[] enemyColors;
+    [SerializeField] private WeaponData[] weaponPrefabs;
+
     
     public int TotalSpawned => totalSpawned; // Số lượng enemy đã spawn
     public int MaxAliveCount => maxAliveCount; // Số lượng enemy tối đa có thể tồn tại cùng lúc
@@ -56,7 +60,39 @@ public class EnemySpawner : MonoBehaviour
             spawnPointState = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
         } while (spawnPointState.state == SpawnState.Spawned);
         spawnPointState.state = SpawnState.Spawned;
+        if (totalSpawned == (maxSpawnCount / 2) && bossPrefab != null && GameController.Instance.mode == GameMode.Zombie)
+        {
+            GameObject boss = PoolManager.Instance.GetObj(bossPrefab);
+            boss.transform.position = spawnPointState.gameObject.transform.position;
+            boss.transform.rotation = Quaternion.identity; // Hoặc xoay theo hướng nào đó nếu cần
+            boss.transform.SetParent(poolParent);
+            var bossAi = boss.GetComponent<EnemyBase>();
+            bossAi.spawnPointState = spawnPointState;
+            bossAi.Reset();
+            boss.SetActive(true); // Kích hoạt enemy
+            totalSpawned++;
+            return;
+        }
+        
         GameObject enemy = PoolManager.Instance.GetObj(enemyPrefab);
+        
+        // Gắn màu ngẫu nhiên
+        Color randomColor = enemyColors[Random.Range(0, enemyColors.Length)];
+        enemy.GetComponentInChildren<Renderer>().material.color = randomColor;
+        
+        // Gắn vũ khí ngẫu nhiên
+        if (GameController.Instance.mode == GameMode.Normal)
+        {
+            int randomIndex = Random.Range(0, weaponPrefabs.Length);
+            WeaponData weapon = Instantiate(weaponPrefabs[randomIndex]);
+            EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+            enemyAI.GetWeaponAttack().SetCurrentWeapon(weapon);
+            enemyAI.GetWeaponAttack().ChangeWeapon(weapon);
+            enemyAI._mgr = FindObjectOfType<OffscreenIndicatorManager>();
+            if (enemyAI._mgr) enemyAI._mgr.RegisterTarget(enemyAI);
+            enemyAI.bgPointsText.color = randomColor;
+            enemyAI.nameText.color = randomColor;
+        }
 
         if (totalSpawned > maxSpawnCount)
         {

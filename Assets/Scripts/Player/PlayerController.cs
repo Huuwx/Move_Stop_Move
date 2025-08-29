@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventObserver.OnUpgrade += Upgrade;
+        EventObserver.OnUpgrade += NormalUpgrade;
         EventObserver.OnGameStateChanged += setIngameUIActive;
         OnUltimateEnd += EndUltimate;
         OnPlayerDeath += Die; // Đăng ký sự kiện khi người chơi chết
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        EventObserver.OnUpgrade -= Upgrade;
+        EventObserver.OnUpgrade -= NormalUpgrade;
         EventObserver.OnGameStateChanged -= setIngameUIActive;
         OnUltimateEnd -= EndUltimate;
         OnPlayerDeath -= Die; // Hủy đăng ký sự kiện khi người chơi chết
@@ -164,50 +164,55 @@ public class PlayerController : MonoBehaviour
             attackRangeCircle.SetActive(isActive);
     }
     
-    public void Upgrade()
+    public void NormalUpgrade()
     {
+        if (GameController.Instance.mode == GameMode.Zombie) return;
+        
         points += 1; // Tăng điểm mỗi khi người chơi giết được một đối thủ
         
         if (pointsText != null)
         {
             pointsText.text = points.ToString();
         }
-
-        if (GameController.Instance.mode == GameMode.Normal)
+        
+        UpgradeRangeScale();
+    }
+    
+    public void ZombieUpgrade()
+    {
+        if (pointsText != null)
         {
-            UpgradeRangeScale();
+            pointsText.text = points.ToString();
         }
-        else
+        
+        if (points == 8)
         {
-            if (points == 8)
-            {
-                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
-                GameController.Instance.GetUIController().ShowLevelUpText();
-            }
+            ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+            GameController.Instance.GetUIController().ShowLevelUpText();
+        }
 
             
-            if (maxBullets <= 2) return;
-            if (points == 16)
-            {
-                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
-                GameController.Instance.GetUIController().ShowLevelUpText();
-            }
+        if (maxBullets <= 2) return;
+        if (points == 16)
+        {
+            ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+            GameController.Instance.GetUIController().ShowLevelUpText();
+        }
 
 
-            if (maxBullets <= 3) return;
-            if (points == 24)
-            {
-                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
-                GameController.Instance.GetUIController().ShowLevelUpText();
-            }
+        if (maxBullets <= 3) return;
+        if (points == 24)
+        {
+            ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+            GameController.Instance.GetUIController().ShowLevelUpText();
+        }
 
             
-            if (maxBullets <= 4) return;
-            if (points == 32)
-            {
-                ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
-                GameController.Instance.GetUIController().ShowLevelUpText();
-            }
+        if (maxBullets <= 4) return;
+        if (points == 32)
+        {
+            ctx.Stats.projCount.baseValue += 1; // Tăng số lượng projectile
+            GameController.Instance.GetUIController().ShowLevelUpText();
         }
     }
     

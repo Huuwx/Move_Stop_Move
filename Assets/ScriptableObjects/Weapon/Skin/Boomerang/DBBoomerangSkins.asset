@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48ce70aba0c51554a97bb08b6de694cd, type: 3}
+  m_Name: DBBoomerangSkins
+  m_EditorClassIdentifier: 
+  skins:
+  - {fileID: 11400000, guid: 69ff58c686faba14d9d76c9fe5f33f87, type: 2}
+  - {fileID: 11400000, guid: 04e7fdb8676b7384b9d25ebf2e4d3897, type: 2}
+  - {fileID: 11400000, guid: 344d9c21abad8f4448d4ae634a4e8860, type: 2}
+  - {fileID: 11400000, guid: 8157399222b1afe4a937b07b2c6f7e46, type: 2}

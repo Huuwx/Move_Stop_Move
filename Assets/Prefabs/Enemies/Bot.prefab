@@ -5147,8 +5147,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6321091992971520555}
   - {fileID: 5827130359272841090}
+  - {fileID: 6321091992971520555}
   - {fileID: 6003280310556867635}
   m_Father: {fileID: 2295960680342472610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10735,7 +10735,10 @@ MonoBehaviour:
   animationController: {fileID: 2728975717681033947}
   weaponAttack: {fileID: 6680224574462403981}
   pointsText: {fileID: 338100353524953686}
+  nameText: {fileID: 5461236459996456296}
+  bgPointsText: {fileID: 9125293304793307253}
   ingameUI: {fileID: 6649229363181923129}
+  _mgr: {fileID: 0}
 --- !u!1 &3072977309393249012
 GameObject:
   m_ObjectHideFlags: 0
@@ -17292,8 +17295,8 @@ Transform:
   m_GameObject: {fileID: 7929710591161222944}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000008149074, y: -0.0000000011834795, z: -1.4233609e-10, w: 1}
-  m_LocalPosition: {x: -0.000000014975667, y: -1.6763804e-10, z: -0.000000029765069}
-  m_LocalScale: {x: 1.0000001, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4279874362604805658}
@@ -17321,7 +17324,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 098b4b8d4db4bfe428664de52d72dfbd, type: 2}
+  - {fileID: 2100000, guid: 3696ff83aa4d07a42ada72d6eceeb50b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

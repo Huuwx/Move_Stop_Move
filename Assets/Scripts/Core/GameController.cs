@@ -250,11 +250,16 @@ public class GameController : MonoBehaviour
     }
     
     // --- Xử lý sự kiện ---
-    void OnEnemyDeadEvent(EnemyBase enemy)
+    void OnEnemyDeadEvent(EnemyBase enemy, int coin)
     {
         // Chỉ tăng buffer, không xử lý logic tại đây để tránh race
         deathBuffer++;
-        coinCollected++;
+        coinCollected += coin;
+        if (mode == GameMode.Zombie)
+        {
+            player.points += coin;
+            player.ZombieUpgrade();
+        }
     }
 
     void OnEnemySpawned()

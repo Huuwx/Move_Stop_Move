@@ -5714,7 +5714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &983596671
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6193,9 +6193,19 @@ MonoBehaviour:
   totalSpawned: 0
   poolParent: {fileID: 174160483}
   enemyPrefab: {fileID: 4240355563911858292, guid: 5740b6a2611a7bd4899723d1166c06ae, type: 3}
+  bossPrefab: {fileID: 4240355563911858292, guid: 98ab35e614a5e9a438239f445b5805c5, type: 3}
   spawnParent:
   - {fileID: 1088998147}
   spawnPoints: []
+  enemyColors:
+  - {r: 0.39607847, g: 0.18039216, b: 0.64705884, a: 1}
+  - {r: 0.6509804, g: 0.19607845, b: 0.20000002, a: 1}
+  - {r: 0.27058825, g: 0.35686275, b: 0.4784314, a: 1}
+  - {r: 0.70980394, g: 0.21568629, b: 0.6666667, a: 1}
+  weaponPrefabs:
+  - {fileID: 11400000, guid: 71bd5c5ea6bc2394cb20cea9e074fac9, type: 2}
+  - {fileID: 11400000, guid: 1bf271c5d78e8e94d949e674e7351a3c, type: 2}
+  - {fileID: 11400000, guid: 7451749f5bc9e8d4296587e349767bd9, type: 2}
 --- !u!1 &1103827094
 GameObject:
   m_ObjectHideFlags: 0
@@ -6873,7 +6883,7 @@ MonoBehaviour:
   menuPanel: {fileID: 0}
   menuAnimator: {fileID: 0}
   txtAlive: {fileID: 3094323}
-  txtCoin: {fileID: 0}
+  txtCoin: {fileID: 4490433178971454914}
   txtZone: {fileID: 0}
   txtBest: {fileID: 0}
   weaponsHolder: {fileID: 0}
@@ -8946,6 +8956,10 @@ PrefabInstance:
       propertyPath: 'abilityPool.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 2f8e888e0f088c5469868764f905413c, type: 2}
+    - target: {fileID: 3357977426304308855, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4505572303542186433, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: joystick
       value: 
@@ -8966,6 +8980,14 @@ PrefabInstance:
       propertyPath: 'RevivePoints.Array.data[1]'
       value: 
       objectReference: {fileID: 522083622}
+    - target: {fileID: 5088186442488082485, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: m_Color.a
+      value: 0.15686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 5088186442488082485, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5500996924759826666, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_Name
       value: Player
@@ -8976,6 +8998,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8144955392570764803, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329723114938221132, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329723114938221132, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: m_RenderingLayerMask
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19115b084b405c409a43c24f80adcea, type: 3}
+  m_Name: DefalutBoomerangSkin
+  m_EditorClassIdentifier: 
+  id: default
+  displayName: 
+  preview: {fileID: 8400000, guid: b06958eaf02c76b4f95cb4c5cd299928, type: 2}
+  isCustom: 0
+  slots:
+  - materialIndex: 0
+    overrideColor: 1
+    color: {r: 0.53333336, g: 0, b: 0, a: 0}
+    overrideTexture: 0
+    albedo: {fileID: 0}
+  - materialIndex: 1
+    overrideColor: 1
+    color: {r: 0, g: 0, b: 0, a: 0}
+    overrideTexture: 0
+    albedo: {fileID: 0}

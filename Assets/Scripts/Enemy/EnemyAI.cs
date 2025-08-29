@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class EnemyAI : EnemyBase
@@ -16,9 +17,11 @@ public class EnemyAI : EnemyBase
     [SerializeField] AnimationController animationController;
     [SerializeField] WeaponAttack weaponAttack;
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
+    public TextMeshProUGUI nameText;
+    public Image bgPointsText;
     [SerializeField] private GameObject ingameUI; // Giao diện trong game
 
-    protected OffscreenIndicatorManager _mgr;
+    public OffscreenIndicatorManager _mgr;
     private Vector3 wanderDir;
     private float moveTimer = 0f;
     private float wanderTimer;
@@ -34,9 +37,6 @@ public class EnemyAI : EnemyBase
     
     void OnEnable()
     {
-        _mgr = FindObjectOfType<OffscreenIndicatorManager>();
-        if (_mgr) _mgr.RegisterTarget(this);
-        
         OnUpgarde += SetPoints; // Đăng ký sự kiện nâng cấp điểm
         EventObserver.OnGameStateChanged += setIngameUIActive;
     }
@@ -212,6 +212,11 @@ public class EnemyAI : EnemyBase
         {
             ingameUI.SetActive(false);
         }
+    }
+    
+    public WeaponAttack GetWeaponAttack()
+    {
+        return weaponAttack;
     }
         
     private void OnCollisionStay(Collision other)

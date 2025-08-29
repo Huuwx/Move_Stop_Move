@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786d6197de7de3341a7acd434f307720, type: 3}
+  m_Name: Boomerang
+  m_EditorClassIdentifier: 
+  id: boomerang_weapon
+  index: 3
+  modelPrefab: {fileID: 3601641492906425987, guid: 332206bc76b8b334682a1b6cccecbe9c, type: 3}
+  visual: {fileID: 8202902876939273200, guid: c25ca724b996e9e41aa45ae5a4ee83ff, type: 3}
+  speed: 9
+  isPurchased: 1
+  isEquipped: 0
+  price: 1000
+  name: Boomerang
+  description: +2 Speed
+  isRotate: 1
+  skins: {fileID: 0}
+  selectedSkinId: default
