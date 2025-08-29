@@ -48,6 +48,7 @@ namespace ZombieCity.Abilities
             //Time.timeScale = 1f;
             GameController.Instance.isPlaying = true;
             GameController.Instance.GetUIController().SetActiveTimeCounterPanel(true);
+            GameController.Instance.GetUIController().SetActiveCoinBG(false);
         }
     }
 }

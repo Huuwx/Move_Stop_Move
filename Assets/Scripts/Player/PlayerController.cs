@@ -15,11 +15,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
     [SerializeField] GameObject ingameUI; // Giao diện trong game
     [SerializeField] private List<GameObject> RevivePoints; // Danh sách các điểm hồi sinh
+    [SerializeField] private GameObject shieldEffect;
     
     [Header("Variables")]
     [SerializeField] private float moveSpeed = 5f;
     public int points = 0; // Điểm của người chơi
     public int maxBullets = 2;
+    public float maxShieldTime = 3f;
+    private float shieldTimeCounter = 0f;
     
     public static event Action OnTriggerUltimate;
     public static event Action OnUltimateEnd;
@@ -98,6 +101,16 @@ public class PlayerController : MonoBehaviour
                 weaponAttack.SetCanAttack(true);
             }
         }
+        
+        // Xử lý thời gian của lá chắn
+        if (shieldEffect != null && shieldEffect.activeSelf)
+        {
+            shieldTimeCounter -= Time.deltaTime;
+            if (shieldTimeCounter <= 0f)
+            {
+                shieldEffect.SetActive(false);
+            }
+        }
     }
 
     public void Revive()
@@ -117,6 +130,16 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        if(GameController.Instance.mode == GameMode.Zombie)
+        {
+            if (shieldEffect != null && !shieldEffect.activeSelf)
+            {
+                ActivateShield();
+            }
+
+            if (shieldEffect.activeSelf) return;;
+        }
+        
         GameController.Instance.SetState(GameState.Wait);
         rigid.isKinematic = true;
         playerCollider.enabled = false;
@@ -238,10 +261,29 @@ public class PlayerController : MonoBehaviour
 
     public void UpgradeRangeScale()
     {
-        transform.localScale += Vector3.one * Values.upgradeScale;
+        if(GameController.Instance.mode == GameMode.Normal)
+            transform.localScale += Vector3.one * Values.upgradeScale;
+        else
+        {
+            attackRangeCircle.transform.localScale += Vector3.one * Values.upgradeRangeScale;
+        }
         weaponAttack.UpgradeAttackRadius(Values.upgradeRadius);
     }
-
+    
+    //Zombie Mode Upgrade
+    public void ActivateShield()
+    {
+        if (shieldEffect != null && GameController.Instance.GetData().GetShieldCount() > 0 && !shieldEffect.activeSelf)
+        {
+            GameController.Instance.GetData().MinusShieldCount(1);
+            GameController.Instance.SaveData();
+            shieldEffect.SetActive(true);
+            shieldTimeCounter = maxShieldTime;
+            //playerCollider.enabled = false; // Vô hiệu hóa collider để tránh bị tấn công
+        }
+    }
+    
+    // Getters and Setters
     public WeaponAttack GetWeaponAttack()
     {
         return this.weaponAttack;

@@ -24,6 +24,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject timeCounterPanel;
     [SerializeField] private TextMeshProUGUI timeCounterTxt;
     [SerializeField] private TextMeshProUGUI levelUpTxt;
+    [SerializeField] private GameObject CoinBG;
+    [SerializeField] private GameObject settingPanel;
     
     [Header("Reference Menu UI")]
     [SerializeField] private GameObject menuPanel;
@@ -354,6 +356,11 @@ public class UIController : MonoBehaviour
     public void SetActiveTimeCounterPanel(bool active)
     {
         timeCounterPanel.SetActive(active);
+    }
+    
+    public void SetActiveCoinBG(bool active)
+    {
+        CoinBG.SetActive(active);
     }
     
     public void SetActiveInGameUI(bool active)

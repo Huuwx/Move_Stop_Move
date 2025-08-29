@@ -35,6 +35,15 @@ public class Data
     {
         this.currentCoin = currentCoin;
     }
+    
+    public void AddCurrentCoin(int coin)
+    {
+        this.currentCoin += coin;
+    }
+    public void MinusCurrentCoin(int coin)
+    {
+        this.currentCoin -= coin;
+    }
 
     public int GetSelectedWeaponInShop()
     {
@@ -103,6 +112,10 @@ public class Data
     public void SetShieldCount(int shieldCount)
     {
         this.shieldCount = shieldCount;
+    }
+    public void MinusShieldCount(int shieldCount)
+    {
+        this.shieldCount -= shieldCount;
     }
     public int GetShieldPrice()
     {

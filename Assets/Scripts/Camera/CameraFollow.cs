@@ -103,7 +103,7 @@ public class CameraFollow : MonoBehaviour
                 .SetLink(gameObject);
             transform.rotation = Quaternion.Euler(lookDownAngleGameplay, 0f, 0f);
         }
-        else if (GameController.Instance.State == GameState.Ready)
+        else if (GameController.Instance.State == GameState.Ready && GameController.Instance.mode == GameMode.Zombie)
         {
             desiredPosition = new Vector3(target.position.x, 0f, target.position.z) + offsetGameplay;
             transform.position = Vector3.Lerp(transform.position, desiredPosition, 10f * Time.deltaTime);

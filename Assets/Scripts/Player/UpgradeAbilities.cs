@@ -56,7 +56,9 @@ public class UpgradeAbilities : MonoBehaviour
         shieldCount += 1;
         GameController.Instance.GetData().SetShieldCount(shieldCount);
         shieldCountText.text = shieldCount.ToString("F0") + " Time";
+        GameController.Instance.GetData().MinusCurrentCoin(GameController.Instance.GetData().GetShieldPrice());
         GameController.Instance.SaveData();
+        GameController.Instance.GetUIController().UpdateCoin();
         shieldPriceText.text = GameController.Instance.GetData().GetShieldPrice().ToString("F0");
     }
     
@@ -65,9 +67,11 @@ public class UpgradeAbilities : MonoBehaviour
         playerController.UpgradeSpeed( + 0.5f);
         speedPercent += 10; // Tăng 10%
         GameController.Instance.GetData().SetSpeedPercent(speedPercent);
+        GameController.Instance.GetData().MinusCurrentCoin(GameController.Instance.GetData().GetSpeedPrice());
         GameController.Instance.GetData().SetSpeedPrice(GameController.Instance.GetData().GetSpeedPrice() * 2);
         speedPercentText.text = "+" + speedPercent.ToString("F0") + "% Speed";
         GameController.Instance.SaveData();
+        GameController.Instance.GetUIController().UpdateCoin();
         speedPriceText.text = GameController.Instance.GetData().GetSpeedPrice().ToString("F0");
     }
     public void UpgradeRange()
@@ -76,8 +80,10 @@ public class UpgradeAbilities : MonoBehaviour
         cameraFollow.UpgradeOffset();
         rangePercent += 10; // Tăng 10%
         GameController.Instance.GetData().SetRangePercent(rangePercent);
+        GameController.Instance.GetData().MinusCurrentCoin(GameController.Instance.GetData().GetRangePrice());
         GameController.Instance.GetData().SetRangePrice(GameController.Instance.GetData().GetRangePrice() * 2);
         GameController.Instance.SaveData();
+        GameController.Instance.GetUIController().UpdateCoin();
         rangePriceText.text = GameController.Instance.GetData().GetRangePrice().ToString("F0");
         rangePercentText.text = "+" + rangePercent.ToString("F0") + "% Range";
     }
@@ -85,8 +91,10 @@ public class UpgradeAbilities : MonoBehaviour
     {
         playerController.maxBullets += 1;
         GameController.Instance.GetData().SetBulletMax(playerController.maxBullets);
+        GameController.Instance.GetData().MinusCurrentCoin(GameController.Instance.GetData().GetBulletPrice());
         GameController.Instance.GetData().SetBulletPrice(GameController.Instance.GetData().GetBulletPrice() * 2);
         GameController.Instance.SaveData();
+        GameController.Instance.GetUIController().UpdateCoin();
         bulletPriceText.text = GameController.Instance.GetData().GetBulletPrice().ToString("F0");
         bulletMaxText.text = "Max: " + playerController.maxBullets.ToString("F0");
     }

@@ -20,6 +20,7 @@ public static class Values
 {
     public static float upgradeScale = 0.1f;
     public static float upgradeRadius = 0.7f;
+    public static float upgradeRangeScale = 0.58f;
 }
 
 public enum EnemyState
