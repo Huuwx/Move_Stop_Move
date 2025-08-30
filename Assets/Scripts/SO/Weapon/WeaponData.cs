@@ -18,6 +18,7 @@ public class WeaponData : ScriptableObject
     public string name;
     public string description;
     public bool isRotate = false;
+    public bool isBoomerang = false; // Vũ khí có quay trở lại không
     
     // ---------- Skin ----------
     [Header("Skins")]

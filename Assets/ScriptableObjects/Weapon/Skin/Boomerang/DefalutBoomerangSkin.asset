@@ -22,8 +22,3 @@ MonoBehaviour:
     color: {r: 0.53333336, g: 0, b: 0, a: 0}
     overrideTexture: 0
     albedo: {fileID: 0}
-  - materialIndex: 1
-    overrideColor: 1
-    color: {r: 0, g: 0, b: 0, a: 0}
-    overrideTexture: 0
-    albedo: {fileID: 0}

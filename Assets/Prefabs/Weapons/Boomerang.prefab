@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6561a1dbdd795564e9aa340277c3a8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLifeTime: 1.5
   range: 10
   traveled: 0
   rotateSpeed: 500
   ultimateSize: 4
+  catchRadius: 2
 --- !u!54 &6848971194494785101
 Rigidbody:
   m_ObjectHideFlags: 0

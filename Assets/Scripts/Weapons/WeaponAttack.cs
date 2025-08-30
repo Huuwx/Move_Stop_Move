@@ -263,7 +263,7 @@ public class WeaponAttack : MonoBehaviour
         
             projectile.transform.SetParent(weaponInstantiateTransform);
             WeaponProjectile weaponProjectile = projectile.GetComponent<WeaponProjectile>();
-            weaponProjectile.Launch(direct3D, targetLayer, currentWeapon, playerTransform.gameObject, ultimate);
+            weaponProjectile.Launch(direct3D, targetLayer, currentWeapon, playerTransform.gameObject, ultimate, attackRadius + 1f);
             if (gameObject.CompareTag(Params.BotTag))
             {
                 attackCount--;
@@ -293,12 +293,23 @@ public class WeaponAttack : MonoBehaviour
     public void ChangeWeapon(WeaponData newWeapon)
     {
         currentWeapon = newWeapon;
-
+        
         Vector3 weaponHandPosition = weaponHandVisual.transform.position;
         Quaternion weaponHandRotation = weaponHandVisual.transform.rotation;
+        // if (newWeapon.isBoomerang)
+        // {
+        //     weaponHandPosition += new Vector3(-0.36f, 0.06f, 0f);
+        //     weaponHandRotation = Quaternion.Euler(-180f, 0f, 114.05f);
+        // }
         Destroy(weaponHandVisual);
 
         weaponHandVisual = Instantiate(currentWeapon.visual, weaponHandPosition, weaponHandRotation, handHoldWeaponTransform);
+
+        if (newWeapon.isBoomerang)
+        {
+            weaponHandVisual.transform.localPosition += new Vector3(-0.25f, -0.15f, 0f);
+            weaponHandVisual.transform.localRotation = Quaternion.Euler(0f, -180f, -257.1f);
+        }
 
         var applier = weaponHandVisual.GetComponent<WeaponSkinApplier>();
         if (applier == null) applier = weaponHandVisual.AddComponent<WeaponSkinApplier>();

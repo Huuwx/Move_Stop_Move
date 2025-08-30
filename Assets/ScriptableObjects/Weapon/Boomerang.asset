@@ -18,10 +18,11 @@ MonoBehaviour:
   visual: {fileID: 8202902876939273200, guid: c25ca724b996e9e41aa45ae5a4ee83ff, type: 3}
   speed: 9
   isPurchased: 1
-  isEquipped: 0
+  isEquipped: 1
   price: 1000
   name: Boomerang
   description: +2 Speed
   isRotate: 1
-  skins: {fileID: 0}
+  isBoomerang: 1
+  skins: {fileID: 11400000, guid: e96e47db9b939464c83aea4bf96a9baf, type: 2}
   selectedSkinId: default
