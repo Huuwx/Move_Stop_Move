@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ce70aba0c51554a97bb08b6de694cd, type: 3}
   m_Name: DBHammerSkins
   m_EditorClassIdentifier: 
+  id: hammer_weapon
   skins:
   - {fileID: 11400000, guid: 878ac445532086947ba80d9619dffd83, type: 2}
   - {fileID: 11400000, guid: 0c6899324514d3346ba4340959ad2217, type: 2}

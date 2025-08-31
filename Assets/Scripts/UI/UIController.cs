@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject pauseGamePanel;
     [SerializeField] private GameObject revivePanel;
     [SerializeField] private TextMeshProUGUI txtReviveTime;
+    [SerializeField] private TextMeshProUGUI txtKiller;
     
     [Header("Reference ZombieMode UI")]
     [SerializeField] private GameObject timeCounterPanel;
@@ -124,10 +125,11 @@ public class UIController : MonoBehaviour
         
         if (state == GameState.Win)
         {
-            winIcon.SetActive(true);
+            //winIcon.SetActive(true);
             loseIcon.SetActive(false);
             txtRank.text = GameController.Instance.Alive.ToString();
-            txtNotify.text = "You Win!";
+            txtNotify.text = "Victory!";
+            txtKiller.gameObject.SetActive(false);
             GameController.Instance.GetData().SetBestRank(0);
             GameController.Instance.SaveData();
             uiPanelGameComplete.SetActive(true);
@@ -136,7 +138,8 @@ public class UIController : MonoBehaviour
             winIcon.SetActive(false);
             loseIcon.SetActive(true);
             txtRank.text = GameController.Instance.Alive.ToString();
-            txtNotify.text = "You Lose!";
+            txtNotify.text = "You've been killed by";
+            txtKiller.gameObject.SetActive(true);
             if((GameController.Instance.Alive < GameController.Instance.GetData().GetBestRank() || GameController.Instance.GetData().GetBestRank() == 0) && GameController.Instance.mode == GameMode.Normal)
             {
                 GameController.Instance.GetData().SetBestRank(GameController.Instance.Alive);
@@ -390,5 +393,14 @@ public class UIController : MonoBehaviour
                 levelUpTxt.gameObject.SetActive(false);
             });
         });
+    }
+    
+    public void SetKillerName(string name, Color color)
+    {
+        if(txtKiller != null)
+        {
+            txtKiller.text = name;
+            txtKiller.color = color;
+        }
     }
 }

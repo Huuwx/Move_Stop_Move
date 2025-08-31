@@ -80,6 +80,7 @@ public class WeaponSkinSelector : MonoBehaviour
                 WeaponSkinSave.SaveSelected(weaponData.id, skin.id);
                 equipBtnText.text = "Equipped";
                 equipButton.interactable = false;
+                currentSelectedSkinId = "default";
             }
         }
 

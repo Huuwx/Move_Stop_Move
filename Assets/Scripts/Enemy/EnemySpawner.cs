@@ -14,12 +14,13 @@ public class EnemySpawner : MonoBehaviour
     
     [Header("Refs")]
     [SerializeField] Transform poolParent;          // Nơi chứa các enemy đã spawn (để quản lý dễ hơn)
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] List<GameObject> enemyPrefabs;
     [SerializeField] private GameObject bossPrefab;
     [SerializeField] private List<GameObject> spawnParent;
     [SerializeField] List<SpawnPointState> spawnPoints;        // Các vị trí spawn có thể (hoặc random trong vùng)
     [SerializeField] private Color[] enemyColors;
     [SerializeField] private WeaponData[] weaponPrefabs;
+    [SerializeField] private string[] enemyNames;
 
     
     public int TotalSpawned => totalSpawned; // Số lượng enemy đã spawn
@@ -74,6 +75,8 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
         
+        int randomEnemyIndex = Random.Range(0, enemyPrefabs.Count);
+        GameObject enemyPrefab = enemyPrefabs[randomEnemyIndex];
         GameObject enemy = PoolManager.Instance.GetObj(enemyPrefab);
         
         // Gắn màu ngẫu nhiên
@@ -92,6 +95,13 @@ public class EnemySpawner : MonoBehaviour
             if (enemyAI._mgr) enemyAI._mgr.RegisterTarget(enemyAI);
             enemyAI.bgPointsText.color = randomColor;
             enemyAI.nameText.color = randomColor;
+            
+            // Gắn tên ngẫu nhiên
+            string randomName = enemyNames[Random.Range(0, enemyNames.Length)];
+            if (enemyAI.nameText != null)
+            {
+                enemyAI.nameText.text = randomName;
+            }
         }
 
         if (totalSpawned > maxSpawnCount)

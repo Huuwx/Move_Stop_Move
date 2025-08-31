@@ -6192,7 +6192,9 @@ MonoBehaviour:
   maxSpawnCount: 30
   totalSpawned: 0
   poolParent: {fileID: 174160483}
-  enemyPrefab: {fileID: 4240355563911858292, guid: 5740b6a2611a7bd4899723d1166c06ae, type: 3}
+  enemyPrefabs:
+  - {fileID: 4240355563911858292, guid: 5740b6a2611a7bd4899723d1166c06ae, type: 3}
+  - {fileID: 4240355563911858292, guid: c730cb9217e89e74ab3ca48a7e857efc, type: 3}
   bossPrefab: {fileID: 4240355563911858292, guid: 98ab35e614a5e9a438239f445b5805c5, type: 3}
   spawnParent:
   - {fileID: 1088998147}
@@ -6206,6 +6208,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 71bd5c5ea6bc2394cb20cea9e074fac9, type: 2}
   - {fileID: 11400000, guid: 1bf271c5d78e8e94d949e674e7351a3c, type: 2}
   - {fileID: 11400000, guid: 7451749f5bc9e8d4296587e349767bd9, type: 2}
+  enemyNames: []
 --- !u!1 &1103827094
 GameObject:
   m_ObjectHideFlags: 0

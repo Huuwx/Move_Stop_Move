@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ce70aba0c51554a97bb08b6de694cd, type: 3}
   m_Name: DBKnifeSkins
   m_EditorClassIdentifier: 
+  id: knife_weapon
   skins:
   - {fileID: 11400000, guid: 20b2ae2286694284fa983ef87d4c6956, type: 2}
   - {fileID: 11400000, guid: ede463872e699554c9c1de92eab95b08, type: 2}

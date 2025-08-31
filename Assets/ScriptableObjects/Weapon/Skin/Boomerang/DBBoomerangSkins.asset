@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ce70aba0c51554a97bb08b6de694cd, type: 3}
   m_Name: DBBoomerangSkins
   m_EditorClassIdentifier: 
+  id: boomerang_weapon
   skins:
   - {fileID: 11400000, guid: 69ff58c686faba14d9d76c9fe5f33f87, type: 2}
   - {fileID: 11400000, guid: 04e7fdb8676b7384b9d25ebf2e4d3897, type: 2}

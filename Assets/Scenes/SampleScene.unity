@@ -6242,6 +6242,11 @@ MonoBehaviour:
   equipBtnReactTransform: {fileID: 1274466792}
   equipButton: {fileID: 1274466793}
   equipBtnText: {fileID: 1225308335}
+  allDatabases:
+  - {fileID: 11400000, guid: 07df61eb74e4e8d47a9ef9032874af83, type: 2}
+  - {fileID: 11400000, guid: 026d403b8180e67419bc9de68760308f, type: 2}
+  - {fileID: 11400000, guid: ae45af33284cae240b86a7d85a6c0477, type: 2}
+  - {fileID: 11400000, guid: e96e47db9b939464c83aea4bf96a9baf, type: 2}
 --- !u!114 &587695816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10496,7 +10501,8 @@ MonoBehaviour:
   maxSpawnCount: 10
   totalSpawned: 0
   poolParent: {fileID: 174160483}
-  enemyPrefab: {fileID: 2934451096986672568, guid: 206035d99af09424c96318d3cff9a7e4, type: 3}
+  enemyPrefabs:
+  - {fileID: 2934451096986672568, guid: 206035d99af09424c96318d3cff9a7e4, type: 3}
   bossPrefab: {fileID: 0}
   spawnParent:
   - {fileID: 807449795}
@@ -10511,6 +10517,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 71bd5c5ea6bc2394cb20cea9e074fac9, type: 2}
   - {fileID: 11400000, guid: 1bf271c5d78e8e94d949e674e7351a3c, type: 2}
   - {fileID: 11400000, guid: 7451749f5bc9e8d4296587e349767bd9, type: 2}
+  enemyNames:
+  - Alex
+  - Uniq sol
+  - Palmer
+  - Musiala
+  - Crazyguy
+  - Jingg
+  - Something
 --- !u!1 &1103827094
 GameObject:
   m_ObjectHideFlags: 0
@@ -19404,6 +19418,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.15686275
       objectReference: {fileID: 0}
+    - target: {fileID: 5088186442488082485, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5098340030086235013, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -14.9949045
@@ -19739,6 +19757,10 @@ PrefabInstance:
     - target: {fileID: 8142893868025820359, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.25535795
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329723114938221132, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8364818911143011814, guid: d822a18da9150e741b88533cc05ecfe2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -20161,6 +20183,7 @@ GameObject:
   - component: {fileID: 1388192932066645135}
   - component: {fileID: 1388192932070036655}
   - component: {fileID: 1388192932069070447}
+  - component: {fileID: 1388192932070036656}
   m_Layer: 0
   m_Name: Boomerang_Visual
   m_TagString: Untagged
@@ -20221,6 +20244,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1388192932066871471}
   m_Mesh: {fileID: 4300000, guid: cb6e597070ed41f4eb5cb9583c725959, type: 3}
+--- !u!114 &1388192932070036656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388192932066871471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a86505a3a5a45541a48665853027ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 1388192932069070447}
 --- !u!23 &1481458120644262226
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20562,6 +20598,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 317180973}
     m_Modifications:
+    - target: {fileID: 908745812446982142, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1422663346141623407, guid: 61afdf2bd3fe1994987d107a63664656, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.4

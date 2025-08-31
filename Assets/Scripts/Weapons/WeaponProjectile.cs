@@ -172,6 +172,7 @@ public class WeaponProjectile : MonoBehaviour
                 {
                     EnemyAI enemyAI = actor != null ? actor.GetComponent<EnemyAI>() : null;
                     if (enemyAI != null) enemyAI.points += 1;
+                    GameController.Instance.GetUIController().SetKillerName(enemyAI.nameText.text, enemyAI.nameText.color);
                     playerController.Die();
                 }
             }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ce70aba0c51554a97bb08b6de694cd, type: 3}
   m_Name: DBAxeSkins
   m_EditorClassIdentifier: 
+  id: axe_weapon
   skins:
   - {fileID: 11400000, guid: c25f8b507cec20f4196a13ee51b277e2, type: 2}
   - {fileID: 11400000, guid: 06087cd32bfa6d048aeff76c147d9a43, type: 2}
