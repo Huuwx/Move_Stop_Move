@@ -307,8 +307,13 @@ public class WeaponAttack : MonoBehaviour
 
         if (newWeapon.isBoomerang)
         {
-            weaponHandVisual.transform.localPosition += new Vector3(-0.25f, -0.15f, 0f);
+            weaponHandVisual.transform.localPosition = new Vector3(-0.3f, -0.05f, 0.04f);
             weaponHandVisual.transform.localRotation = Quaternion.Euler(0f, -180f, -257.1f);
+        }
+        else
+        {
+            weaponHandVisual.transform.localPosition = new Vector3(-0.05f, 0.1f, 0.04f);
+            weaponHandVisual.transform.localRotation = Quaternion.Euler(-180f, 0f, -42.4f);
         }
 
         var applier = weaponHandVisual.GetComponent<WeaponSkinApplier>();

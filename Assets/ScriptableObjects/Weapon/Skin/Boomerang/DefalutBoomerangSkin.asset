@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: default
   displayName: 
-  preview: {fileID: 8400000, guid: b06958eaf02c76b4f95cb4c5cd299928, type: 2}
+  preview: {fileID: 8400000, guid: a407892e6359dac4ca83122de84e9347, type: 2}
   isCustom: 0
   slots:
   - materialIndex: 0

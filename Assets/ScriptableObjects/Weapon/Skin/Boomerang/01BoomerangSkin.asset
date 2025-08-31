@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19115b084b405c409a43c24f80adcea, type: 3}
   m_Name: 01BoomerangSkin
   m_EditorClassIdentifier: 
-  id: no1_hammer
+  id: no1_boomerang
   displayName: 
-  preview: {fileID: 8400000, guid: fd15c3f8c59216e46a54e174226cd931, type: 2}
+  preview: {fileID: 8400000, guid: 3c356ef6e73167140a94d71d711e0a80, type: 2}
   isCustom: 0
   slots:
   - materialIndex: 0

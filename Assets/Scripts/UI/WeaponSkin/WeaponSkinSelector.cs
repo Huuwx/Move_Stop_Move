@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class WeaponSkinSelector : MonoBehaviour
     [SerializeField] private RectTransform equipBtnReactTransform;
     [SerializeField] private Button equipButton;
     [SerializeField] private TextMeshProUGUI equipBtnText;
+    [SerializeField] private List<WeaponSkinDatabase> allDatabases; // tất cả database (để truyền cho grid preset)
 
     private string currentSelectedSkinId;
     private bool isCustom;
@@ -23,8 +25,14 @@ public class WeaponSkinSelector : MonoBehaviour
         applier    = a ? a : applier;
         if (!applier) applier = FindAnyObjectByType<WeaponSkinApplier>();
 
-        string selected = WeaponSkinSave.LoadSelected(weaponData.id, weaponData.selectedSkinId);
-
+        string selected = null;
+        if(data.isEquipped)
+            selected = WeaponSkinSave.LoadSelected(weaponData.id, weaponData.selectedSkinId);
+        else
+        {
+            selected = WeaponSkinSave.LoadSelected(weaponData.id, "default");
+        }
+        
         if (selected == "custom")
         {
             UpdateCustomLayout();
@@ -72,6 +80,14 @@ public class WeaponSkinSelector : MonoBehaviour
                 WeaponSkinSave.SaveSelected(weaponData.id, skin.id);
                 equipBtnText.text = "Equipped";
                 equipButton.interactable = false;
+            }
+        }
+
+        foreach (var weapon in allDatabases)
+        {
+            if (weaponData.id != weapon.id)
+            {
+                WeaponSkinSave.SaveSelected(weapon.id, "default");
             }
         }
     }

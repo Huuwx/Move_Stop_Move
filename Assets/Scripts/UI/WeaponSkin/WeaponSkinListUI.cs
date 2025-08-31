@@ -7,7 +7,6 @@ public class WeaponSkinListUI : MonoBehaviour
     [SerializeField] WeaponSkinSelector selector;
     [SerializeField] Transform gridRoot;
     [SerializeField] WeaponSkinItemUI itemPrefab; // prefab UI có Image + Button
-    [SerializeField] RenderTexture customIcon; // icon cho ô Custom
 
     List<WeaponSkinItemUI> items = new();
 

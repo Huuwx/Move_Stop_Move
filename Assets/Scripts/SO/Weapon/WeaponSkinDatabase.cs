@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Skins/Weapon Skin Database", fileName = "WeaponSkinDatabase")]
 public class WeaponSkinDatabase : ScriptableObject
 {
+    public string id; // unique id cho database này (ex: "pistol_skins")
     public WeaponSkin[] skins;
 
     public WeaponSkin GetById(string id)
