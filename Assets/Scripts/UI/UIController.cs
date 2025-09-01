@@ -129,7 +129,8 @@ public class UIController : MonoBehaviour
             loseIcon.SetActive(false);
             txtRank.text = GameController.Instance.Alive.ToString();
             txtNotify.text = "Victory!";
-            txtKiller.gameObject.SetActive(false);
+            if(GameController.Instance.mode == GameMode.Normal)
+                txtKiller.gameObject.SetActive(false);
             GameController.Instance.GetData().SetBestRank(0);
             GameController.Instance.SaveData();
             uiPanelGameComplete.SetActive(true);
@@ -138,8 +139,14 @@ public class UIController : MonoBehaviour
             winIcon.SetActive(false);
             loseIcon.SetActive(true);
             txtRank.text = GameController.Instance.Alive.ToString();
-            txtNotify.text = "You've been killed by";
-            txtKiller.gameObject.SetActive(true);
+            if(GameController.Instance.mode == GameMode.Zombie)
+                txtNotify.text = "You Lose!";
+            else
+            {
+                txtNotify.text = "You've been killed by";
+                txtKiller.gameObject.SetActive(true);
+            }
+
             if((GameController.Instance.Alive < GameController.Instance.GetData().GetBestRank() || GameController.Instance.GetData().GetBestRank() == 0) && GameController.Instance.mode == GameMode.Normal)
             {
                 GameController.Instance.GetData().SetBestRank(GameController.Instance.Alive);

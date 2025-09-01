@@ -83,18 +83,14 @@ public class EnemySpawner : MonoBehaviour
         Color randomColor = enemyColors[Random.Range(0, enemyColors.Length)];
         enemy.GetComponentInChildren<Renderer>().material.color = randomColor;
         
-        // Gắn vũ khí ngẫu nhiên
         if (GameController.Instance.mode == GameMode.Normal)
         {
+            // Gán vũ khí ngẫu nhiên
             int randomIndex = Random.Range(0, weaponPrefabs.Length);
             WeaponData weapon = Instantiate(weaponPrefabs[randomIndex]);
             EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
             enemyAI.GetWeaponAttack().SetCurrentWeapon(weapon);
             enemyAI.GetWeaponAttack().ChangeWeapon(weapon);
-            enemyAI._mgr = FindObjectOfType<OffscreenIndicatorManager>();
-            if (enemyAI._mgr) enemyAI._mgr.RegisterTarget(enemyAI);
-            enemyAI.bgPointsText.color = randomColor;
-            enemyAI.nameText.color = randomColor;
             
             // Gắn tên ngẫu nhiên
             string randomName = enemyNames[Random.Range(0, enemyNames.Length)];
@@ -102,6 +98,20 @@ public class EnemySpawner : MonoBehaviour
             {
                 enemyAI.nameText.text = randomName;
             }
+            
+            // Gán điểm ngẫu nhiên dựa trên điểm của người chơi
+            enemyAI.points = Random.Range(GameController.Instance.GetPlayer().points, GameController.Instance.GetPlayer().points + 3);
+            enemyAI.pointsText.text = enemyAI.points.ToString();
+            enemyAI.transform.localScale = Vector3.one;
+            enemyAI.transform.localScale += Vector3.one * Values.upgradeScale * enemyAI.points;
+            enemyAI.GetWeaponAttack().SetAttackRadius(7f);
+            enemyAI.GetWeaponAttack().UpgradeAttackRadius(Values.upgradeRadius * enemyAI.points);
+            
+            // Đăng ký với OffscreenIndicatorManager
+            enemyAI._mgr = FindObjectOfType<OffscreenIndicatorManager>();
+            if (enemyAI._mgr) enemyAI._mgr.RegisterTarget(enemyAI);
+            enemyAI.bgPointsText.color = randomColor;
+            enemyAI.nameText.color = randomColor;
         }
 
         if (totalSpawned > maxSpawnCount)

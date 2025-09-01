@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6561a1dbdd795564e9aa340277c3a8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLifeTime: 1.5
   range: 10
   traveled: 0
   rotateSpeed: 500
   ultimateSize: 4
+  catchRadius: 0.75
 --- !u!65 &5652067615196827688
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -155,11 +155,11 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: fac15664e39d5ed43bc6d656b5624240, type: 2}
+      objectReference: {fileID: 2100000, guid: 8c8eef2608c469c4aaeafef8c70cf329, type: 2}
     - target: {fileID: 2300000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: fac15664e39d5ed43bc6d656b5624240, type: 2}
+      objectReference: {fileID: 2100000, guid: 34824ed07ddb23c4b8efd3b66381d3df, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

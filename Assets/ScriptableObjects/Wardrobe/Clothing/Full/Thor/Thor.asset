@@ -18,7 +18,7 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: a5cb24c107e55d34ba8c98f9e2dde554, type: 2}
   - {fileID: 11400000, guid: 641ddacd5bdb66045a4aeefefb0eb177, type: 2}
-  unlocked: 0
-  equipped: 0
+  unlocked: 1
+  equipped: 1
   upgradeIndex: 0
   price: 0

@@ -18,10 +18,11 @@ MonoBehaviour:
   visual: {fileID: 623180822093679154, guid: 9fee06db42d96b14db0fd7a3cb26fffa, type: 3}
   speed: 6
   isPurchased: 1
-  isEquipped: 1
+  isEquipped: 0
   price: 0
   name: Hammer
   description: 
   isRotate: 1
+  isBoomerang: 0
   skins: {fileID: 11400000, guid: 07df61eb74e4e8d47a9ef9032874af83, type: 2}
   selectedSkinId: default

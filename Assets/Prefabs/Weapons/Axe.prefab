@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6561a1dbdd795564e9aa340277c3a8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLifeTime: 1.5
   range: 10
   traveled: 0
   rotateSpeed: 500
   ultimateSize: 4
+  catchRadius: 0.75
 --- !u!65 &5652067615196827688
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -111,11 +111,11 @@ PrefabInstance:
     - target: {fileID: 8280672371197234337, guid: 27e0369068d38ad4b9c26d8c2212736f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: fac15664e39d5ed43bc6d656b5624240, type: 2}
+      objectReference: {fileID: 2100000, guid: 5f0ff5dbffb7f5e44a1ea06fdd6a9e23, type: 2}
     - target: {fileID: 8280672371197234337, guid: 27e0369068d38ad4b9c26d8c2212736f, type: 3}
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
-      objectReference: {fileID: 2100000, guid: fac15664e39d5ed43bc6d656b5624240, type: 2}
+      objectReference: {fileID: 2100000, guid: 8832deb323306064e9a071bd45450c9e, type: 2}
     - target: {fileID: 8280672371199234657, guid: 27e0369068d38ad4b9c26d8c2212736f, type: 3}
       propertyPath: m_Name
       value: Axe_1

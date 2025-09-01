@@ -356,6 +356,10 @@ public class WeaponAttack : MonoBehaviour
     {
         return attackRadius;
     }
+    public void SetAttackRadius(float radius)
+    {
+        attackRadius = radius;
+    }
     public LayerMask GetTargetLayer()
     {
         return targetLayer;

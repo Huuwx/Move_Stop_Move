@@ -16,7 +16,7 @@ public class EnemyAI : EnemyBase
     public SkinnedMeshRenderer enemySkin;
     [SerializeField] AnimationController animationController;
     [SerializeField] WeaponAttack weaponAttack;
-    [SerializeField] TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
+    public TextMeshProUGUI pointsText; // Hiển thị điểm của người chơi
     public TextMeshProUGUI nameText;
     public Image bgPointsText;
     [SerializeField] private GameObject ingameUI; // Giao diện trong game

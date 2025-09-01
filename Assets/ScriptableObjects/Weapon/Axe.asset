@@ -23,5 +23,6 @@ MonoBehaviour:
   name: Axe
   description: +1 Speed
   isRotate: 1
+  isBoomerang: 0
   skins: {fileID: 11400000, guid: 026d403b8180e67419bc9de68760308f, type: 2}
   selectedSkinId: default
